@@ -1,6 +1,6 @@
 <template>
     <div>
-        Dashboard works
+        User Works
     </div>
 </template>
 

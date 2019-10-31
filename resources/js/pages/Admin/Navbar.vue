@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-dark  navbar-expand-lg bg-primary">
+  <nav class="navbar navbar-dark navbar-expand-lg bg-primary">
     <a class="navbar-brand" href="#">Blog</a>
     <button
       class="navbar-toggler"
@@ -16,17 +16,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
+          <router-link to="users">User</router-link>
+        </li>
+        <li class="nav-item">
           <router-link to="dashboard">Dashboard</router-link>
         </li>
-      
-      
       </ul>
     </div>
   </nav>
 </template>
 
 <script>
-export default {
- 
-};
+export default {};
 </script>
