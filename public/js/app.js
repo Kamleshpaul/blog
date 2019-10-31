@@ -1930,7 +1930,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    alert('user');
+  }
+});
 
 /***/ }),
 
@@ -35075,24 +35079,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pages/Admin/Dashboard */ "./resources/js/pages/Admin/Dashboard.vue");
-/* harmony import */ var _pages_Admin_User__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/Admin/User */ "./resources/js/pages/Admin/User.vue");
-
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./router */ "./resources/js/router/router.js");
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
-  routes: [{
-    path: '/dashboard',
-    component: _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }, {
-    path: '/users',
-    component: _pages_Admin_User__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }]
+  routes: _router__WEBPACK_IMPORTED_MODULE_2__["routes"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
+
+/***/ }),
+
+/***/ "./resources/js/router/router.js":
+/*!***************************************!*\
+  !*** ./resources/js/router/router.js ***!
+  \***************************************/
+/*! exports provided: routes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routes", function() { return routes; });
+/* harmony import */ var _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../pages/Admin/Dashboard */ "./resources/js/pages/Admin/Dashboard.vue");
+/* harmony import */ var _pages_Admin_User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../pages/Admin/User */ "./resources/js/pages/Admin/User.vue");
+
+
+var routes = [{
+  path: '/',
+  component: _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_0__["default"],
+  name: 'dashboard'
+}, {
+  path: '/users',
+  component: _pages_Admin_User__WEBPACK_IMPORTED_MODULE_1__["default"],
+  name: 'user'
+}];
 
 /***/ }),
 

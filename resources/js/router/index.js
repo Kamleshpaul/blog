@@ -1,18 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-import Dashboard from '../pages/Admin/Dashboard';
-import User from '../pages/Admin/User';
-
+import {routes} from './router'
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
 	mode: 'history',
-	routes: [
-		{ path: '/dashboard', component: Dashboard },
-		{ path: '/users', component: User },
-	]
+	routes
 })
 
 export default router
