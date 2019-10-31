@@ -6,11 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Blog</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
 <body>
-    <div id="app">
-        <main-app></main-app>
-    </div>
+    <div id="app"></div>
 </body>
 
 <script src="{{ asset('js/app.js') }}"></script>

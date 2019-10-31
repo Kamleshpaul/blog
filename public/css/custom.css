@@ -1,0 +1,6 @@
+a{
+    color:#fff;
+  }
+  a.router-link-exact-active.router-link-active{
+    color:aqua;
+  }
