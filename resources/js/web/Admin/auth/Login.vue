@@ -1,0 +1,120 @@
+<template>
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form container">
+            <div class="inner-container">
+              <form action>
+                <div class="input-containe">
+                  <input type="text" required class="input-place" placeholder />
+                  <label class="label">Name</label>
+                </div>
+                <div class="input-containe">
+                  <input type="text" required class="input-place" placeholder />
+                  <label class="label">Email</label>
+                </div>
+                <div class="input-containe">
+                  <input type="submit" vlaue="Submit" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style scoped>
+.inner-container {
+  background: #f8d9d5 none repeat scroll 0 0;
+  border-bottom-left-radius: 40px;
+  border-top-right-radius: 40px;
+  margin: 100px auto;
+  max-width: 500px;
+  padding: 50px;
+  text-align: center;
+  transition: all 300ms linear 0s;
+}
+.inner-container:hover {
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 40px;
+  border-top-left-radius: 40px;
+}
+.input-containe {
+  margin: 20px 0;
+  position: relative;
+}
+.input-containe input[type="text"] {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: #f0eaea;
+  border-color: currentcolor currentcolor #aaaaaa;
+  border-image: none;
+  border-style: none none solid;
+  border-width: medium medium 2px;
+  height: 40px;
+  padding: 0 9px;
+  width: 100%;
+}
+.input-containe label {
+  color: #ee7469;
+  font-size: 16px;
+  left: -1px;
+  position: absolute;
+  top: 8px;
+  transition: all 300ms linear 0s;
+}
+.input-place:focus ~ label,
+.input-place:valid ~ label {
+  font-size: 9px;
+  top: 0;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #ee7469;
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.6;
+}
+
+input:focus::-moz-placeholder {
+  color: transparent;
+}
+.input-containe::after {
+  background: #ee7469 none repeat scroll 0 0;
+  bottom: 0;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  transition: all 300ms ease 0s;
+  width: 0;
+}
+.input-containe.active::after {
+  width: 100%;
+}
+.input-containe.active label {
+  font-size: 12px;
+  left: 2px;
+  opacity: 1;
+  top: -1px;
+}
+input[type="submit"] {
+  background-color: #ffffff;
+  border: 2px solid #ee7469;
+  border-radius: 5px;
+  color: #ee7469;
+  margin-top: 20px;
+  padding: 7px;
+  width: 160px;
+}
+</style>

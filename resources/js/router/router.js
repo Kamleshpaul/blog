@@ -11,6 +11,7 @@ import Error404 from '../web/User/Error404';
  */
 import Dashboard from '../web/Admin/Dashboard';
 import AdminUsers from '../web/Admin/pages/Users';
+import AdminLogin from '../web/Admin/auth/Login';
 
 export const routes = [
     {
@@ -24,6 +25,11 @@ export const routes = [
                 name: 'user'
             },
         ]
+    },
+    {
+        path: '/admin/login',
+        name: 'admin_login',
+        component: AdminLogin,
     },
     {
         path: '/admin',
