@@ -1924,7 +1924,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    login: function login() {
+      var _this = this;
+
+      var email = this.email;
+      var password = this.password;
+      this.$store.dispatch("USER_LOGIN", {
+        email: email,
+        password: password
+      }).then(function () {
+        return _this.$router.push({
+          name: "dashboard"
+        });
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    }
+  },
+  created: function created() {
+    console.log("login created");
+  }
+});
 
 /***/ }),
 
@@ -21843,47 +21871,92 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "form container" }, [
-              _c("div", { staticClass: "inner-container" }, [
-                _c("form", { attrs: { action: "" } }, [
+  return _c("div", [
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "form container" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.login($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "inner-container" }, [
                   _c("div", { staticClass: "input-containe" }, [
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.email,
+                          expression: "email"
+                        }
+                      ],
                       staticClass: "input-place",
-                      attrs: { type: "text", required: "", placeholder: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { staticClass: "label" }, [_vm._v("Name")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-containe" }, [
-                    _c("input", {
-                      staticClass: "input-place",
-                      attrs: { type: "text", required: "", placeholder: "" }
+                      attrs: { type: "email", required: "" },
+                      domProps: { value: _vm.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.email = $event.target.value
+                        }
+                      }
                     }),
                     _vm._v(" "),
                     _c("label", { staticClass: "label" }, [_vm._v("Email")])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "input-containe" }, [
-                    _c("input", { attrs: { type: "submit", vlaue: "Submit" } })
-                  ])
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.password,
+                          expression: "password"
+                        }
+                      ],
+                      staticClass: "input-place",
+                      attrs: { type: "password", required: "" },
+                      domProps: { value: _vm.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.password = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { staticClass: "label" }, [_vm._v("Password")])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(0)
                 ])
-              ])
-            ])
+              ]
+            )
           ])
         ])
       ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-containe" }, [
+      _c("input", { attrs: { type: "submit", vlaue: "Submit" } })
     ])
   }
 ]
@@ -38577,7 +38650,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var state = {
-  users: null
+  users: null,
+  LogInUser: null,
+  token: null,
+  message: null
 },
     getters = {},
     mutations = {
@@ -38586,6 +38662,10 @@ var state = {
   },
   ADD_USER: function ADD_USER(state, payload) {
     state.users.push(payload);
+  },
+  AUTH_USER: function AUTH_USER(state, token, user) {
+    state.LogInUser = user;
+    state.token = token;
   }
 },
     actions = {
@@ -38619,6 +38699,44 @@ var state = {
     }
 
     return GET_USER;
+  }(),
+  USER_LOGIN: function () {
+    var _USER_LOGIN = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref2, _ref3) {
+      var commit, email, password;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit;
+              email = _ref3.email, password = _ref3.password;
+              axios.post('api/login', {
+                email: email,
+                password: password
+              }).then(function (res) {
+                state.message = res.message;
+                var token = res.data.access_token;
+                var user = res.data.user;
+                localStorage.setItem('token', token);
+                commit('AUTH_USER', token, user);
+              })["catch"](function (err) {
+                return console.log('action error');
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function USER_LOGIN(_x2, _x3) {
+      return _USER_LOGIN.apply(this, arguments);
+    }
+
+    return USER_LOGIN;
   }()
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

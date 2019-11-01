@@ -4,21 +4,21 @@
       <div class="row">
         <div class="col-md-12">
           <div class="form container">
-            <div class="inner-container">
-              <form action>
+            <form @submit.prevent="login">
+              <div class="inner-container">
                 <div class="input-containe">
-                  <input type="text" required class="input-place" placeholder />
-                  <label class="label">Name</label>
+                  <input type="email" required class="input-place" v-model="email" />
+                  <label class="label">Email</label>
                 </div>
                 <div class="input-containe">
-                  <input type="text" required class="input-place" placeholder />
-                  <label class="label">Email</label>
+                  <input type="password" required class="input-place" v-model="password" />
+                  <label class="label">Password</label>
                 </div>
                 <div class="input-containe">
                   <input type="submit" vlaue="Submit" />
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -27,7 +27,27 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    login() {
+      let email = this.email;
+      let password = this.password;
+      this.$store
+        .dispatch("USER_LOGIN", { email, password })
+        .then(() => this.$router.push({ name: "dashboard" }))
+        .catch(err => console.log(err));
+    }
+  },
+  created() {
+    console.log("login created");
+  }
+};
 </script>
 
 <style scoped>
