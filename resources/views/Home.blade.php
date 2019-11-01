@@ -13,4 +13,8 @@
 </body>
 
 <script src="{{ asset('js/app.js') }}"></script>
+
+<script>
+    window.baseUrl = "{!! url('/') !!}";
+</script>
 </html>

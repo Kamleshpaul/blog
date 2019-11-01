@@ -2,8 +2,9 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 
-import router from './router';
 import App from './App.vue';
+import router from './router';
+import { store } from './store'
 
 
 
@@ -13,5 +14,6 @@ const app = new Vue({
     el: '#app',
     template: `<app></app>`,
     components: { App },
-	router
+    router,
+    store
 });
