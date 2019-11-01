@@ -9,16 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public $client_id, $client_secret;
 
-
-    public function __construct()
-    {
-        $client = \DB::table('oauth_clients')->where('id', 2)->first();
-        $this->client_id = $client->id;
-        $this->client_secret = $client->secret;
-    }
-    //-------------------------------------------------------------------------
     /**
      * Register User via passport
      *
@@ -26,12 +17,26 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        $this->validate($request, [
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
         ]);
-
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1062) {
+                //duplication record catch
+                return response([
+                    'User already exist'
+                ]);
+            }
+        }
         return response([
             'data' => $user,
             'message' => 'success'
