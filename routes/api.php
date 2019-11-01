@@ -1,7 +1,6 @@
 <?php
 
 use App\User;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +17,8 @@ Route::get('user', function () {
     return response([
         'data'=>User::all(),
     ]);
+});
+
+Route::group(['namespace' => 'Auth'], function () {
+    Route::post('register','RegisterController@register');
 });
