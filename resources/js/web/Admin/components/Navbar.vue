@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-dark navbar-expand-lg bg-primary">
-    <router-link class="navbar-brand" to="/">Home</router-link>
+  <nav class="navbar navbar-light bg-light navbar-expand-lg ">
+    <router-link class="navbar-brand" :to="{name:'dashboard'}">Home</router-link>
     <button
       class="navbar-toggler"
       type="button"
@@ -16,11 +16,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <router-link to="users">User</router-link>
+          <router-link :to="{name:'admin_users'}">Users</router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/">Dashboard</router-link>
-        </li>
+      
       </ul>
     </div>
   </nav>
@@ -29,3 +27,10 @@
 <script>
 export default {};
 </script>
+
+
+<style scoped>
+a{
+  color: #007bff;
+}
+</style>

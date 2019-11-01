@@ -1,6 +1,6 @@
 <template>
     <div>
-        Dashboard works
+        all users will be show here
     </div>
 </template>
 
@@ -10,6 +10,6 @@
     }
 </script>
 
-<style>
+<style scoped>
 
 </style>
