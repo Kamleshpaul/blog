@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-dark navbar-expand-lg bg-primary">
-    <a class="navbar-brand" href="#">Blog</a>
+    <router-link class="navbar-brand" to="/">Home</router-link>
     <button
       class="navbar-toggler"
       type="button"
@@ -19,7 +19,7 @@
           <router-link to="users">User</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="dashboard">Dashboard</router-link>
+          <router-link to="/">Dashboard</router-link>
         </li>
       </ul>
     </div>

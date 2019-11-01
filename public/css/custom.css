@@ -4,6 +4,6 @@ a{
   a.router-link-exact-active.router-link-active{
     color:aqua;
     padding: 5px;
-    background-color: black;
+    /* background-color: black; */
   }
 
