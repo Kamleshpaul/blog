@@ -1,5 +1,6 @@
 require('./bootstrap');
 window.Vue = require('vue');
+import 'nprogress/nprogress.css'
 
 
 import App from './App.vue';
