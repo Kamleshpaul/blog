@@ -3,6 +3,7 @@
  */
 import Home from '../web/User/Home';
 import User from '../web/User/User';
+import Error404 from '../web/User/Error404';
 
 
  /***
@@ -35,6 +36,11 @@ export const routes = [
                 component: AdminUsers,
             },
         ]
+    },
+    {
+        path: '*',
+        component: Error404,
+        name: 'error404'
     },
 
 ]
