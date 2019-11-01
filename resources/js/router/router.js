@@ -35,6 +35,9 @@ export const routes = [
         path: '/admin',
         component: Dashboard,
         name: 'dashboard',
+        meta:{
+            requiresAuth:true
+        },
         children: [
             {
                 path: 'users',

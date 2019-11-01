@@ -38449,6 +38449,23 @@ router.beforeResolve(function (to, from, next) {
 });
 router.afterEach(function (to, from) {
   nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.done();
+}); // middleware
+
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  })) {
+    if (localStorage.getItem('passport') == null) {
+      next({
+        name: 'admin_login',
+        params: {
+          nextUrl: to.fullPath
+        }
+      });
+    }
+  } else {
+    next();
+  }
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
@@ -38500,6 +38517,9 @@ var routes = [{
   path: '/admin',
   component: _web_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: 'dashboard',
+  meta: {
+    requiresAuth: true
+  },
   children: [{
     path: 'users',
     name: 'admin_users',
