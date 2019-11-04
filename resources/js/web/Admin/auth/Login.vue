@@ -39,14 +39,10 @@ export default {
       let email = this.email;
       let password = this.password;
       this.$store
-        .dispatch("USER_LOGIN", { email, password })
-        .then(() => this.$router.push({ name: "dashboard" }))
-        .catch(err => console.log(err));
+        .dispatch("USER_LOGIN", { email, password });
     }
   },
-  created() {
-    console.log("login created");
-  }
+  created() {}
 };
 </script>
 
