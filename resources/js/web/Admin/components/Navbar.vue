@@ -17,7 +17,7 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link :to="{name:'admin_users'}">Users</router-link>
-          <a href="#" @click="adminLogout">Logout</a>
+          <a href="#" @click.prevent ="adminLogout">Logout</a>
         </li>
       </ul>
     </div>

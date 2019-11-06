@@ -24983,7 +24983,15 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "a",
-                  { attrs: { href: "#" }, on: { click: _vm.adminLogout } },
+                  {
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.adminLogout($event)
+                      }
+                    }
+                  },
                   [_vm._v("Logout")]
                 )
               ],
