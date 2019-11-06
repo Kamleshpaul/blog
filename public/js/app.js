@@ -41521,6 +41521,48 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/middleware/auth.js":
+/*!*****************************************!*\
+  !*** ./resources/js/middleware/auth.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var auth = function auth(to, from, next) {
+  if (!localStorage.getItem("passport")) {
+    next('/admin/login');
+  } else {
+    return next();
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (auth);
+
+/***/ }),
+
+/***/ "./resources/js/middleware/guest.js":
+/*!******************************************!*\
+  !*** ./resources/js/middleware/guest.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var auth = function auth(to, from, next) {
+  if (localStorage.getItem("passport")) {
+    return next('/admin');
+  } else {
+    return next();
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (auth);
+
+/***/ }),
+
 /***/ "./resources/js/router/index.js":
 /*!**************************************!*\
   !*** ./resources/js/router/index.js ***!
@@ -41591,6 +41633,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _web_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../web/Admin/Dashboard */ "./resources/js/web/Admin/Dashboard.vue");
 /* harmony import */ var _web_Admin_pages_Users__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../web/Admin/pages/Users */ "./resources/js/web/Admin/pages/Users.vue");
 /* harmony import */ var _web_Admin_auth_Login__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../web/Admin/auth/Login */ "./resources/js/web/Admin/auth/Login.vue");
+/* harmony import */ var _middleware_auth__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../middleware/auth */ "./resources/js/middleware/auth.js");
+/* harmony import */ var _middleware_guest__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../middleware/guest */ "./resources/js/middleware/guest.js");
 /***
  * User imports
  */
@@ -41601,6 +41645,12 @@ __webpack_require__.r(__webpack_exports__);
 * Admin imports
 */
 
+
+
+
+/***
+* middleware imports
+*/
 
 
 
@@ -41616,14 +41666,13 @@ var routes = [{
 }, {
   path: '/admin/login',
   name: 'admin_login',
-  component: _web_Admin_auth_Login__WEBPACK_IMPORTED_MODULE_5__["default"]
+  component: _web_Admin_auth_Login__WEBPACK_IMPORTED_MODULE_5__["default"],
+  beforeEnter: _middleware_guest__WEBPACK_IMPORTED_MODULE_7__["default"]
 }, {
   path: '/admin',
   component: _web_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: 'dashboard',
-  meta: {
-    requiresAuth: true
-  },
+  beforeEnter: _middleware_auth__WEBPACK_IMPORTED_MODULE_6__["default"],
   children: [{
     path: 'users',
     name: 'admin_users',
