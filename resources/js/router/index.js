@@ -21,19 +21,4 @@ router.afterEach((to, from) => {
 })
 
 
-// middleware
-router.beforeEach((to, from, next) => {
-	if (to.matched.some(record => record.meta.requiresAuth)) {
-		if (localStorage.getItem('passport') == null) {
-			next({
-				name: 'admin_login',
-				params: { nextUrl: to.fullPath }
-			})
-		}
-	}else{
-		next()
-	}
-})
-
-
 export default router
