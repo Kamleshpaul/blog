@@ -3,7 +3,7 @@ import router from "../../router";
 let state = {
   users: null,
   LogInUser: null,
-  token: null,
+  token: `Bearer ${localStorage.getItem(`passport`)}`,
   message: null,
 },
 
@@ -20,11 +20,13 @@ let state = {
     },
     AUTH_USER: (state, { token, user }) => {
       state.LogInUser = user;
-      state.token = token
+      state.token = token;
+      window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     },
     AUTH_DESTROY: (state) => {
       state.LogInUser = null;
       state.token = null;
+      window.axios.defaults.headers.common['Authorization'] = '';
     }
   },
 
