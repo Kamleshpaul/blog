@@ -17,9 +17,11 @@ Route::get('user', function () {
     return response([
         'data'=>User::all(),
     ]);
-});
+})->middleware('auth:api');
 
-Route::group(['namespace' => 'Auth'], function () {
-    Route::post('register','RegisterController@register');
-    Route::post('login','LoginController@login');
+Route::post('register','Auth\RegisterController@register');
+Route::post('login','Auth\LoginController@login');
+
+Route::group(['namespace' => 'Auth','middleware'=>'auth:api'], function () {
+    Route::get('logout','LoginController@logOut');
 });

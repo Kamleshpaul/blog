@@ -1981,7 +1981,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  methods: {
+    adminLogout: function adminLogout() {
+      this.$store.dispatch("USER_LOGOUT");
+    }
+  }
+});
 
 /***/ }),
 
@@ -2264,7 +2273,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\na[data-v-fbb85ac0]{\n  color: #007bff;\n}\n", ""]);
+exports.push([module.i, "\na[data-v-fbb85ac0] {\n  color: #007bff;\n}\n", ""]);
 
 // exports
 
@@ -24946,7 +24955,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    { staticClass: "navbar navbar-light bg-light navbar-expand-lg " },
+    { staticClass: "navbar navbar-light bg-light navbar-expand-lg" },
     [
       _c(
         "router-link",
@@ -24970,7 +24979,13 @@ var render = function() {
               [
                 _c("router-link", { attrs: { to: { name: "admin_users" } } }, [
                   _vm._v("Users")
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  { attrs: { href: "#" }, on: { click: _vm.adminLogout } },
+                  [_vm._v("Logout")]
+                )
               ],
               1
             )
@@ -41505,6 +41520,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(localStorage.getItem("passport"));
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -41750,6 +41766,10 @@ var state = {
         user = _ref.user;
     state.LogInUser = user;
     state.token = token;
+  },
+  AUTH_DESTROY: function AUTH_DESTROY(state) {
+    state.LogInUser = null;
+    state.token = null;
   }
 },
     actions = {
@@ -41815,13 +41835,13 @@ var state = {
                     title: "".concat(user.name, " Logged In")
                   });
                   commit('AUTH_USER', payload);
+                  _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+                    name: 'dashboard'
+                  });
                 } else {
                   Toast.fire({
                     type: "error",
                     title: "User Not Found."
-                  });
-                  _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
-                    name: 'admin_users'
                   });
                 }
               });
@@ -41839,6 +41859,40 @@ var state = {
     }
 
     return USER_LOGIN;
+  }(),
+  USER_LOGOUT: function () {
+    var _USER_LOGOUT = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref5) {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref5.commit;
+              axios.get('api/logout').then(function (res) {
+                if (res.data.message === 'success') {
+                  localStorage.removeItem('passport');
+                  commit('AUTH_DESTROY');
+                  _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+                    name: 'admin_login'
+                  });
+                }
+              });
+
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function USER_LOGOUT(_x4) {
+      return _USER_LOGOUT.apply(this, arguments);
+    }
+
+    return USER_LOGOUT;
   }()
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

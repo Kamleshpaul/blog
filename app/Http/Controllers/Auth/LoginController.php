@@ -64,4 +64,20 @@ class LoginController extends Controller
         }
     }
     //-------------------------------------------------------------------------
+
+
+    /**
+     * Login via passport
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logOut()
+    {
+        $user = auth()->user()->token();
+        $user->revoke();
+        return response([
+            'message' => 'success'
+        ]);
+    }
+    //-------------------------------------------------------------------------
 }

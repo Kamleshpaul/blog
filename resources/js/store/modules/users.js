@@ -21,6 +21,10 @@ let state = {
     AUTH_USER: (state, { token, user }) => {
       state.LogInUser = user;
       state.token = token
+    },
+    AUTH_DESTROY: (state) => {
+      state.LogInUser = null;
+      state.token = null;
     }
   },
 
@@ -43,7 +47,7 @@ let state = {
           const payload = {
             'token': token,
             'user': user
-            
+
           }
           localStorage.setItem('passport', token);
           Toast.fire({
@@ -51,12 +55,23 @@ let state = {
             title: `${user.name} Logged In`
           });
           commit('AUTH_USER', payload);
+          router.push({ name: 'dashboard' });
+
         } else {
           Toast.fire({
             type: "error",
             title: "User Not Found."
           });
-          router.push({ name: 'admin_users' });
+        }
+      });
+    },
+
+    USER_LOGOUT: async ({ commit }) => {
+      axios.get('api/logout').then((res) => {
+        if (res.data.message === 'success') {
+          localStorage.removeItem('passport');
+          commit('AUTH_DESTROY');
+          router.push({ name: 'admin_login' });
         }
       });
     }

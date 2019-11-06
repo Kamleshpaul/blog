@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light bg-light navbar-expand-lg ">
+  <nav class="navbar navbar-light bg-light navbar-expand-lg">
     <router-link class="navbar-brand" :to="{name:'dashboard'}">Home</router-link>
     <button
       class="navbar-toggler"
@@ -17,20 +17,29 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link :to="{name:'admin_users'}">Users</router-link>
+          <a href="#" @click="adminLogout">Logout</a>
         </li>
-      
       </ul>
     </div>
   </nav>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    adminLogout() {
+      this.$store.dispatch("USER_LOGOUT");
+    }
+  }
+};
 </script>
 
 
 <style scoped>
-a{
+a {
   color: #007bff;
 }
 </style>

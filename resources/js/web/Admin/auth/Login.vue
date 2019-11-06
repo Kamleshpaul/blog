@@ -38,8 +38,7 @@ export default {
     login() {
       let email = this.email;
       let password = this.password;
-      this.$store
-        .dispatch("USER_LOGIN", { email, password });
+      this.$store.dispatch("USER_LOGIN", { email, password });
     }
   },
   created() {}
