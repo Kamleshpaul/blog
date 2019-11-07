@@ -10424,9 +10424,7 @@ button,
 	background: rgba(255, 255, 255, 0.8)
 }
 
-.app-header.header-text-light .app-header__logo .logo-src {
-	background: url("./assets/images/logo.png")
-}
+
 
 .app-header.header-text-light .app-header__mobile-menu .hamburger-inner,
 .app-header.header-text-light .app-header__mobile-menu .hamburger-inner::before,
@@ -10522,9 +10520,7 @@ button,
 	background: rgba(0, 0, 0, 0.8)
 }
 
-.app-header.header-text-dark .app-header__logo .logo-src {
-	background: url('./assets/images/logo-inverse.png')
-}
+
 
 .app-sidebar {
 	width: 280px;

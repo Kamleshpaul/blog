@@ -13,9 +13,9 @@ use App\User;
 |
 */
 
-Route::get('user', function () {
+Route::get('auth-user', function () {
     return response([
-        'data'=>User::all(),
+        'data'=>auth()->user(),
     ]);
 })->middleware('auth:api');
 

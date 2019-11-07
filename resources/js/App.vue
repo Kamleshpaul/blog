@@ -13,6 +13,6 @@ export default {
 
 <style>
 #nprogress .bar {
-background: red !important;
+background: #007bff !important;
 }
 </style>

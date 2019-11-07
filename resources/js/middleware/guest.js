@@ -2,7 +2,7 @@ const auth = (to, from, next) => {
 
     if (localStorage.getItem(`passport`)) {
   
-      return next('/admin');
+      return next('admin/dashboard');
   
     } else {
   

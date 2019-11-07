@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
     <Navbar />
-    <Sidebar />
-    <slot></slot>
+    <div class="app-main">
+      <Sidebar />
+      <slot></slot>
+    </div>
   </div>
 </template>
 
