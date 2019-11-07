@@ -13,15 +13,18 @@ use App\User;
 |
 */
 
-Route::get('auth-user', function () {
-    return response([
-        'data'=>auth()->user(),
-    ]);
-})->middleware('auth:api');
+Route::group(['namespace' => 'Auth'], function () {
+    Route::post('login', 'LoginController@login');
 
-Route::post('register','Auth\RegisterController@register');
-Route::post('login','Auth\LoginController@login');
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('register', 'RegisterController@register');
+        Route::get('logout', 'LoginController@logOut');
+        Route::get('auth-user', 'LoginController@authUser');
+    });
+});
 
-Route::group(['namespace' => 'Auth','middleware'=>'auth:api'], function () {
-    Route::get('logout','LoginController@logOut');
+
+Route::group(['namespace' => 'Admin', 'middleware' => 'auth:api'], function () {
+    Route::apiResource('categories', 'BlogCategoryController');
+    Route::apiResource('articles', 'BlogController');
 });

@@ -80,4 +80,18 @@ class LoginController extends Controller
         ]);
     }
     //-------------------------------------------------------------------------
+
+
+    /**
+     * Auth user 
+     *
+     * @return \Auth\User
+     */
+    public function authUser()
+    {
+        return response([
+            'data' => auth()->user(),
+        ]);
+    }
+    //-------------------------------------------------------------------------
 }
