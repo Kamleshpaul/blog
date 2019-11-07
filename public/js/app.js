@@ -2399,7 +2399,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     store: function store() {
-      alert("click");
+      this.$store.dispatch("STORE_CATEGORY", this.name);
+      $('#addCategory').modal('hide');
     }
   }
 });
@@ -43555,14 +43556,67 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_users__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/users */ "./resources/js/store/modules/users.js");
+/* harmony import */ var _modules_category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/category */ "./resources/js/store/modules/category.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
+
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
-    users: _modules_users__WEBPACK_IMPORTED_MODULE_2__["default"]
+    users: _modules_users__WEBPACK_IMPORTED_MODULE_2__["default"],
+    category: _modules_category__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/category.js":
+/*!************************************************!*\
+  !*** ./resources/js/store/modules/category.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../router */ "./resources/js/router/index.js");
+
+var state = {
+  categories: null
+},
+    getters = {},
+    mutations = {
+  store_category: function store_category(state, payload) {
+    state.categories = payload;
+  }
+},
+    actions = {
+  STORE_CATEGORY: function STORE_CATEGORY(_ref, name) {
+    var commit = _ref.commit;
+    axios.post('api/categories', {
+      name: name
+    }).then(function (_ref2) {
+      var data = _ref2.data;
+
+      if (data.message === 'success') {
+        Toast.fire({
+          type: "success",
+          title: "Category Created"
+        });
+      }
+
+      commit('store_category', data.data);
+    })["catch"](function (e) {
+      return console.log(e);
+    });
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state,
+  getters: getters,
+  mutations: mutations,
+  actions: actions
 });
 
 /***/ }),

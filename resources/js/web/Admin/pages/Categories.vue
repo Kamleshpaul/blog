@@ -90,7 +90,8 @@ export default {
   },
   methods: {
     store() {
-      alert("click");
+      this.$store.dispatch("STORE_CATEGORY", this.name);
+      $('#addCategory').modal('hide');
     }
   }
 };

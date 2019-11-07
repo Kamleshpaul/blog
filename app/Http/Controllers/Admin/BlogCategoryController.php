@@ -29,9 +29,21 @@ class BlogCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        BlogCategory::create($request->all());
+        $data = $request->all();
+
+        // slug genrate
+        $slug = \Str::slug($data['name']);
+        $count = BlogCategory::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+        if ($count) {
+            $data['slug'] = $slug . '-' . $count;
+        } else {
+            $data['slug'] = $slug;
+        }
+
+        $blogCategory = BlogCategory::create($data);
         return response([
-            'message' => "success"
+            'message' => "success",
+            'data' => $blogCategory
         ]);
     }
 
