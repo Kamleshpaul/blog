@@ -7,13 +7,13 @@
 </template>
 
 <script>
+require("../../plugins/main.js");
 import Layout from "./layout/Layout";
-
 export default {
   data() {
     return {
       token: null
-    }
+    };
   },
   components: {
     Layout
@@ -21,13 +21,15 @@ export default {
   methods: {
     setHeader() {
       this.token = localStorage.getItem(`passport`);
-      window.axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      window.axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${this.token}`;
     }
   },
   mounted() {
     self = this;
     this.setHeader();
-    if(self.token != '') {
+    if (self.token != "") {
       this.$store.dispatch("SET_AUTH_USER");
     }
   }
