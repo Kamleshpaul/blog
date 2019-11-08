@@ -28,10 +28,12 @@ export default {
   },
   mounted() {
     self = this;
-    this.setHeader();
     if (self.token != "") {
-      this.$store.dispatch("SET_AUTH_USER");
+      this.$store.dispatch("users/setAuth_user");
     }
+  },
+  beforeMount() {
+    this.setHeader();
   }
 };
 </script>

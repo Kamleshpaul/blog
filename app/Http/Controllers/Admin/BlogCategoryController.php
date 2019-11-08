@@ -15,7 +15,7 @@ class BlogCategoryController extends Controller
      */
     public function index()
     {
-        $blogCategory = BlogCategory::all();
+        $blogCategory = BlogCategory::paginate(10);
         return response([
             'data' => $blogCategory
         ]);

@@ -33,8 +33,8 @@ let state = {
 
 
   actions = {
-    SET_AUTH_USER: ({ commit }) => {
-      axios.get('api/auth-user')
+    setAuth_user: ({ commit }) => {
+      axios.get('/api/auth-user')
         .then(({ data }) => {
           commit('set_auth_user', data.data);
         })
@@ -44,8 +44,8 @@ let state = {
       const response = await axios.get('api/user');
       commit('SET_USER', response.data);
     },
-    USER_LOGIN: async ({ commit }, { email, password }) => {
-      axios.post('api/login', {
+    userLogin: async ({ commit }, { email, password }) => {
+      axios.post('/api/login', {
         email,
         password
       }).then((res) => {
@@ -76,7 +76,7 @@ let state = {
       });
     },
 
-    USER_LOGOUT: async ({ commit }) => {
+    userLogout: async ({ commit }) => {
       axios.get('api/logout').then((res) => {
         localStorage.removeItem('passport');
         if (res.data.message === 'success') {
@@ -92,5 +92,6 @@ export default {
   state,
   getters,
   mutations,
-  actions
+  actions,
+  namespaced: true
 }

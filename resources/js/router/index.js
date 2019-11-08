@@ -6,6 +6,7 @@ import NProgress from 'nprogress';
 Vue.use(VueRouter)
 
 const router = new VueRouter({
+	mode: 'history',
 	routes
 })
 

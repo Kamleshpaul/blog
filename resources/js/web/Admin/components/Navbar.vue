@@ -1,9 +1,7 @@
 <template>
   <div class="app-header header-shadow">
     <div class="app-header__logo">
-      <div class="logo-src">
-        <img src="assets/images/logo-inverse.png" alt="logo" />
-      </div>
+      <div class="logo-src"></div>
       <div class="header__pane ml-auto">
         <div>
           <button
@@ -63,7 +61,7 @@
                     aria-expanded="false"
                     class="p-0 btn"
                   >
-                    <img width="42" class="rounded-circle" src="assets/images/avatars/1.jpg" alt />
+                    <img width="42" class="rounded-circle" src="/assets/images/avatars/1.jpg" alt />
                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                   </a>
                   <div
