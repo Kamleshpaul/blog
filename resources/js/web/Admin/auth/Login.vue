@@ -15,7 +15,7 @@
                   <label class="label">Password</label>
                 </div>
                 <div class="input-containe">
-                  <input type="submit" vlaue="Submit" />
+                  <input type="submit" vlaue="Login" />
                 </div>
               </div>
             </form>
@@ -35,13 +35,18 @@ export default {
     };
   },
   methods: {
+    seo() {
+      document.title = "Login";
+    },
     login() {
       let email = this.email;
       let password = this.password;
       this.$store.dispatch("users/userLogin", { email, password });
     }
   },
-  created() {}
+  mounted() {
+    this.seo();
+  }
 };
 </script>
 

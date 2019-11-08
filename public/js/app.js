@@ -1955,6 +1955,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    seo: function seo() {
+      document.title = "Login";
+    },
     login: function login() {
       var email = this.email;
       var password = this.password;
@@ -1964,7 +1967,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {}
+  mounted: function mounted() {
+    this.seo();
+  }
 });
 
 /***/ }),
@@ -2294,7 +2299,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    seo: function seo() {
+      document.title = "Articles";
+    }
+  },
+  mounted: function mounted() {
+    this.seo();
+  }
+});
 
 /***/ }),
 
@@ -2444,6 +2458,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Model: _components_Model__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
+    seo: function seo() {
+      document.title = "Category";
+    },
     store: function store() {
       this.$store.dispatch("category/storeCategory", this.name);
       this.name = "";
@@ -2457,6 +2474,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   mounted: function mounted() {
+    this.seo();
     this.$store.dispatch("category/setCategory");
   }
 });
@@ -2517,7 +2535,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    seo: function seo() {
+      document.title = "Dashboard";
+    }
+  },
+  mounted: function mounted() {
+    this.seo();
+  }
+});
 
 /***/ }),
 
@@ -2543,8 +2576,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['GET_USER'])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["GET_USER"]), {
+    seo: function seo() {
+      document.title = "User";
+    }
+  }),
   created: function created() {
+    this.seo();
     this.GET_USER();
   }
 });
@@ -2645,7 +2683,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    seo: function seo() {
+      document.title = "Web setting";
+    }
+  },
+  mounted: function mounted() {
+    this.seo();
+  }
+});
 
 /***/ }),
 
@@ -2667,7 +2714,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  method: {
+    seo: function seo() {
+      document.title = "404 Page";
+    }
+  },
+  mounted: function mounted() {
+    this.seo();
+  }
+});
 
 /***/ }),
 
@@ -26319,7 +26375,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-containe" }, [
-      _c("input", { attrs: { type: "submit", vlaue: "Submit" } })
+      _c("input", { attrs: { type: "submit", vlaue: "Login" } })
     ])
   }
 ]

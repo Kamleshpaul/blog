@@ -6,10 +6,14 @@
 import { mapActions } from "vuex";
 export default {
   methods: {
-      ...mapActions(['GET_USER'])
+    ...mapActions(["GET_USER"]),
+    seo() {
+      document.title = "User";
+    }
   },
-  created(){
-      this.GET_USER();
+  created() {
+    this.seo();
+    this.GET_USER();
   }
 };
 </script>

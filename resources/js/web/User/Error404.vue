@@ -8,7 +8,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  method: {
+    seo() {
+      document.title = "404 Page";
+    }
+  },
+  mounted() {
+    this.seo();
+  }
+};
 </script>
 
 <style>

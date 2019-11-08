@@ -129,6 +129,9 @@ export default {
     Model
   },
   methods: {
+    seo() {
+      document.title = "Category";
+    },
     store() {
       this.$store.dispatch("category/storeCategory", this.name);
       this.name = "";
@@ -144,6 +147,7 @@ export default {
     }
   },
   mounted() {
+    this.seo();
     this.$store.dispatch("category/setCategory");
   }
 };

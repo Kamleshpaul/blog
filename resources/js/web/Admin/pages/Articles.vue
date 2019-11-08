@@ -1,10 +1,10 @@
 <template>
-     <div class="container mt-5">
+  <div class="container mt-5">
     <div class="row">
       <div class="col-md-12 text-right">
         <button class="mb-2 mr-2 btn-transition btn btn-outline-success">Add Article</button>
       </div>
-      <hr>
+      <hr />
       <div class="col-lg-12 pt-4">
         <div class="main-card card">
           <div class="card-body">
@@ -47,11 +47,17 @@
 </template>
 
 <script>
-    export default {
-        
+export default {
+  methods: {
+    seo() {
+      document.title = "Articles";
     }
+  },
+  mounted() {
+    this.seo();
+  }
+};
 </script>
 
 <style>
-
 </style>

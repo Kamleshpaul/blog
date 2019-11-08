@@ -84,7 +84,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    seo() {
+      document.title = "Web setting";
+    }
+  },
+  mounted() {
+    this.seo();
+  }
+};
 </script>
 
 <style>
