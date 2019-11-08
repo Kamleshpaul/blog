@@ -2104,7 +2104,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     adminLogout: function adminLogout() {
-      this.$store.dispatch("USER_LOGOUT");
+      this.$store.dispatch("users/userLogout");
     }
   }
 });
@@ -44499,7 +44499,7 @@ var state = {
     state.LogInUser = null;
     state.token = null;
   },
-  set_auth_user: function set_auth_user(state, user) {
+  SET_AUTH_USER: function SET_AUTH_USER(state, user) {
     state.LogInUser = user;
     state.token = localStorage.getItem("passport");
   }
@@ -44509,13 +44509,13 @@ var state = {
     var commit = _ref2.commit;
     axios.get('/api/auth-user').then(function (_ref3) {
       var data = _ref3.data;
-      commit('set_auth_user', data.data);
+      commit('SET_AUTH_USER', data.data);
     })["catch"](function (e) {
       return console.log(e);
     });
   },
-  GET_USER: function () {
-    var _GET_USER = _asyncToGenerator(
+  getUser: function () {
+    var _getUser = _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref4) {
       var commit, response;
@@ -44539,11 +44539,11 @@ var state = {
       }, _callee);
     }));
 
-    function GET_USER(_x) {
-      return _GET_USER.apply(this, arguments);
+    function getUser(_x) {
+      return _getUser.apply(this, arguments);
     }
 
-    return GET_USER;
+    return getUser;
   }(),
   userLogin: function () {
     var _userLogin = _asyncToGenerator(
@@ -44611,7 +44611,7 @@ var state = {
           switch (_context3.prev = _context3.next) {
             case 0:
               commit = _ref7.commit;
-              axios.get('api/logout').then(function (res) {
+              axios.get('/api/logout').then(function (res) {
                 localStorage.removeItem('passport');
 
                 if (res.data.message === 'success') {

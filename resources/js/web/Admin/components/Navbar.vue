@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     adminLogout() {
-      this.$store.dispatch("USER_LOGOUT");
+      this.$store.dispatch("users/userLogout");
     }
   }
 };

@@ -25,7 +25,7 @@ let state = {
       state.LogInUser = null;
       state.token = null;
     },
-    set_auth_user: (state, user) => {
+    SET_AUTH_USER: (state, user) => {
       state.LogInUser = user;
       state.token = localStorage.getItem(`passport`);
     }
@@ -36,11 +36,11 @@ let state = {
     setAuth_user: ({ commit }) => {
       axios.get('/api/auth-user')
         .then(({ data }) => {
-          commit('set_auth_user', data.data);
+          commit('SET_AUTH_USER', data.data);
         })
         .catch(e => console.log(e));
     },
-    GET_USER: async ({ commit }) => {
+    getUser: async ({ commit }) => {
       const response = await axios.get('api/user');
       commit('SET_USER', response.data);
     },
@@ -77,7 +77,7 @@ let state = {
     },
 
     userLogout: async ({ commit }) => {
-      axios.get('api/logout').then((res) => {
+      axios.get('/api/logout').then((res) => {
         localStorage.removeItem('passport');
         if (res.data.message === 'success') {
           commit('AUTH_DESTROY');
