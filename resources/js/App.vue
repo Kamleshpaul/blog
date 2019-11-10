@@ -18,4 +18,7 @@ export default {};
 .modal.show .modal-dialog {
   top: 20% !important;
 }
+.swal2-popup.swal2-toast .swal2-title{
+  font-size: 1em !important;
+}
 </style>

@@ -1,12 +1,10 @@
 import router from "../../router";
 
 let state = {
-    categories: {},
-    categoryPagination: {}
-},
-    getters = {
-
+        categories: {},
+        categoryPagination: {}
     },
+    getters = {},
     mutations = {
         SET_CATEGORY: (state, payload) => {
             state.categoryPagination = payload;
@@ -16,12 +14,8 @@ let state = {
             state.categories.push(payload);
         },
         UPDATE: (state, payload) => {
-            console.log('payload', payload);
-            // state.categories.forEach(element => {
-            //     if (element.id === payload) {
-            //         state.categories.splice(element, 1);
-            //     }
-            // });
+            const item = state.categories.find(item => item.id === payload.id);
+            Object.assign(item, payload);
         },
         DESTROY: (state, payload) => {
             state.categories.forEach(element => {
@@ -29,61 +23,55 @@ let state = {
                     state.categories.splice(element, 1);
                 }
             });
-
         }
     },
-
-
     actions = {
         storeCategory: ({ commit }, name) => {
-            axios.post('/api/categories', {
-                name
-            }).then(({ data }) => {
-                if (data.message === 'success') {
-                    Toast.fire({
-                        type: "success",
-                        title: "Category Created"
-                    });
-                }
-                commit('STORE_CATEGORY', data.data);
-
-            });
+            axios
+                .post("/api/categories", {
+                    name
+                })
+                .then(({ data }) => {
+                    if (data.message === "success") {
+                        Toast.fire({
+                            type: "success",
+                            title: "Category Created"
+                        });
+                    }
+                    commit("STORE_CATEGORY", data.data);
+                });
         },
         setCategory: ({ commit }) => {
-            axios.get('/api/categories')
-                .then(({ data }) => {
-
-                    commit('SET_CATEGORY', data.data);
-                })
+            axios.get("/api/categories").then(({ data }) => {
+                commit("SET_CATEGORY", data.data);
+            });
         },
-        update: ({ commit }, id, name) => {
-            axios.put(`/api/categories/${id}`, { name })
+        update: ({ commit }, data) => {
+            axios
+                .put(`/api/categories/${data.id}`, { name: data.name })
                 .then(({ data }) => {
-                    if (data.message != '') {
+                    if (data.message != "") {
                         Toast.fire({
                             type: "success",
                             title: "Category Update"
                         });
-
-                        commit('UPDATE', id, name);
+                        commit("UPDATE", data.data);
                     }
                 });
         },
         destroy: ({ commit }, id) => {
-            axios.delete(`/api/categories/${id}`)
-                .then(({ data }) => {
-                    if (data.message != '') {
-                        Toast.fire({
-                            type: "success",
-                            title: "Category Deleted"
-                        });
+            axios.delete(`/api/categories/${id}`).then(({ data }) => {
+                if (data.message != "") {
+                    Toast.fire({
+                        type: "success",
+                        title: "Category Deleted"
+                    });
 
-                        commit('DESTROY', id);
-                    }
-                });
+                    commit("DESTROY", id);
+                }
+            });
         }
-    }
-
+    };
 
 export default {
     state,
@@ -91,4 +79,4 @@ export default {
     mutations,
     actions,
     namespaced: true
-}
+};

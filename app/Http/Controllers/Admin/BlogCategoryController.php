@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class BlogCategoryController extends Controller
 {
@@ -17,7 +17,21 @@ class BlogCategoryController extends Controller
     {
         $blogCategory = BlogCategory::paginate(10);
         return response([
-            'data' => $blogCategory
+            'data' => $blogCategory,
+        ]);
+    }
+
+    /**
+     * Display a single of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $blogCategory = BlogCategory::find($id);
+        return response([
+            'data' => $blogCategory,
+            'message' => 'success',
         ]);
     }
 
@@ -43,7 +57,7 @@ class BlogCategoryController extends Controller
         $blogCategory = BlogCategory::create($data);
         return response([
             'message' => "success",
-            'data' => $blogCategory
+            'data' => $blogCategory,
         ]);
     }
 
@@ -56,11 +70,21 @@ class BlogCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $data = $request->all();
         $blogCategory = BlogCategory::find($id);
-        $blogCategory->update($request->all());
+        // slug genrate
+        $slug = \Str::slug($blogCategory->name);
+        $count = BlogCategory::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+        if ($count) {
+            $data['slug'] = $slug . '-' . $count;
+        } else {
+            $data['slug'] = $slug;
+        }
+
+        $blogCategory->update($data);
         return response([
             'data' => $blogCategory,
-            'message' => 'success'
+            'message' => 'success',
         ]);
     }
 
@@ -75,7 +99,7 @@ class BlogCategoryController extends Controller
         $blogCategory = BlogCategory::find($id);
         $blogCategory->delete();
         return response([
-            'message' => 'success'
+            'message' => 'success',
         ]);
     }
 }

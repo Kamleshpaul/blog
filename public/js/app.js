@@ -2443,6 +2443,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -2450,7 +2452,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       name: "",
-      edit_name: ""
+      edit_name: "",
+      edit_id: ""
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("category", ["categories"])),
@@ -2467,10 +2470,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       document.querySelector("#addCategory").setAttribute("class", "modal fade hide");
     },
     edit: function edit(id) {
-      this.$store.dispatch("category/update", id);
+      var _this = this;
+
+      this.edit_id = id;
+      axios.get("/api/categories/".concat(id)).then(function (_ref) {
+        var data = _ref.data;
+        _this.edit_name = data.data.name;
+      });
+    },
+    update: function update() {
+      var payload = {
+        name: this.edit_name,
+        id: this.edit_id
+      };
+      this.$store.dispatch("category/update", payload);
+      this.edit_name = "";
+      document.querySelector("#editCategory").setAttribute("class", "modal fade hide");
     },
     destroy: function destroy(id) {
-      this.$store.dispatch("category/destroy", id, this.name);
+      this.$store.dispatch("category/destroy", id);
     }
   },
   mounted: function mounted() {
@@ -2893,7 +2911,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n#nprogress .bar {\n  background: #007bff !important;\n}\n.modal-backdrop {\n  z-index: -1 !important;\n}\n.modal.show .modal-dialog {\n  top: 20% !important;\n}\n", ""]);
+exports.push([module.i, "\n#nprogress .bar {\n  background: #007bff !important;\n}\n.modal-backdrop {\n  z-index: -1 !important;\n}\n.modal.show .modal-dialog {\n  top: 20% !important;\n}\n.swal2-popup.swal2-toast .swal2-title{\n  font-size: 1em !important;\n}\n", ""]);
 
 // exports
 
@@ -27188,9 +27206,9 @@ var render = function() {
                       {
                         staticClass: "btn btn-primary",
                         attrs: { type: "button" },
-                        on: { click: _vm.store }
+                        on: { click: _vm.update }
                       },
-                      [_vm._v("Save changes")]
+                      [_vm._v("Update changes")]
                     )
                   ])
                 ])
@@ -27240,6 +27258,10 @@ var render = function() {
                           {
                             staticClass:
                               "mb-2 mr-2 btn-transition btn btn-outline-info",
+                            attrs: {
+                              "data-target": "#editCategory",
+                              "data-toggle": "modal"
+                            },
                             on: {
                               click: function($event) {
                                 return _vm.edit(category.id)
@@ -44498,11 +44520,10 @@ var state = {
     state.categories.push(payload);
   },
   UPDATE: function UPDATE(state, payload) {
-    console.log('payload', payload); // state.categories.forEach(element => {
-    //     if (element.id === payload) {
-    //         state.categories.splice(element, 1);
-    //     }
-    // });
+    var item = state.categories.find(function (item) {
+      return item.id === payload.id;
+    });
+    Object.assign(item, payload);
   },
   DESTROY: function DESTROY(state, payload) {
     state.categories.forEach(function (element) {
@@ -44515,41 +44536,41 @@ var state = {
     actions = {
   storeCategory: function storeCategory(_ref, name) {
     var commit = _ref.commit;
-    axios.post('/api/categories', {
+    axios.post("/api/categories", {
       name: name
     }).then(function (_ref2) {
       var data = _ref2.data;
 
-      if (data.message === 'success') {
+      if (data.message === "success") {
         Toast.fire({
           type: "success",
           title: "Category Created"
         });
       }
 
-      commit('STORE_CATEGORY', data.data);
+      commit("STORE_CATEGORY", data.data);
     });
   },
   setCategory: function setCategory(_ref3) {
     var commit = _ref3.commit;
-    axios.get('/api/categories').then(function (_ref4) {
+    axios.get("/api/categories").then(function (_ref4) {
       var data = _ref4.data;
-      commit('SET_CATEGORY', data.data);
+      commit("SET_CATEGORY", data.data);
     });
   },
-  update: function update(_ref5, id, name) {
+  update: function update(_ref5, data) {
     var commit = _ref5.commit;
-    axios.put("/api/categories/".concat(id), {
-      name: name
+    axios.put("/api/categories/".concat(data.id), {
+      name: data.name
     }).then(function (_ref6) {
       var data = _ref6.data;
 
-      if (data.message != '') {
+      if (data.message != "") {
         Toast.fire({
           type: "success",
           title: "Category Update"
         });
-        commit('UPDATE', id, name);
+        commit("UPDATE", data.data);
       }
     });
   },
@@ -44558,12 +44579,12 @@ var state = {
     axios["delete"]("/api/categories/".concat(id)).then(function (_ref8) {
       var data = _ref8.data;
 
-      if (data.message != '') {
+      if (data.message != "") {
         Toast.fire({
           type: "success",
           title: "Category Deleted"
         });
-        commit('DESTROY', id);
+        commit("DESTROY", id);
       }
     });
   }
@@ -44590,11 +44611,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../router */ "./resources/js/router/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 var state = {
@@ -44635,128 +44651,98 @@ var state = {
       return console.log(e);
     });
   },
-  getUser: function () {
-    var _getUser = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref4) {
-      var commit, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              commit = _ref4.commit;
-              _context.next = 3;
-              return axios.get('api/user');
+  getUser: function getUser(_ref4) {
+    var commit, response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function getUser$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            commit = _ref4.commit;
+            _context.next = 3;
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get('api/user'));
 
-            case 3:
-              response = _context.sent;
-              commit('SET_USER', response.data);
+          case 3:
+            response = _context.sent;
+            commit('SET_USER', response.data);
 
-            case 5:
-            case "end":
-              return _context.stop();
-          }
+          case 5:
+          case "end":
+            return _context.stop();
         }
-      }, _callee);
-    }));
+      }
+    });
+  },
+  userLogin: function userLogin(_ref5, _ref6) {
+    var commit, email, password;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function userLogin$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            commit = _ref5.commit;
+            email = _ref6.email, password = _ref6.password;
+            axios.post('/api/login', {
+              email: email,
+              password: password
+            }).then(function (res) {
+              var response = res.data;
 
-    function getUser(_x) {
-      return _getUser.apply(this, arguments);
-    }
+              if (response.data != '' && response.data != null) {
+                state.message = response.message;
+                var token = response.data.access_token;
+                var user = response.data.user;
+                var payload = {
+                  'token': token,
+                  'user': user
+                };
+                localStorage.setItem('passport', token);
+                Toast.fire({
+                  type: "success",
+                  title: "".concat(user.name, " Logged In")
+                });
+                commit('AUTH_USER', payload);
+                _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+                  name: 'dashboard'
+                });
+              } else {
+                Toast.fire({
+                  type: "error",
+                  title: "User Not Found."
+                });
+              }
+            });
 
-    return getUser;
-  }(),
-  userLogin: function () {
-    var _userLogin = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref5, _ref6) {
-      var commit, email, password;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              commit = _ref5.commit;
-              email = _ref6.email, password = _ref6.password;
-              axios.post('/api/login', {
-                email: email,
-                password: password
-              }).then(function (res) {
-                var response = res.data;
-
-                if (response.data != '' && response.data != null) {
-                  state.message = response.message;
-                  var token = response.data.access_token;
-                  var user = response.data.user;
-                  var payload = {
-                    'token': token,
-                    'user': user
-                  };
-                  localStorage.setItem('passport', token);
-                  Toast.fire({
-                    type: "success",
-                    title: "".concat(user.name, " Logged In")
-                  });
-                  commit('AUTH_USER', payload);
-                  _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
-                    name: 'dashboard'
-                  });
-                } else {
-                  Toast.fire({
-                    type: "error",
-                    title: "User Not Found."
-                  });
-                }
-              });
-
-            case 3:
-            case "end":
-              return _context2.stop();
-          }
+          case 3:
+          case "end":
+            return _context2.stop();
         }
-      }, _callee2);
-    }));
+      }
+    });
+  },
+  userLogout: function userLogout(_ref7) {
+    var commit;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function userLogout$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            commit = _ref7.commit;
+            axios.get('/api/logout').then(function (res) {
+              localStorage.removeItem('passport');
 
-    function userLogin(_x2, _x3) {
-      return _userLogin.apply(this, arguments);
-    }
+              if (res.data.message === 'success') {
+                commit('AUTH_DESTROY');
+                _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+                  name: 'admin_login'
+                });
+              }
+            });
 
-    return userLogin;
-  }(),
-  userLogout: function () {
-    var _userLogout = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref7) {
-      var commit;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              commit = _ref7.commit;
-              axios.get('/api/logout').then(function (res) {
-                localStorage.removeItem('passport');
-
-                if (res.data.message === 'success') {
-                  commit('AUTH_DESTROY');
-                  _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
-                    name: 'admin_login'
-                  });
-                }
-              });
-
-            case 2:
-            case "end":
-              return _context3.stop();
-          }
+          case 2:
+          case "end":
+            return _context3.stop();
         }
-      }, _callee3);
-    }));
-
-    function userLogout(_x4) {
-      return _userLogout.apply(this, arguments);
-    }
-
-    return userLogout;
-  }()
+      }
+    });
+  }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state,

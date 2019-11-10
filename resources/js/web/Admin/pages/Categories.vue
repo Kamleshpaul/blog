@@ -64,7 +64,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @click="store">Save changes</button>
+                <button type="button" class="btn btn-primary" @click="update">Update changes</button>
               </div>
             </div>
           </div>
@@ -91,6 +91,8 @@
                   <td>
                     <button
                       class="mb-2 mr-2 btn-transition btn btn-outline-info"
+                      data-target="#editCategory"
+                      data-toggle="modal"
                       @click="edit(category.id)"
                     >Edit</button>
                     <button
@@ -119,7 +121,8 @@ export default {
   data() {
     return {
       name: "",
-      edit_name: ""
+      edit_name: "",
+      edit_id: ""
     };
   },
   computed: {
@@ -140,10 +143,24 @@ export default {
         .setAttribute("class", "modal fade hide");
     },
     edit(id) {
-      this.$store.dispatch("category/update", id);
+      this.edit_id = id;
+      axios.get(`/api/categories/${id}`).then(({ data }) => {
+        this.edit_name = data.data.name;
+      });
+    },
+    update() {
+      let payload = {
+        name: this.edit_name,
+        id: this.edit_id
+      };
+      this.$store.dispatch("category/update", payload);
+      this.edit_name = "";
+      document
+        .querySelector("#editCategory")
+        .setAttribute("class", "modal fade hide");
     },
     destroy(id) {
-      this.$store.dispatch("category/destroy", id, this.name);
+      this.$store.dispatch("category/destroy", id);
     }
   },
   mounted() {
