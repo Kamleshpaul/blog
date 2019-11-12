@@ -1,6 +1,8 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
+window.$ = require('jquery')
+window.JQuery = require('jquery')
 
 //css import
 import 'nprogress/nprogress.css'
