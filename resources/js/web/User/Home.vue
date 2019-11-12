@@ -1,12 +1,13 @@
 <template>
   <div>
     <Layout>
-         <router-view></router-view>
+      <router-view></router-view>
     </Layout>
   </div>
 </template>
 
 <script>
+
 import Layout from "./layout/Layout.vue";
 export default {
   components: {
@@ -15,5 +16,3 @@ export default {
 };
 </script>
 
-<style>
-</style>
