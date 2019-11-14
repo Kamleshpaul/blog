@@ -38,7 +38,7 @@ let state = {
         .then(({ data }) => {
           commit('SET_AUTH_USER', data.data);
         })
-        .catch(e => console.log(e));
+        .catch(e => localStorage.removeItem(`passport`));
     },
     getUser: async ({ commit }) => {
       const response = await axios.get('api/user');

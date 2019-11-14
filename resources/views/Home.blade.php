@@ -12,8 +12,6 @@
     <div id="app"></div>
 </body>
 
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<script src="{{ asset('js/jquery.stellar.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="service-worker.js"></script>
 
