@@ -1,8 +1,6 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
-window.$ = require('jquery')
-window.JQuery = require('jquery')
 
 //css import
 import 'nprogress/nprogress.css'
@@ -10,7 +8,9 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 import VueSweetalert2 from 'vue-sweetalert2';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 Vue.use(VueSweetalert2);
+Vue.use( CKEditor );
 
 
 import App from './App.vue';
