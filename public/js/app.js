@@ -44978,7 +44978,7 @@ var state = {
     state.articles = payload;
   },
   STORE: function STORE(state, paylod) {
-    state.articles.push(paylod);
+    state.articles.data.push(paylod);
   }
 },
     actions = {
@@ -45034,18 +45034,18 @@ var state = {
     state.categories = payload.data;
   },
   STORE_CATEGORY: function STORE_CATEGORY(state, payload) {
-    state.categories.push(payload);
+    state.categories.data.push(payload);
   },
   UPDATE: function UPDATE(state, payload) {
-    var item = state.categories.find(function (item) {
+    var item = state.categories.data.find(function (item) {
       return item.id === payload.id;
     });
     Object.assign(item, payload);
   },
   DESTROY: function DESTROY(state, payload) {
-    state.categories.forEach(function (element) {
+    state.categories.data.forEach(function (element, index) {
       if (element.id === payload) {
-        state.categories.splice(element, 1);
+        state.categories.data.splice(index, 1);
       }
     });
   }

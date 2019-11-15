@@ -163,6 +163,7 @@ export default {
         .setAttribute("class", "modal fade hide");
     },
     destroy(id) {
+      
       this.$store.dispatch("category/destroy", id);
     }
   },

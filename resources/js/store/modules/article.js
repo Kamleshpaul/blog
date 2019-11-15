@@ -10,7 +10,7 @@ let state = {
             state.articles = payload;
         },
         STORE: (state, paylod) => {
-            state.articles.push(paylod);
+            state.articles.data.push(paylod);
 
         }
     },

@@ -7,16 +7,16 @@ let state = {
             state.categories = payload.data;
         },
         STORE_CATEGORY: (state, payload) => {
-            state.categories.push(payload);
+            state.categories.data.push(payload);
         },
         UPDATE: (state, payload) => {
-            const item = state.categories.find(item => item.id === payload.id);
+            const item = state.categories.data.find(item => item.id === payload.id);
             Object.assign(item, payload);
         },
         DESTROY: (state, payload) => {
-            state.categories.forEach(element => {
+            state.categories.data.forEach((element,index) => {
                 if (element.id === payload) {
-                    state.categories.splice(element, 1);
+                    state.categories.data.splice(index, 1);
                 }
             });
         }
