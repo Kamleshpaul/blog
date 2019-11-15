@@ -85,7 +85,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="category in categories" :key="category.id">
+                <tr v-for="category in categories.data" :key="category.id">
                   <th scope="row">{{ category.id }}</th>
                   <td>{{ category.name }}</td>
                   <td>
@@ -104,7 +104,7 @@
               </tbody>
             </table>
 
-            <!-- <pagination :data="categoryPagination" :limit="5" @pagination-change-page="getBizCanvas"></pagination> -->
+            <pagination :data="{...categories}" :limit="5" @pagination-change-page="getResults"></pagination>
           </div>
         </div>
       </div>
@@ -134,6 +134,9 @@ export default {
   methods: {
     seo() {
       document.title = "Category";
+    },
+    getResults(page = 1) {
+      this.$store.dispatch("category/setCategory", page);
     },
     store() {
       this.$store.dispatch("category/storeCategory", this.name);

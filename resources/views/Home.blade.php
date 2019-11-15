@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,10 +12,8 @@
 <body>
     <div id="app"></div>
 </body>
-
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="service-worker.js"></script>
-
 <script>
     window.baseUrl = "{!! url('/') !!}";
 </script>

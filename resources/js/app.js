@@ -12,7 +12,6 @@ import CKEditor from '@ckeditor/ckeditor5-vue';
 Vue.use(VueSweetalert2);
 Vue.use( CKEditor );
 
-
 import App from './App.vue';
 import router from './router';
 import { store } from './store'
@@ -27,6 +26,7 @@ window.Toast = Vue.swal.mixin({
 })
 
 Vue.component('app', require('./App.vue'));
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 const app = new Vue({
     el: '#app',

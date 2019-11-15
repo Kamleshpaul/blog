@@ -20,9 +20,9 @@ class CreateBlogsTable extends Migration
             $table->unsignedBigInteger('blog_category_id');
 
             $table->string('title',256);
-            $table->longText('body');
-            $table->string('status',32);
-            $table->integer('view_count');
+            $table->longText('content');
+            $table->string('status',32)->nullable();
+            $table->integer('view_count')->nullable();
             $table->timestamps();
         });
     }

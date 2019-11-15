@@ -15,7 +15,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blog = Blog::all();
+        $blog = Blog::paginate(10);
         return response([
             'data' => $blog
         ]);
@@ -30,9 +30,23 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        Blog::create($request->all());
+        $data = $request->all();
+        unset($data['category']);
+        // slug genrate
+        $slug = \Str::slug($data['title']);
+        $count = Blog::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+        if ($count) {
+            $data['slug'] = $slug . '-' . $count;
+        } else {
+            $data['slug'] = $slug;
+        }
+
+        $data['user_id'] = auth()->user()->id;
+        $data['blog_category_id'] = $request->category;
+        $blog = Blog::create($data);
         return response([
-            'message' => "success"
+            'message' => "success",
+            'data' => $blog,
         ]);
     }
 

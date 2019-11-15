@@ -1,16 +1,13 @@
-import router from "../../router";
-
 let state = {
-        categories: {},
-        categoryPagination: {}
-    },
+    categories: {},
+},
     getters = {},
     mutations = {
         SET_CATEGORY: (state, payload) => {
-            state.categoryPagination = payload;
             state.categories = payload.data;
         },
         STORE_CATEGORY: (state, payload) => {
+            console.log(payload);
             state.categories.push(payload);
         },
         UPDATE: (state, payload) => {
@@ -41,9 +38,9 @@ let state = {
                     commit("STORE_CATEGORY", data.data);
                 });
         },
-        setCategory: ({ commit }) => {
-            axios.get("/api/categories").then(({ data }) => {
-                commit("SET_CATEGORY", data.data);
+        setCategory: ({ commit }, page = 1) => {
+            axios.get(`/api/categories?page=${page}`).then(({ data }) => {
+                commit("SET_CATEGORY", data);
             });
         },
         update: ({ commit }, data) => {

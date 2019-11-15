@@ -17,17 +17,34 @@
                 <input v-model="title" placeholder="Enter Title" type="text" class="form-control" />
               </div>
             </div>
+
+            <div class="position-relative row form-group">
+              <label for="title" class="col-sm-12 col-form-label">Category</label>
+              <div class="col-sm-12">
+                <select v-model="category" class="form-control">
+                  <option
+                    v-for="category in categories"
+                    :key="category.id"
+                    :value="category.id"
+                  >{{ category.name }}</option>
+                </select>
+              </div>
+            </div>
+
             <div class="position-relative row form-group">
               <label for="content" class="col-sm-12 col-form-label">Content</label>
               <div class="col-sm-12">
-                <textarea
-                  v-model="content"
-                  cols="30"
-                  rows="10"
-                  class="form-control"
-                  placeholder="Enter Content"
-                ></textarea>
-                <ckeditor editor="ClassicEditor"></ckeditor>
+                <ckeditor :editor="editor" v-model="content" height="500" :config="editorConfig"></ckeditor>
+              </div>
+            </div>
+
+            <div class="position-relative row form-group">
+              <label for="title" class="col-sm-12 col-form-label">Status</label>
+              <div class="col-sm-12">
+                <select v-model="status" class="form-control">
+                  <option value="drafted">Drafted</option>
+                  <option value="publish">Publish</option>
+                </select>
               </div>
             </div>
           </div>
@@ -63,26 +80,27 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
+                <tr v-for="article in articles.data" :key="article.id">
+                  <th scope="row">{{ article.id }}</th>
+                  <td>{{ article.title }}</td>
+                  <td>{{ article.blog_category_id }}</td>
+                  <td>
+                    <button
+                      class="mb-2 mr-2 btn-transition btn btn-outline-info"
+                      data-target="#editCategory"
+                      data-toggle="modal"
+                      @click="edit(article.id)"
+                    >Edit</button>
+                    <button
+                      class="mb-2 mr-2 btn-transition btn btn-outline-danger"
+                      @click="destroy(article.id)"
+                    >Delete</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
+
+            <pagination :data="{...articles}" :limit="5" @pagination-change-page="getResults"></pagination>
           </div>
         </div>
       </div>
@@ -91,32 +109,76 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
 import Model from "../components/Model";
+import pagination from "laravel-vue-pagination";
+
 export default {
   data() {
     return {
       title: "",
-      content: ""
+      content: "",
+      editor: ClassicEditor,
+      editorConfig: {
+        uploadUrl: "/"
+        // The configuration of the rich-text editor.
+      },
+      category: "",
+      status: "",
+      categories:[]
     };
   },
+  computed: {
+    ...mapState("article", ["articles"])
+  },
   components: {
-    Model,
-    ClassicEditor
+    Model
   },
   methods: {
     seo() {
       document.title = "Articles";
+    },
+    store() {
+      this.$store.dispatch("article/store", {
+        title: this.title,
+        category: this.category,
+        content: this.content,
+        status: this.status
+      });
+      document
+        .querySelector("#addArticle")
+        .setAttribute("class", "modal fade hide");
+
+      this.title = "";
+      this.category = "";
+      this.content = "";
+      this.status = "";
+    },
+    edit(id) {},
+    destroy(id) {},
+    getResults(page = 1) {
+      this.$store.dispatch("article/set", page);
+    },
+    getAllCategory() {
+      axios.get("/api/categories?ALL=true").then(({data}) => {
+        this.categories = data.data;
+      });
     }
   },
   mounted() {
     this.seo();
+    this.getAllCategory();
+    this.$store.dispatch("article/set");
+    this.$store.dispatch("category/setCategory");
   }
 };
 </script>
 
-<style>
+<style scoped>
+.ck-editor__editable {
+  min-height: 300px;
+}
 .modal-content {
   width: 65vw;
   height: 75vh;
