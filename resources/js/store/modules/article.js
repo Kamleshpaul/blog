@@ -1,5 +1,5 @@
 let state = {
-    articles: []
+    articles: {}
 },
     getters = {
 

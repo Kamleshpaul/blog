@@ -44970,7 +44970,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var state = {
-  articles: []
+  articles: {}
 },
     getters = {},
     mutations = {
@@ -45034,7 +45034,6 @@ var state = {
     state.categories = payload.data;
   },
   STORE_CATEGORY: function STORE_CATEGORY(state, payload) {
-    console.log(payload);
     state.categories.push(payload);
   },
   UPDATE: function UPDATE(state, payload) {

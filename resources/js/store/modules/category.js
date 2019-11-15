@@ -7,7 +7,6 @@ let state = {
             state.categories = payload.data;
         },
         STORE_CATEGORY: (state, payload) => {
-            console.log(payload);
             state.categories.push(payload);
         },
         UPDATE: (state, payload) => {
