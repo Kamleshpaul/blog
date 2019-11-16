@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class BlogController extends Controller
 {
@@ -17,10 +17,23 @@ class BlogController extends Controller
     {
         $blog = Blog::paginate(10);
         return response([
-            'data' => $blog
+            'data' => $blog,
         ]);
     }
 
+    /**
+     * Display a single of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $blog = Blog::find($id);
+        return response([
+            'data' => $blog,
+            'message' => 'success',
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -50,7 +63,6 @@ class BlogController extends Controller
         ]);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -60,11 +72,26 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $blog = Blog::find($id);
-        $blog->update($request->all());
+
+        $data = $request->all();
+        unset($data['category']);
+        // slug genrate
+        $slug = \Str::slug($data['title']);
+        $count = Blog::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+        if ($count) {
+            $data['slug'] = $slug . '-' . $count;
+        } else {
+            $data['slug'] = $slug;
+        }
+
+        $data['user_id'] = auth()->user()->id;
+        $data['blog_category_id'] = $request->category;
+        $blog->update($data);
         return response([
+            'message' => "success",
             'data' => $blog,
-            'message' => 'success'
         ]);
     }
 
@@ -79,7 +106,7 @@ class BlogController extends Controller
         $blog = Blog::find($id);
         $blog->delete();
         return response([
-            'message' => 'success'
+            'message' => 'success',
         ]);
     }
 }

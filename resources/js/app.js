@@ -25,6 +25,9 @@ window.Toast = Vue.swal.mixin({
     timer: 3000
 })
 
+//swal set to global
+window.Swal = Vue.swal;
+
 Vue.component('app', require('./App.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
 

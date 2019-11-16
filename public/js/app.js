@@ -2405,6 +2405,73 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2421,7 +2488,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       },
       category: "",
       status: "",
-      categories: []
+      categories: [],
+      from_edit: {
+        id: "",
+        title: "",
+        content: "",
+        category: "",
+        status: ""
+      }
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("article", ["articles"])),
@@ -2445,18 +2519,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.content = "";
       this.status = "";
     },
-    edit: function edit(id) {},
-    destroy: function destroy(id) {},
+    edit: function edit(id) {
+      var _this = this;
+
+      this.edit_id = id;
+      axios.get("/api/articles/".concat(id)).then(function (_ref) {
+        var data = _ref.data;
+        _this.from_edit.id = data.data.id;
+        _this.from_edit.title = data.data.title;
+        _this.from_edit.content = data.data.content;
+        _this.from_edit.category = data.data.blog_category_id;
+        _this.from_edit.status = data.data.status;
+      });
+    },
+    update: function update() {
+      this.$store.dispatch("article/update", this.from_edit);
+      this.from_edit = {};
+      document.querySelector("#editArticle").setAttribute("class", "modal fade hide");
+    },
+    destroy: function destroy(id) {
+      var _this2 = this;
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          _this2.$store.dispatch("article/destroy", id);
+
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
+    },
     getResults: function getResults() {
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.$store.dispatch("article/set", page);
     },
     getAllCategory: function getAllCategory() {
-      var _this = this;
+      var _this3 = this;
 
-      axios.get("/api/categories?ALL=true").then(function (_ref) {
-        var data = _ref.data;
-        _this.categories = data.data;
+      axios.get("/api/categories?ALL=true").then(function (_ref2) {
+        var data = _ref2.data;
+        _this3.categories = data.data;
       });
     }
   },
@@ -2650,7 +2759,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       document.querySelector("#editCategory").setAttribute("class", "modal fade hide");
     },
     destroy: function destroy(id) {
-      this.$store.dispatch("category/destroy", id);
+      var _this2 = this;
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          _this2.$store.dispatch("category/destroy", id);
+
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -3050,7 +3175,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n#nprogress .bar {\n  background: #007bff !important;\n}\n.modal-backdrop {\n  z-index: -1 !important;\n}\n.modal.show .modal-dialog {\n  top: 20% !important;\n}\n.swal2-popup.swal2-toast .swal2-title{\n  font-size: 1em !important;\n}\n", ""]);
+exports.push([module.i, "\n#nprogress .bar {\n  background: #007bff !important;\n}\n.modal-backdrop {\n  z-index: -1 !important;\n}\n.modal.show .modal-dialog {\n  top: 20% !important;\n}\n", ""]);
 
 // exports
 
@@ -3145,7 +3270,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.ck-editor__editable[data-v-e1dd6ffe] {\n  min-height: 300px;\n}\n.modal-content[data-v-e1dd6ffe] {\n  width: 65vw;\n  height: 75vh;\n  top: -30px;\n  right: 55px;\n  overflow: auto;\n}\n.modal-dialog[data-v-e1dd6ffe] {\n  box-shadow: none;\n}\n", ""]);
+exports.push([module.i, "\n.ck-editor__editable[data-v-e1dd6ffe] {\n  height: 300px !important;\n}\n.modal-dialog[data-v-e1dd6ffe] {\n  box-shadow: none;\n}\n.content[data-v-e1dd6ffe],\n.modal[data-v-e1dd6ffe] {\n  position: absolute;\n  top: -10%;\n  left: 0;\n  height: 100%;\n  width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -27362,7 +27487,7 @@ var render = function() {
                               staticClass:
                                 "mb-2 mr-2 btn-transition btn btn-outline-info",
                               attrs: {
-                                "data-target": "#editCategory",
+                                "data-target": "#editArticle",
                                 "data-toggle": "modal"
                               },
                               on: {
@@ -27403,6 +27528,249 @@ var render = function() {
             )
           ])
         ])
+      ]),
+      _vm._v(" "),
+      _c("Model", { attrs: { idProp: "editArticle" } }, [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLabel" }
+                  },
+                  [_vm._v("Add Article")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "position-relative row form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-12 col-form-label",
+                      attrs: { for: "title" }
+                    },
+                    [_vm._v("Title")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.from_edit.title,
+                          expression: "from_edit.title"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Enter Title", type: "text" },
+                      domProps: { value: _vm.from_edit.title },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.from_edit, "title", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "position-relative row form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-12 col-form-label",
+                      attrs: { for: "title" }
+                    },
+                    [_vm._v("Category")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-12" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.from_edit.category,
+                            expression: "from_edit.category"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.from_edit,
+                              "category",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      _vm._l(_vm.categories, function(category) {
+                        return _c(
+                          "option",
+                          {
+                            key: category.id,
+                            domProps: { value: category.id }
+                          },
+                          [_vm._v(_vm._s(category.name))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "position-relative row form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-12 col-form-label",
+                      attrs: { for: "content" }
+                    },
+                    [_vm._v("Content")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-12" },
+                    [
+                      _c("ckeditor", {
+                        attrs: {
+                          editor: _vm.editor,
+                          height: "500",
+                          config: _vm.editorConfig
+                        },
+                        model: {
+                          value: _vm.from_edit.content,
+                          callback: function($$v) {
+                            _vm.$set(_vm.from_edit, "content", $$v)
+                          },
+                          expression: "from_edit.content"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "position-relative row form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-12 col-form-label",
+                      attrs: { for: "title" }
+                    },
+                    [_vm._v("Status")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-12" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.from_edit.status,
+                            expression: "from_edit.status"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.from_edit,
+                              "status",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "drafted" } }, [
+                          _vm._v("Drafted")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "publish" } }, [
+                          _vm._v("Publish")
+                        ])
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: { click: _vm.update }
+                  },
+                  [_vm._v("Update changes")]
+                )
+              ])
+            ])
+          ]
+        )
       ])
     ],
     1
@@ -44502,7 +44870,9 @@ window.Toast = Vue.swal.mixin({
   position: 'top-end',
   showConfirmButton: false,
   timer: 3000
-});
+}); //swal set to global
+
+window.Swal = Vue.swal;
 Vue.component('app', __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue"));
 Vue.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
 var app = new Vue({
@@ -44979,6 +45349,19 @@ var state = {
   },
   STORE: function STORE(state, paylod) {
     state.articles.data.push(paylod);
+  },
+  UPDATE: function UPDATE(state, payload) {
+    var item = state.articles.data.find(function (item) {
+      return item.id === payload.id;
+    });
+    Object.assign(item, payload);
+  },
+  DESTROY: function DESTROY(state, payload) {
+    state.articles.data.forEach(function (element, index) {
+      if (element.id === payload) {
+        state.articles.data.splice(index, 1);
+      }
+    });
   }
 },
     actions = {
@@ -45003,6 +45386,34 @@ var state = {
       }
 
       commit("STORE", data.data);
+    });
+  },
+  update: function update(_ref5, payload) {
+    var commit = _ref5.commit;
+    axios.put("/api/articles/".concat(payload.id), payload).then(function (_ref6) {
+      var data = _ref6.data;
+
+      if (data.message != "") {
+        Toast.fire({
+          type: "success",
+          title: "Article Update"
+        });
+        commit("UPDATE", data.data);
+      }
+    });
+  },
+  destroy: function destroy(_ref7, id) {
+    var commit = _ref7.commit;
+    axios["delete"]("/api/articles/".concat(id)).then(function (_ref8) {
+      var data = _ref8.data;
+
+      if (data.message != "") {
+        Toast.fire({
+          type: "success",
+          title: "Article Deleted"
+        });
+        commit("DESTROY", id);
+      }
     });
   }
 };
@@ -45131,11 +45542,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../router */ "./resources/js/router/index.js");
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
 var state = {
   LogInUser: null,
   token: null,
@@ -45174,128 +45580,98 @@ var state = {
       return localStorage.removeItem("passport");
     });
   },
-  getUser: function () {
-    var _getUser = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref4) {
-      var commit, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              commit = _ref4.commit;
-              _context.next = 3;
-              return axios.get('api/user');
+  getUser: function getUser(_ref4) {
+    var commit, response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function getUser$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            commit = _ref4.commit;
+            _context.next = 3;
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get('api/user'));
 
-            case 3:
-              response = _context.sent;
-              commit('SET_USER', response.data);
+          case 3:
+            response = _context.sent;
+            commit('SET_USER', response.data);
 
-            case 5:
-            case "end":
-              return _context.stop();
-          }
+          case 5:
+          case "end":
+            return _context.stop();
         }
-      }, _callee);
-    }));
+      }
+    });
+  },
+  userLogin: function userLogin(_ref5, _ref6) {
+    var commit, email, password;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function userLogin$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            commit = _ref5.commit;
+            email = _ref6.email, password = _ref6.password;
+            axios.post('/api/login', {
+              email: email,
+              password: password
+            }).then(function (res) {
+              var response = res.data;
 
-    function getUser(_x) {
-      return _getUser.apply(this, arguments);
-    }
+              if (response.data != '' && response.data != null) {
+                state.message = response.message;
+                var token = response.data.access_token;
+                var user = response.data.user;
+                var payload = {
+                  'token': token,
+                  'user': user
+                };
+                localStorage.setItem('passport', token);
+                Toast.fire({
+                  type: "success",
+                  title: "".concat(user.name, " Logged In")
+                });
+                commit('AUTH_USER', payload);
+                _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+                  name: 'dashboard'
+                });
+              } else {
+                Toast.fire({
+                  type: "error",
+                  title: "User Not Found."
+                });
+              }
+            });
 
-    return getUser;
-  }(),
-  userLogin: function () {
-    var _userLogin = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref5, _ref6) {
-      var commit, email, password;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              commit = _ref5.commit;
-              email = _ref6.email, password = _ref6.password;
-              axios.post('/api/login', {
-                email: email,
-                password: password
-              }).then(function (res) {
-                var response = res.data;
-
-                if (response.data != '' && response.data != null) {
-                  state.message = response.message;
-                  var token = response.data.access_token;
-                  var user = response.data.user;
-                  var payload = {
-                    'token': token,
-                    'user': user
-                  };
-                  localStorage.setItem('passport', token);
-                  Toast.fire({
-                    type: "success",
-                    title: "".concat(user.name, " Logged In")
-                  });
-                  commit('AUTH_USER', payload);
-                  _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
-                    name: 'dashboard'
-                  });
-                } else {
-                  Toast.fire({
-                    type: "error",
-                    title: "User Not Found."
-                  });
-                }
-              });
-
-            case 3:
-            case "end":
-              return _context2.stop();
-          }
+          case 3:
+          case "end":
+            return _context2.stop();
         }
-      }, _callee2);
-    }));
+      }
+    });
+  },
+  userLogout: function userLogout(_ref7) {
+    var commit;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function userLogout$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            commit = _ref7.commit;
+            axios.get('/api/logout').then(function (res) {
+              localStorage.removeItem('passport');
 
-    function userLogin(_x2, _x3) {
-      return _userLogin.apply(this, arguments);
-    }
+              if (res.data.message === 'success') {
+                commit('AUTH_DESTROY');
+                _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+                  name: 'admin_login'
+                });
+              }
+            });
 
-    return userLogin;
-  }(),
-  userLogout: function () {
-    var _userLogout = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref7) {
-      var commit;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              commit = _ref7.commit;
-              axios.get('/api/logout').then(function (res) {
-                localStorage.removeItem('passport');
-
-                if (res.data.message === 'success') {
-                  commit('AUTH_DESTROY');
-                  _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
-                    name: 'admin_login'
-                  });
-                }
-              });
-
-            case 2:
-            case "end":
-              return _context3.stop();
-          }
+          case 2:
+          case "end":
+            return _context3.stop();
         }
-      }, _callee3);
-    }));
-
-    function userLogout(_x4) {
-      return _userLogout.apply(this, arguments);
-    }
-
-    return userLogout;
-  }()
+      }
+    });
+  }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state,

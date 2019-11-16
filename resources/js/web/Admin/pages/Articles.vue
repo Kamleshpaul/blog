@@ -87,7 +87,7 @@
                   <td>
                     <button
                       class="mb-2 mr-2 btn-transition btn btn-outline-info"
-                      data-target="#editCategory"
+                      data-target="#editArticle"
                       data-toggle="modal"
                       @click="edit(article.id)"
                     >Edit</button>
@@ -105,6 +105,73 @@
         </div>
       </div>
     </div>
+
+    <!--  edit model component -->
+    <Model idProp="editArticle">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Article</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="position-relative row form-group">
+              <label for="title" class="col-sm-12 col-form-label">Title</label>
+              <div class="col-sm-12">
+                <input
+                  v-model="from_edit.title"
+                  placeholder="Enter Title"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <div class="position-relative row form-group">
+              <label for="title" class="col-sm-12 col-form-label">Category</label>
+              <div class="col-sm-12">
+                <select v-model="from_edit.category" class="form-control">
+                  <option
+                    v-for="category in categories"
+                    :key="category.id"
+                    :value="category.id"
+                  >{{ category.name }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="position-relative row form-group">
+              <label for="content" class="col-sm-12 col-form-label">Content</label>
+              <div class="col-sm-12">
+                <ckeditor
+                  :editor="editor"
+                  v-model="from_edit.content"
+                  height="500"
+                  :config="editorConfig"
+                ></ckeditor>
+              </div>
+            </div>
+
+            <div class="position-relative row form-group">
+              <label for="title" class="col-sm-12 col-form-label">Status</label>
+              <div class="col-sm-12">
+                <select v-model="from_edit.status" class="form-control">
+                  <option value="drafted">Drafted</option>
+                  <option value="publish">Publish</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" @click="update">Update changes</button>
+          </div>
+        </div>
+      </div>
+    </Model>
+    <!--  edit model component -->
   </div>
 </template>
 
@@ -126,7 +193,14 @@ export default {
       },
       category: "",
       status: "",
-      categories:[]
+      categories: [],
+      from_edit: {
+        id: "",
+        title: "",
+        content: "",
+        category: "",
+        status: ""
+      }
     };
   },
   computed: {
@@ -155,13 +229,44 @@ export default {
       this.content = "";
       this.status = "";
     },
-    edit(id) {},
-    destroy(id) {},
+    edit(id) {
+      this.edit_id = id;
+      axios.get(`/api/articles/${id}`).then(({ data }) => {
+        this.from_edit.id = data.data.id;
+        this.from_edit.title = data.data.title;
+        this.from_edit.content = data.data.content;
+        this.from_edit.category = data.data.blog_category_id;
+        this.from_edit.status = data.data.status;
+      });
+    },
+    update() {
+      this.$store.dispatch("article/update", this.from_edit);
+      this.from_edit = {};
+      document
+        .querySelector("#editArticle")
+        .setAttribute("class", "modal fade hide");
+    },
+    destroy(id) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          this.$store.dispatch("article/destroy", id);
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
+    },
     getResults(page = 1) {
       this.$store.dispatch("article/set", page);
     },
     getAllCategory() {
-      axios.get("/api/categories?ALL=true").then(({data}) => {
+      axios.get("/api/categories?ALL=true").then(({ data }) => {
         this.categories = data.data;
       });
     }
@@ -177,16 +282,17 @@ export default {
 
 <style scoped>
 .ck-editor__editable {
-  min-height: 300px;
-}
-.modal-content {
-  width: 65vw;
-  height: 75vh;
-  top: -30px;
-  right: 55px;
-  overflow: auto;
+  height: 300px !important;
 }
 .modal-dialog {
   box-shadow: none;
+}
+.content,
+.modal {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
 </style>
