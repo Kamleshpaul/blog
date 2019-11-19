@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
-    <!--  add model component -->
-    <Model idProp="addArticle">
+    <WindowPortal v-model="addArticle">
+      <!--  add model component -->
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -54,15 +54,16 @@
           </div>
         </div>
       </div>
-    </Model>
-    <!--  add model component -->
+      <!--  add model component -->
+    </WindowPortal>
+    <!-- data-toggle="modal"
+    data-target="#addArticle"-->
 
     <div class="row">
       <div class="col-md-12 text-right">
         <button
           class="mb-2 mr-2 btn-transition btn btn-outline-success"
-          data-toggle="modal"
-          data-target="#addArticle"
+          @click="addArticle = !addArticle"
         >Add Article</button>
       </div>
       <hr />
@@ -70,7 +71,13 @@
         <div class="main-card card">
           <div class="card-body">
             <h5 class="card-title">All Articles</h5>
-            <table class="mb-0 table table-striped">
+
+            <content-placeholders v-show="loading">
+              <content-placeholders-heading :img="true" />
+              <content-placeholders-text :lines="3" />
+            </content-placeholders>
+
+            <table class="mb-0 table table-striped" v-show="!loading">
               <thead>
                 <tr>
                   <th>Id</th>
@@ -181,6 +188,8 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Model from "../components/Model";
 import pagination from "laravel-vue-pagination";
 
+import WindowPortal from "../components/WindowPortal";
+
 export default {
   data() {
     return {
@@ -200,14 +209,17 @@ export default {
         content: "",
         category: "",
         status: ""
-      }
+      },
+      addArticle: false,
+      loading: false
     };
   },
   computed: {
     ...mapState("article", ["articles"])
   },
   components: {
-    Model
+    Model,
+    WindowPortal
   },
   methods: {
     seo() {
@@ -263,7 +275,10 @@ export default {
       });
     },
     getResults(page = 1) {
-      this.$store.dispatch("article/set", page);
+      this.loading = true;
+      this.$store.dispatch("article/set", page).then(e => {
+        this.loading = false;
+      });
     },
     getAllCategory() {
       axios.get("/api/categories?ALL=true").then(({ data }) => {
@@ -272,9 +287,12 @@ export default {
     }
   },
   mounted() {
+    this.loading = true;
     this.seo();
     this.getAllCategory();
-    this.$store.dispatch("article/set");
+    this.$store.dispatch("article/set").then(e => {
+      this.loading = false;
+    });
     this.$store.dispatch("category/setCategory");
   }
 };

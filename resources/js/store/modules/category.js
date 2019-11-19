@@ -14,7 +14,7 @@ let state = {
             Object.assign(item, payload);
         },
         DESTROY: (state, payload) => {
-            state.categories.data.forEach((element,index) => {
+            state.categories.data.forEach((element, index) => {
                 if (element.id === payload) {
                     state.categories.data.splice(index, 1);
                 }
@@ -37,8 +37,8 @@ let state = {
                     commit("STORE_CATEGORY", data.data);
                 });
         },
-        setCategory: ({ commit }, page = 1) => {
-            axios.get(`/api/categories?page=${page}`).then(({ data }) => {
+        setCategory: async ({ commit }, page = 1) => {
+            await axios.get(`/api/categories?page=${page}`).then(({ data }) => {
                 commit("SET_CATEGORY", data);
             });
         },

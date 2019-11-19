@@ -76,7 +76,12 @@
         <div class="main-card card">
           <div class="card-body">
             <h5 class="card-title">All Categories</h5>
-            <table class="mb-0 table table-striped" v-show="categories">
+
+            <content-placeholders v-show="loading">
+              <content-placeholders-heading :img="true" />
+              <content-placeholders-text :lines="3" />
+            </content-placeholders>
+            <table class="mb-0 table table-striped" v-show="categories && !loading">
               <thead>
                 <tr>
                   <th>Id</th>
@@ -122,7 +127,8 @@ export default {
     return {
       name: "",
       edit_name: "",
-      edit_id: ""
+      edit_id: "",
+      loading: false
     };
   },
   computed: {
@@ -136,9 +142,12 @@ export default {
       document.title = "Category";
     },
     getResults(page = 1) {
-      this.$store.dispatch("category/setCategory", page);
+      this.loading = true;
+      this.$store.dispatch("category/setCategory", page)
+      .then(e => (this.loading = false));
     },
     store() {
+    
       this.$store.dispatch("category/storeCategory", this.name);
       this.name = "";
       document
@@ -181,7 +190,9 @@ export default {
   },
   mounted() {
     this.seo();
-    this.$store.dispatch("category/setCategory");
+    this.loading = true;
+    this.$store.dispatch("category/setCategory")
+    .then((e) => this.loading = false);
   }
 };
 </script>

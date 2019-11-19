@@ -1,6 +1,6 @@
 let state = {
-        articles: {}
-    },
+    articles: {}
+},
     getters = {},
     mutations = {
         SET: (state, payload) => {
@@ -24,8 +24,8 @@ let state = {
         }
     },
     actions = {
-        set: ({ commit }, page = 1) => {
-            axios.get(`/api/articles?page=${page}`).then(({ data }) => {
+        set: async ({ commit }, page = 1) => {
+            await axios.get(`/api/articles?page=${page}`).then(({ data }) => {
                 commit("SET", data.data);
             });
         },
