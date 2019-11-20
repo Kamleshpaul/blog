@@ -1,69 +1,71 @@
 <template>
   <div class="container mt-5">
-    <WindowPortal v-model="addArticle">
-      <!--  add model component -->
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Article</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="position-relative row form-group">
-              <label for="title" class="col-sm-12 col-form-label">Title</label>
-              <div class="col-sm-12">
-                <input v-model="title" placeholder="Enter Title" type="text" class="form-control" />
+    <!-- ADD FORM -->
+    <div class="tab-content" v-show="addModel">
+      <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+        <div class="main-card mb-3 card">
+          <div class="card-body">
+            <h5 class="card-title">Add Article</h5>
+
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="position-relative form-group">
+                  <label>Title</label>
+                  <input v-model="title" placeholder="Enter Title" type="text" class="form-control" />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="position-relative form-group">
+                  <label>Category</label>
+                  <select v-model="category" class="form-control">
+                    <option
+                      v-for="category in categories"
+                      :key="category.id"
+                      :value="category.id"
+                    >{{ category.name }}</option>
+                  </select>
+                </div>
               </div>
             </div>
 
-            <div class="position-relative row form-group">
-              <label for="title" class="col-sm-12 col-form-label">Category</label>
-              <div class="col-sm-12">
-                <select v-model="category" class="form-control">
-                  <option
-                    v-for="category in categories"
-                    :key="category.id"
-                    :value="category.id"
-                  >{{ category.name }}</option>
-                </select>
+            <div class="form-row">
+              <div class="col-md-12">
+                <div class="position-relative form-group">
+                  <label>Content</label>
+                  <ckeditor :editor="editor" v-model="content" :height="500" :config="editorConfig"></ckeditor>
+                </div>
               </div>
             </div>
 
-            <div class="position-relative row form-group">
-              <label for="content" class="col-sm-12 col-form-label">Content</label>
-              <div class="col-sm-12">
-                <ckeditor :editor="editor" v-model="content" height="500" :config="editorConfig"></ckeditor>
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="position-relative form-group">
+                  <label>Status</label>
+                  <select v-model="status" class="form-control">
+                    <option value="drafted">Drafted</option>
+                    <option value="publish">Publish</option>
+                  </select>
+                </div>
               </div>
             </div>
 
-            <div class="position-relative row form-group">
-              <label for="title" class="col-sm-12 col-form-label">Status</label>
-              <div class="col-sm-12">
-                <select v-model="status" class="form-control">
-                  <option value="drafted">Drafted</option>
-                  <option value="publish">Publish</option>
-                </select>
-              </div>
+            <div class="form-row pull-right">
+              <button type="button" class="btn btn-primary mr-2" @click="store">Save changes</button>
+              <button type="button" class="btn btn-secondary" @click="addModel = false">Close</button>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="store">Save changes</button>
           </div>
         </div>
       </div>
-      <!--  add model component -->
-    </WindowPortal>
-    <!-- data-toggle="modal"
-    data-target="#addArticle"-->
+    </div>
 
-    <div class="row">
+    <!-- ADD FROM END -->
+
+    <div class="row" v-show="!addModel && !editModel">
       <div class="col-md-12 text-right">
         <button
           class="mb-2 mr-2 btn-transition btn btn-outline-success"
-          @click="addArticle = !addArticle"
+          @click="addModel = true"
         >Add Article</button>
       </div>
       <hr />
@@ -94,8 +96,6 @@
                   <td>
                     <button
                       class="mb-2 mr-2 btn-transition btn btn-outline-info"
-                      data-target="#editArticle"
-                      data-toggle="modal"
                       @click="edit(article.id)"
                     >Edit</button>
                     <button
@@ -113,72 +113,71 @@
       </div>
     </div>
 
-    <!--  edit model component -->
-    <Model idProp="editArticle">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Article</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="position-relative row form-group">
-              <label for="title" class="col-sm-12 col-form-label">Title</label>
-              <div class="col-sm-12">
-                <input
-                  v-model="from_edit.title"
-                  placeholder="Enter Title"
-                  type="text"
-                  class="form-control"
-                />
+    <!-- EDIT FORM -->
+    <div class="tab-content" v-show="editModel">
+      <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+        <div class="main-card mb-3 card">
+          <div class="card-body">
+            <h5 class="card-title">Edit Article</h5>
+
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="position-relative form-group">
+                  <label>Title</label>
+                  <input
+                    v-model="from_edit.title"
+                    placeholder="Enter Title"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="position-relative form-group">
+                  <label>Category</label>
+                  <select v-model="from_edit.category" class="form-control">
+                    <option
+                      v-for="category in categories"
+                      :key="category.id"
+                      :value="category.id"
+                    >{{ category.name }}</option>
+                  </select>
+                </div>
               </div>
             </div>
 
-            <div class="position-relative row form-group">
-              <label for="title" class="col-sm-12 col-form-label">Category</label>
-              <div class="col-sm-12">
-                <select v-model="from_edit.category" class="form-control">
-                  <option
-                    v-for="category in categories"
-                    :key="category.id"
-                    :value="category.id"
-                  >{{ category.name }}</option>
-                </select>
+            <div class="form-row">
+              <div class="col-md-12">
+                <div class="position-relative form-group">
+                  <label>Content</label>
+                  <ckeditor :editor="editor" v-model="from_edit.content" :config="editorConfig"></ckeditor>
+                </div>
               </div>
             </div>
 
-            <div class="position-relative row form-group">
-              <label for="content" class="col-sm-12 col-form-label">Content</label>
-              <div class="col-sm-12">
-                <ckeditor
-                  :editor="editor"
-                  v-model="from_edit.content"
-                  height="500"
-                  :config="editorConfig"
-                ></ckeditor>
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="position-relative form-group">
+                  <label>Status</label>
+                  <select v-model="from_edit.status" class="form-control">
+                    <option value="drafted">Drafted</option>
+                    <option value="publish">Publish</option>
+                  </select>
+                </div>
               </div>
             </div>
 
-            <div class="position-relative row form-group">
-              <label for="title" class="col-sm-12 col-form-label">Status</label>
-              <div class="col-sm-12">
-                <select v-model="from_edit.status" class="form-control">
-                  <option value="drafted">Drafted</option>
-                  <option value="publish">Publish</option>
-                </select>
-              </div>
+            <div class="form-row pull-right">
+              <button type="button" class="btn btn-secondary mr-2" @click="editModel = false">Close</button>
+              <button type="button" class="btn btn-primary" @click="update">Update changes</button>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="update">Update changes</button>
           </div>
         </div>
       </div>
-    </Model>
-    <!--  edit model component -->
+    </div>
+
+    <!-- EDIT FROM END -->
   </div>
 </template>
 
@@ -187,8 +186,6 @@ import { mapState, mapGetters } from "vuex";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Model from "../components/Model";
 import pagination from "laravel-vue-pagination";
-
-import WindowPortal from "../components/WindowPortal";
 
 export default {
   data() {
@@ -211,37 +208,37 @@ export default {
         status: ""
       },
       addArticle: false,
-      loading: false
+      loading: false,
+      addModel: false,
+      editModel: false
     };
   },
   computed: {
     ...mapState("article", ["articles"])
   },
   components: {
-    Model,
-    WindowPortal
+    Model
   },
   methods: {
     seo() {
       document.title = "Articles";
     },
     store() {
+      this.editModel = true;
       this.$store.dispatch("article/store", {
         title: this.title,
         category: this.category,
         content: this.content,
         status: this.status
       });
-      document
-        .querySelector("#addArticle")
-        .setAttribute("class", "modal fade hide");
-
+      this.editModel = false;
       this.title = "";
       this.category = "";
       this.content = "";
       this.status = "";
     },
     edit(id) {
+      this.editModel = true;
       this.edit_id = id;
       axios.get(`/api/articles/${id}`).then(({ data }) => {
         this.from_edit.id = data.data.id;
@@ -254,9 +251,7 @@ export default {
     update() {
       this.$store.dispatch("article/update", this.from_edit);
       this.from_edit = {};
-      document
-        .querySelector("#editArticle")
-        .setAttribute("class", "modal fade hide");
+      this.editModel = false;
     },
     destroy(id) {
       Swal.fire({
@@ -298,7 +293,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .ck-editor__editable {
   height: 300px !important;
 }
