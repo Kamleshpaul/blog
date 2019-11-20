@@ -1,75 +1,43 @@
 <template>
   <div class="container mt-5">
-    <div class="row">
+    <!-- ADD FORM -->
+    <div class="tab-content" v-show="addForm">
+      <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+        <div class="main-card mb-3 card">
+          <div class="card-body">
+            <h5 class="card-title">Add Category</h5>
+
+            <div class="form-row">
+              <div class="col-md-12">
+                <div class="position-relative form-group">
+                  <label>Name</label>
+                  <input
+                    v-model="name"
+                    placeholder="Enter Category Name"
+                    type="email"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row pull-right">
+              <button type="button" class="btn btn-secondary mr-2" @click="addForm = false">Close</button>
+              <button type="button" class="btn btn-primary" @click="store">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD FROM END -->
+
+    <div class="row" v-show="!addForm && !editForm">
       <div class="col-md-12 text-right">
         <button
           class="mb-2 mr-2 btn-transition btn btn-outline-success"
-          data-toggle="modal"
-          data-target="#addCategory"
+          @click="addForm = true"
         >Add Category</button>
-
-        <!--  add model component -->
-        <Model idProp="addCategory">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="position-relative row form-group">
-                  <label for="name" class="col-sm-2 col-form-label">Name</label>
-                  <div class="col-sm-10">
-                    <input
-                      v-model="name"
-                      placeholder="Enter Category Name"
-                      type="email"
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @click="store">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </Model>
-        <!------------------------- -->
-        <!-- Edit model component -->
-        <Model idProp="editCategory">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="position-relative row form-group">
-                  <label for="name" class="col-sm-2 col-form-label">Name</label>
-                  <div class="col-sm-10">
-                    <input
-                      v-model="edit_name"
-                      placeholder="Enter Category Name"
-                      type="email"
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @click="update">Update changes</button>
-              </div>
-            </div>
-          </div>
-        </Model>
-        <!------------------------- -->
       </div>
       <hr />
       <div class="col-lg-12 pt-4">
@@ -96,8 +64,6 @@
                   <td>
                     <button
                       class="mb-2 mr-2 btn-transition btn btn-outline-info"
-                      data-target="#editCategory"
-                      data-toggle="modal"
                       @click="edit(category.id)"
                     >Edit</button>
                     <button
@@ -114,12 +80,43 @@
         </div>
       </div>
     </div>
+
+    <!-- EDIT FORM -->
+    <div class="tab-content" v-show="editForm">
+      <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+        <div class="main-card mb-3 card">
+          <div class="card-body">
+            <h5 class="card-title">Edit Category</h5>
+
+            <div class="form-row">
+              <div class="col-md-12">
+                <div class="position-relative form-group">
+                  <label>Name</label>
+                  <input
+                    v-model="edit_name"
+                    placeholder="Enter Category Name"
+                    type="email"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row pull-right">
+              <button type="button" class="btn btn-secondary mr-2" @click="editForm = false">Close</button>
+              <button type="button" class="btn btn-primary" @click="update">Update changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDIT FROM END -->
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import Model from "../components/Model";
 import pagination from "laravel-vue-pagination";
 
 export default {
@@ -128,14 +125,13 @@ export default {
       name: "",
       edit_name: "",
       edit_id: "",
-      loading: false
+      loading: false,
+      addForm: false,
+      editForm: false
     };
   },
   computed: {
     ...mapState("category", ["categories"])
-  },
-  components: {
-    Model
   },
   methods: {
     seo() {
@@ -143,33 +139,30 @@ export default {
     },
     getResults(page = 1) {
       this.loading = true;
-      this.$store.dispatch("category/setCategory", page)
-      .then(e => (this.loading = false));
+      this.$store
+        .dispatch("category/setCategory", page)
+        .then(e => (this.loading = false));
     },
     store() {
-    
+      this.addForm = false;
       this.$store.dispatch("category/storeCategory", this.name);
       this.name = "";
-      document
-        .querySelector("#addCategory")
-        .setAttribute("class", "modal fade hide");
     },
     edit(id) {
+      this.editForm = true;
       this.edit_id = id;
       axios.get(`/api/categories/${id}`).then(({ data }) => {
         this.edit_name = data.data.name;
       });
     },
     update() {
+      this.editForm = false;
       let payload = {
         name: this.edit_name,
         id: this.edit_id
       };
       this.$store.dispatch("category/update", payload);
       this.edit_name = "";
-      document
-        .querySelector("#editCategory")
-        .setAttribute("class", "modal fade hide");
     },
     destroy(id) {
       Swal.fire({
@@ -191,11 +184,18 @@ export default {
   mounted() {
     this.seo();
     this.loading = true;
-    this.$store.dispatch("category/setCategory")
-    .then((e) => this.loading = false);
+    this.$store
+      .dispatch("category/setCategory")
+      .then(e => (this.loading = false));
   }
 };
 </script>
 
-<style>
+<style scoped>
+.main-card.mb-3.card {
+  width: 50%;
+  margin: 0 auto;
+  float: none;
+  margin-top: 6%;
+}
 </style>

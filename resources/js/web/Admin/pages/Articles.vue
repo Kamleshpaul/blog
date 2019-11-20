@@ -224,7 +224,7 @@ export default {
       document.title = "Articles";
     },
     store() {
-      this.editModel = true;
+      this.addModel = false;
       this.$store.dispatch("article/store", {
         title: this.title,
         category: this.category,
@@ -238,7 +238,6 @@ export default {
       this.status = "";
     },
     edit(id) {
-      this.editModel = true;
       this.edit_id = id;
       axios.get(`/api/articles/${id}`).then(({ data }) => {
         this.from_edit.id = data.data.id;
@@ -247,6 +246,7 @@ export default {
         this.from_edit.category = data.data.blog_category_id;
         this.from_edit.status = data.data.status;
       });
+      this.editModel = true;
     },
     update() {
       this.$store.dispatch("article/update", this.from_edit);
