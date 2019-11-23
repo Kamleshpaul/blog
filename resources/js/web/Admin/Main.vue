@@ -31,6 +31,8 @@ export default {
     if (self.token != "") {
       this.$store.dispatch("users/setAuth_user");
     }
+
+    this.$router.push({ name: "dashboard" });
   },
   beforeMount() {
     this.setHeader();

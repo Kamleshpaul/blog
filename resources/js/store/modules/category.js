@@ -1,6 +1,7 @@
 let state = {
-    categories: {},
-},
+        categories: {},
+        categoriesCount: null
+    },
     getters = {},
     mutations = {
         SET_CATEGORY: (state, payload) => {
@@ -10,7 +11,9 @@ let state = {
             state.categories.data.push(payload);
         },
         UPDATE: (state, payload) => {
-            const item = state.categories.data.find(item => item.id === payload.id);
+            const item = state.categories.data.find(
+                item => item.id === payload.id
+            );
             Object.assign(item, payload);
         },
         DESTROY: (state, payload) => {
@@ -19,6 +22,9 @@ let state = {
                     state.categories.data.splice(index, 1);
                 }
             });
+        },
+        SET_COUNT: (state, payload) => {
+            state.categoriesCount = payload;
         }
     },
     actions = {
@@ -65,6 +71,11 @@ let state = {
 
                     commit("DESTROY", id);
                 }
+            });
+        },
+        getCount: async ({ commit }) => {
+            await axios.get("/api/categories-count").then(res => {
+                commit("SET_COUNT", res.data);
             });
         }
     };

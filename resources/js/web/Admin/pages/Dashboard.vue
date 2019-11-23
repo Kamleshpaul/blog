@@ -9,7 +9,7 @@
             </div>
             <div class="widget-content-right">
               <div class="widget-numbers text-white">
-                <span>10</span>
+                <span>{{ todayPostCount }}</span>
               </div>
             </div>
           </div>
@@ -20,11 +20,11 @@
           <div class="widget-content-wrapper text-white">
             <div class="widget-content-left">
               <div class="widget-heading">Categoies</div>
-              <div class="widget-subheading">Total Clients Profit</div>
             </div>
+            <div class="widget-subheading">Total Clients Profit</div>
             <div class="widget-content-right">
               <div class="widget-numbers text-white">
-                <span>4</span>
+                <span>{{ categoriesCount }}</span>
               </div>
             </div>
           </div>
@@ -35,11 +35,10 @@
           <div class="widget-content-wrapper text-white">
             <div class="widget-content-left">
               <div class="widget-heading">Articles</div>
-              <div class="widget-subheading">Total</div>
             </div>
             <div class="widget-content-right">
               <div class="widget-numbers text-white">
-                <span>46</span>
+                <span>{{ articlesCount }}</span>
               </div>
             </div>
           </div>
@@ -50,14 +49,22 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   methods: {
     seo() {
       document.title = "Dashboard";
     }
   },
+  computed: {
+    ...mapState("category", ["categoriesCount"]),
+    ...mapState("article", ["articlesCount", "todayPostCount"])
+  },
   mounted() {
     this.seo();
+    this.$store.dispatch("category/getCount");
+    this.$store.dispatch("article/getCount");
+    this.$store.dispatch("article/getTodayPostCount");
   }
 };
 </script>

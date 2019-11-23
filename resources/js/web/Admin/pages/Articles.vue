@@ -184,7 +184,6 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import Model from "../components/Model";
 import pagination from "laravel-vue-pagination";
 
 export default {
@@ -215,9 +214,6 @@ export default {
   },
   computed: {
     ...mapState("article", ["articles"])
-  },
-  components: {
-    Model
   },
   methods: {
     seo() {

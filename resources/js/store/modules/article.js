@@ -1,6 +1,8 @@
 let state = {
-    articles: {}
-},
+        articles: {},
+        articlesCount: null,
+        todayPostCount: null
+    },
     getters = {},
     mutations = {
         SET: (state, payload) => {
@@ -21,6 +23,12 @@ let state = {
                     state.articles.data.splice(index, 1);
                 }
             });
+        },
+        SET_COUNT: (state, payload) => {
+            state.articlesCount = payload;
+        },
+        SET_TODAY_POSTED_COUNT: (state, payload) => {
+            state.todayPostCount = payload;
         }
     },
     actions = {
@@ -63,6 +71,16 @@ let state = {
 
                     commit("DESTROY", id);
                 }
+            });
+        },
+        getCount: ({ commit }) => {
+            axios.get("/api/articles-count").then(res => {
+                commit("SET_COUNT", res.data);
+            });
+        },
+        getTodayPostCount: ({ commit }) => {
+            axios.get("/api/today-posting").then(res => {
+                commit("SET_TODAY_POSTED_COUNT", res.data);
             });
         }
     };

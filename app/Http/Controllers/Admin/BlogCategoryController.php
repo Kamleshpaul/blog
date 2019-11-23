@@ -108,4 +108,15 @@ class BlogCategoryController extends Controller
             'message' => 'success',
         ]);
     }
+
+    /**
+     * get total count of blog category
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function count()
+    {
+        $count = BlogCategory::count();
+        return response($count);
+    }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BlogController extends Controller
 {
@@ -108,5 +109,27 @@ class BlogController extends Controller
         return response([
             'message' => 'success',
         ]);
+    }
+
+    /**
+     * get total count of blog
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function count()
+    {
+        $count = Blog::count();
+        return response($count);
+    }
+
+    /**
+     * get total todayPost of blog
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function todayPost()
+    {
+        $count = Blog::whereDate('created_at', Carbon::today())->count();
+        return response($count);
     }
 }

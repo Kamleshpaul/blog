@@ -52,7 +52,7 @@ export default {
 
 <style scoped>
 .inner-container {
-  background: #f8d9d5 none repeat scroll 0 0;
+  background: #3f6ad8 none repeat scroll 0 0;
   border-bottom-left-radius: 40px;
   border-top-right-radius: 40px;
   margin: 100px auto;
@@ -76,7 +76,7 @@ export default {
   -moz-border-left-colors: none;
   -moz-border-right-colors: none;
   -moz-border-top-colors: none;
-  background-color: #f0eaea;
+  background-color: #6d8cda;
   border-color: currentcolor currentcolor #aaaaaa;
   border-image: none;
   border-style: none none solid;
@@ -86,7 +86,7 @@ export default {
   width: 100%;
 }
 .input-containe label {
-  color: #ee7469;
+  color: #fff;
   font-size: 16px;
   left: -1px;
   position: absolute;
@@ -100,7 +100,7 @@ export default {
 }
 ::-moz-placeholder {
   /* Firefox 19+ */
-  color: #ee7469;
+  color: #fff;
   font-size: 16px;
   font-weight: 600;
   opacity: 0.6;
@@ -110,7 +110,7 @@ input:focus::-moz-placeholder {
   color: transparent;
 }
 .input-containe::after {
-  background: #ee7469 none repeat scroll 0 0;
+  background: #fff none repeat scroll 0 0;
   bottom: 0;
   content: "";
   height: 2px;
@@ -130,9 +130,9 @@ input:focus::-moz-placeholder {
 }
 input[type="submit"] {
   background-color: #ffffff;
-  border: 2px solid #ee7469;
+  border: 2px solid #112967;
   border-radius: 5px;
-  color: #ee7469;
+  color: #112967;
   margin-top: 20px;
   padding: 7px;
   width: 160px;

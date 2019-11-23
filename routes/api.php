@@ -1,7 +1,5 @@
 <?php
 
-use App\User;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,7 +9,7 @@ use App\User;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::group(['namespace' => 'Auth'], function () {
     Route::post('login', 'LoginController@login');
@@ -23,8 +21,10 @@ Route::group(['namespace' => 'Auth'], function () {
     });
 });
 
-
 Route::group(['namespace' => 'Admin', 'middleware' => 'auth:api'], function () {
     Route::apiResource('categories', 'BlogCategoryController');
+    Route::get('categories-count', 'BlogCategoryController@count');
     Route::apiResource('articles', 'BlogController');
+    Route::get('articles-count', 'BlogController@count');
+    Route::get('today-posting', 'BlogController@todayPost');
 });
