@@ -1,9 +1,9 @@
 /***
  * User imports
  */
-import Home from '../web/User/Home';
-import User from '../web/User/User';
+import Master from '../web/User/Master';
 import Error404 from '../web/User/Error404';
+import Home from '../web/User/pages/Home';
 
 
 /***
@@ -26,13 +26,13 @@ import guest from '../middleware/guest'
 export const routes = [
     {
         path: '/',
-        component: Home,
-        name: 'home',
+        component: Master,
+        name: 'Master',
         children: [
             {
-                path: 'users',
-                component: User,
-                name: 'user'
+                path: '/',
+                component: Home,
+                name: 'home'
             },
         ]
     },

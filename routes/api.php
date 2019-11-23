@@ -28,3 +28,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:api'], function () {
     Route::get('articles-count', 'BlogController@count');
     Route::get('today-posting', 'BlogController@todayPost');
 });
+
+Route::group(['namespace' => 'User'], function () {
+    Route::get('all-blogs', 'BlogController@index');
+});
