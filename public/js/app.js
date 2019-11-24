@@ -1934,10 +1934,6 @@ __webpack_require__(/*! ../../plugins/main.js */ "./resources/js/plugins/main.js
     if (self.token != "") {
       this.$store.dispatch("users/setAuth_user");
     }
-
-    this.$router.push({
-      name: "dashboard"
-    });
   },
   beforeMount: function beforeMount() {
     this.setHeader();
@@ -2451,6 +2447,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2459,6 +2462,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       title: "",
       content: "",
+      feature_image: {},
       editor: _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_1___default.a,
       editorConfig: {
         uploadUrl: "/" // The configuration of the rich-text editor.
@@ -2491,7 +2495,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: this.title,
         category: this.category,
         content: this.content,
-        status: this.status
+        status: this.status,
+        feature_image: this.feature_image
       });
       this.editModel = false;
       this.title = "";
@@ -2553,6 +2558,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var data = _ref2.data;
         _this4.categories = data.data;
       });
+    },
+    processFile: function processFile(event) {
+      this.feature_image = event.target.files[0];
     }
   },
   mounted: function mounted() {
@@ -27769,6 +27777,22 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "position-relative form-group" }, [
+                      _c("label", [_vm._v("Feature image")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "file" },
+                        on: {
+                          change: function($event) {
+                            return _vm.processFile($event)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("div", { staticClass: "position-relative form-group" }, [
                       _c("label", [_vm._v("Status")]),

@@ -44,10 +44,11 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $data = $request->all();
         unset($data['category']);
 
-        $data['slug'] = Blog::getSlug($data['name']);
+        $data['slug'] = Blog::getSlug($data['title']);
 
         $data['user_id'] = auth()->user()->id;
         $data['blog_category_id'] = $request->category;
@@ -72,7 +73,7 @@ class BlogController extends Controller
 
         $data = $request->all();
         unset($data['category']);
-        $data['slug'] = Blog::getSlug($data['name']);
+        $data['slug'] = Blog::getSlug($data['title']);
         $data['user_id'] = auth()->user()->id;
         $data['blog_category_id'] = $request->category;
         $blog->update($data);

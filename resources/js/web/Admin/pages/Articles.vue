@@ -41,6 +41,13 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="position-relative form-group">
+                  <label>Feature image</label>
+                  <input type="file" class="btn btn-primary" @change="processFile($event)" />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="position-relative form-group">
                   <label>Status</label>
                   <select v-model="status" class="form-control">
                     <option value="drafted">Drafted</option>
@@ -191,6 +198,7 @@ export default {
     return {
       title: "",
       content: "",
+      feature_image: {},
       editor: ClassicEditor,
       editorConfig: {
         uploadUrl: "/"
@@ -225,7 +233,8 @@ export default {
         title: this.title,
         category: this.category,
         content: this.content,
-        status: this.status
+        status: this.status,
+        feature_image: this.feature_image
       });
       this.editModel = false;
       this.title = "";
@@ -275,6 +284,9 @@ export default {
       axios.get("/api/categories?ALL=true").then(({ data }) => {
         this.categories = data.data;
       });
+    },
+    processFile(event) {
+      this.feature_image = event.target.files[0];
     }
   },
   mounted() {
