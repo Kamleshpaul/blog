@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Carbon\Carbon;
-use App\Models\Blog;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Blog;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
@@ -16,7 +16,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blog = Blog::paginate(10);
+        $blog = Blog::latest()->paginate(10);
         return response([
             'data' => $blog,
         ]);
@@ -46,14 +46,8 @@ class BlogController extends Controller
     {
         $data = $request->all();
         unset($data['category']);
-        // slug genrate
-        $slug = \Str::slug($data['title']);
-        $count = Blog::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
-        if ($count) {
-            $data['slug'] = $slug . '-' . $count;
-        } else {
-            $data['slug'] = $slug;
-        }
+
+        $data['slug'] = Blog::getSlug($data['name']);
 
         $data['user_id'] = auth()->user()->id;
         $data['blog_category_id'] = $request->category;
@@ -78,15 +72,7 @@ class BlogController extends Controller
 
         $data = $request->all();
         unset($data['category']);
-        // slug genrate
-        $slug = \Str::slug($data['title']);
-        $count = Blog::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
-        if ($count) {
-            $data['slug'] = $slug . '-' . $count;
-        } else {
-            $data['slug'] = $slug;
-        }
-
+        $data['slug'] = Blog::getSlug($data['name']);
         $data['user_id'] = auth()->user()->id;
         $data['blog_category_id'] = $request->category;
         $blog->update($data);

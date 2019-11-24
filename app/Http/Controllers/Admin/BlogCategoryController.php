@@ -21,7 +21,7 @@ class BlogCategoryController extends Controller
                 'data' => $blogCategory,
             ]);
         }
-        $blogCategory = BlogCategory::paginate(10);
+        $blogCategory = BlogCategory::latest()->paginate(10);
         return response([
             'data' => $blogCategory,
         ]);
@@ -51,14 +51,7 @@ class BlogCategoryController extends Controller
     {
         $data = $request->all();
 
-        // slug genrate
-        $slug = \Str::slug($data['name']);
-        $count = BlogCategory::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
-        if ($count) {
-            $data['slug'] = $slug . '-' . $count;
-        } else {
-            $data['slug'] = $slug;
-        }
+        $data['slug'] = BlogCategory::getSlug($data['name']);
 
         $blogCategory = BlogCategory::create($data);
         return response([
@@ -78,14 +71,8 @@ class BlogCategoryController extends Controller
     {
         $data = $request->all();
         $blogCategory = BlogCategory::find($id);
-        // slug genrate
-        $slug = \Str::slug($blogCategory->name);
-        $count = BlogCategory::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
-        if ($count) {
-            $data['slug'] = $slug . '-' . $count;
-        } else {
-            $data['slug'] = $slug;
-        }
+
+        $data['slug'] = BlogCategory::getSlug($data['name']);
 
         $blogCategory->update($data);
         return response([

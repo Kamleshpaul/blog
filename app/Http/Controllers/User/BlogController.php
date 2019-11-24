@@ -15,7 +15,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::where('status', 'publish')->paginate(10);
+        $blogs = Blog::where('status', 'publish')->latest()->paginate(10);
 
         $blogs->map(function ($item) {
 
