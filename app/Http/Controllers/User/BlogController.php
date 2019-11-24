@@ -19,12 +19,26 @@ class BlogController extends Controller
 
         $blogs->map(function ($item) {
 
-            $item['content'] = \Str::limit($item->content,25); 
+            $item['content'] = \Str::limit($item->content, 25);
             $item['create'] = $item->created_at->diffForHumans();
 
             return $item;
         });
 
         return $blogs;
+    }
+
+    /**
+     * Display single blog.
+     *
+     * @param $slug
+     * @return \Illuminate\Http\Blog
+     */
+    public function show($slug)
+    {
+        $blog = Blog::whereSlug($slug)
+            ->where('status', 'publish')
+            ->firstOrFail();
+        return $blog;
     }
 }

@@ -4,6 +4,7 @@
 import Master from '../web/User/Master';
 import Error404 from '../web/User/Error404';
 import Home from '../web/User/pages/Home';
+import BlogSingle from '../web/User/pages/BlogSingle';
 
 
 /***
@@ -33,6 +34,11 @@ export const routes = [
                 path: '/',
                 component: Home,
                 name: 'home'
+            },
+            {
+                path: '/blog/:slug',
+                component: BlogSingle,
+                name: 'blogSingle'
             },
         ]
     },

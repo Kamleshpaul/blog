@@ -1,8 +1,9 @@
 <template>
   <div class="container">
+    <h3>Latest Blog : -</h3>
     <div class="row">
       <div class="col-md-3 mt-5 mb-2" v-for="blog in blogs" :key="blog.id">
-        <div class="card-deck" @click="singlePgae(blog.id)">
+        <div class="card-deck" @click="singlePgae(blog.slug)">
           <div class="card">
             <img
               class="card-img-top"
@@ -47,8 +48,8 @@ export default {
           console.log(err);
         });
     },
-    singlePgae(id) {
-      console.log(id);
+    singlePgae(slug) {
+      this.$router.push({ name: "blogSingle", params: { slug } });
     }
   },
   mounted() {
