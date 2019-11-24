@@ -21,7 +21,6 @@
             <div class="widget-content-left">
               <div class="widget-heading">Categoies</div>
             </div>
-            <div class="widget-subheading">Total Clients Profit</div>
             <div class="widget-content-right">
               <div class="widget-numbers text-white">
                 <span>{{ categoriesCount }}</span>

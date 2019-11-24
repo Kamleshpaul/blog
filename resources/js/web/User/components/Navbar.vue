@@ -16,23 +16,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <router-link to="/" class="nav-link">Home</router-link>
+          <router-link to="/" class="nav-link" exact>Home</router-link>
         </li>
 
         <li class="nav-item">
-          <router-link to="/blog" class="nav-link">Blog</router-link>
+          <router-link to="/category" class="nav-link" exact>Category</router-link>
         </li>
 
         <li class="nav-item">
-          <router-link to="/category" class="nav-link">Category</router-link>
+          <router-link to="/contact" class="nav-link" exact>Contact</router-link>
         </li>
 
         <li class="nav-item">
-          <router-link to="/contact" class="nav-link">Contact</router-link>
-        </li>
-
-        <li class="nav-item">
-          <router-link to="/about" class="nav-link">About</router-link>
+          <router-link to="/about" class="nav-link" exact>About</router-link>
         </li>
       </ul>
     </div>

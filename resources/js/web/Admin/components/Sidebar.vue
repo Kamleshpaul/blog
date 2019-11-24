@@ -42,27 +42,26 @@
         <ul class="vertical-nav-menu metismenu">
           <li class="app-sidebar__heading">Dashboards</li>
           <li>
-            <router-link :to="{name:'dashboard'}">
+            <router-link :to="{name:'dashboard'}" exact>
               <i class="metismenu-icon pe-7s-monitor"></i>
               Dashboard
             </router-link>
           </li>
           <li class="app-sidebar__heading">Blog</li>
           <li>
-            <router-link :to="{name:'categories'}">
+            <router-link :to="{name:'categories'}" exact>
               <i class="metismenu-icon pe-7s-next-2"></i>
               Categories
             </router-link>
 
-            <router-link :to="{name:'articles'}">
+            <router-link :to="{name:'articles'}" exact>
               <i class="metismenu-icon pe-7s-note"></i>
               Articles
             </router-link>
-
           </li>
           <li class="app-sidebar__heading">Settings</li>
           <li>
-            <router-link :to="{name:'web_settings'}">
+            <router-link :to="{name:'web_settings'}" exact>
               <i class="metismenu-icon pe-7s-helm"></i>
               Web Settings
             </router-link>
