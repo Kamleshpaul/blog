@@ -42,7 +42,10 @@
               <div class="col-md-6">
                 <div class="position-relative form-group">
                   <label>Feature image</label>
-                  <input type="file" class="btn btn-primary" @change="processFile($event)" />
+                  <input type="file" @change="processFile($event)" accept="image/*" />
+                </div>
+                <div class="position-relative form-group">
+                  <img :src="imageChange" width="100" />
                 </div>
               </div>
 
@@ -166,6 +169,15 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="position-relative form-group">
+                  <label>Feature image</label>
+                  <input type="file" @change="editProcessFile($event)" accept="image/*" />
+                </div>
+                <div class="position-relative form-group">
+                  <img :src="from_edit.feature_image" width="100" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="position-relative form-group">
                   <label>Status</label>
                   <select v-model="from_edit.status" class="form-control">
                     <option value="drafted">Drafted</option>
@@ -198,26 +210,28 @@ export default {
     return {
       title: "",
       content: "",
-      feature_image: {},
+      feature_image: "",
       editor: ClassicEditor,
       editorConfig: {
         uploadUrl: "/"
         // The configuration of the rich-text editor.
       },
       category: "",
-      status: "",
+      status: "drafted",
       categories: [],
       from_edit: {
         id: "",
         title: "",
         content: "",
+        feature_image: "",
         category: "",
         status: ""
       },
       addArticle: false,
       loading: false,
       addModel: false,
-      editModel: false
+      editModel: false,
+      imageChange: ""
     };
   },
   computed: {
@@ -249,6 +263,7 @@ export default {
         this.from_edit.title = data.data.title;
         this.from_edit.content = data.data.content;
         this.from_edit.category = data.data.blog_category_id;
+        this.from_edit.feature_image = data.data.feature_image;
         this.from_edit.status = data.data.status;
       });
       this.editModel = true;
@@ -286,7 +301,23 @@ export default {
       });
     },
     processFile(event) {
-      this.feature_image = event.target.files[0];
+      const file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = ({ target }) => {
+        this.feature_image = target.result;
+      };
+
+      reader.readAsDataURL(file);
+    },
+    editProcessFile(event) {
+      const file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = ({ target }) => {
+        this.from_edit.feature_image = target.result;
+        this.imageChange = target.result;
+      };
+
+      reader.readAsDataURL(file);
     }
   },
   mounted() {

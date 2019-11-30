@@ -5,6 +5,7 @@
         <h2>Loading ...</h2>
       </div>
       <div class="col-md-8 offset-md-2" v-show="!loading">
+        <img :src="blog.feature_image" class="img-fluid" >
         <h2>{{ blog.title }}</h2>
         <hr />
         <div v-html="blog.content"></div>

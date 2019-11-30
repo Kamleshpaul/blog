@@ -30,7 +30,6 @@ export const routes = [
     {
         path: "/",
         component: Master,
-        name: "Master",
         children: [
             {
                 path: "/",
@@ -68,7 +67,6 @@ export const routes = [
     {
         path: "/admin",
         component: Main,
-        name: "Main",
         beforeEnter: auth,
         children: [
             {

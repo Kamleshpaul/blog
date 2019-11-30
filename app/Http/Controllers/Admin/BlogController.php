@@ -30,6 +30,7 @@ class BlogController extends Controller
     public function show($id)
     {
         $blog = Blog::find($id);
+        $blog['feature_image'] = \Storage::url($blog->feature_image);
         return response([
             'data' => $blog,
             'message' => 'success',
@@ -44,14 +45,14 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
         $data = $request->all();
         unset($data['category']);
-
         $data['slug'] = Blog::getSlug($data['title']);
-
         $data['user_id'] = auth()->user()->id;
         $data['blog_category_id'] = $request->category;
+
+        $data['feature_image'] = base64ImageUpload('feature-image', $request->feature_image);
         $blog = Blog::create($data);
         return response([
             'message' => "success",
@@ -76,6 +77,11 @@ class BlogController extends Controller
         $data['slug'] = Blog::getSlug($data['title']);
         $data['user_id'] = auth()->user()->id;
         $data['blog_category_id'] = $request->category;
+        if (!empty($request->feature_image)) {
+            $data['feature_image'] = base64ImageUpload('feature-image', $request->feature_image);
+            \Storage::delete($blog->feature_image);
+        }
+
         $blog->update($data);
         return response([
             'message' => "success",
@@ -92,6 +98,7 @@ class BlogController extends Controller
     public function destroy($id)
     {
         $blog = Blog::find($id);
+        \Storage::delete($blog->feature_image);
         $blog->delete();
         return response([
             'message' => 'success',

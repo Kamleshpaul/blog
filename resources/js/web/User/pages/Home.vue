@@ -6,8 +6,8 @@
         <div class="card-deck" @click="singlePgae(blog.slug)">
           <div class="card">
             <img
-              class="card-img-top"
-              src="https://dummyimage.com/600x400/000/fff"
+              class="card-img-top "
+              :src="blog.feature_image"
               alt="Card image cap"
             />
             <div class="card-body">
