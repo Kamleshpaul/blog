@@ -5,11 +5,7 @@
       <div class="col-md-3 mt-5 mb-2" v-for="blog in blogs" :key="blog.id">
         <div class="card-deck" @click="singlePgae(blog.slug)">
           <div class="card">
-            <img
-              class="card-img-top "
-              :src="blog.feature_image"
-              alt="Card image cap"
-            />
+            <img class="card-img-top" :src="blog.feature_image" alt="Card image cap" />
             <div class="card-body">
               <h5 class="card-title">{{ blog.title }}</h5>
               <p class="card-text" v-html="blog.content"></p>
@@ -62,5 +58,15 @@ export default {
 .card:hover {
   cursor: pointer;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
+@media (max-width: 750px) {
+  .card-img-top {
+    height: 100%;
+  }
 }
 </style>
