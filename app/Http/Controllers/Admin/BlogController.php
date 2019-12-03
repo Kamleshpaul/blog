@@ -52,7 +52,10 @@ class BlogController extends Controller
         $data['user_id'] = auth()->user()->id;
         $data['blog_category_id'] = $request->category;
 
-        $data['feature_image'] = base64ImageUpload('feature-image', $request->feature_image);
+        $file = $request->feature_image;
+        if (preg_match('/base64/', $file)) {
+            $data['feature_image'] = base64ImageUpload('feature-image', $file);
+        }
         $blog = Blog::create($data);
         return response([
             'message' => "success",
@@ -77,11 +80,15 @@ class BlogController extends Controller
         $data['slug'] = Blog::getSlug($data['title']);
         $data['user_id'] = auth()->user()->id;
         $data['blog_category_id'] = $request->category;
-        if (!empty($request->feature_image)) {
-            $data['feature_image'] = base64ImageUpload('feature-image', $request->feature_image);
-            \Storage::delete($blog->feature_image);
-        }
 
+        $file = $request->feature_image;
+        if (preg_match('/base64/', $file)) {
+            $data['feature_image'] = base64ImageUpload('feature-image', $file);
+            \Storage::delete($blog->feature_image);
+        }else{
+            unset($data['feature_image']);
+        }
+        
         $blog->update($data);
         return response([
             'message' => "success",

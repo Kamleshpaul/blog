@@ -20,7 +20,9 @@ class BlogController extends Controller
         $blogs->map(function ($item) {
 
             $item['content'] = \Str::limit($item->content, 25);
-            $item['feature_image'] = \Storage::url($item->feature_image);
+            $item['feature_image'] = $item->feature_image
+                                        ? \Storage::url($item->feature_image)
+                                        : '/images/blog-placeholder.png';
             $item['create'] = $item->created_at->diffForHumans();
 
             return $item;
@@ -40,7 +42,9 @@ class BlogController extends Controller
         $blog = Blog::whereSlug($slug)
             ->where('status', 'publish')
             ->firstOrFail();
-        $blog['feature_image'] = \Storage::url($blog->feature_image);
+        $blog['feature_image'] = $blog->feature_image
+                                    ? \Storage::url($blog->feature_image)
+                                    : '/images/blog-placeholder.png';
         return $blog;
     }
 }
