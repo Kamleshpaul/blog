@@ -26,7 +26,8 @@
                   </div>
 
                   <div class="input-containe">
-                    <input type="submit" vlaue="Login" :disabled="invalid" />
+                    <input type="submit" v-show="!loader" vlaue="Login" :disabled="invalid" />
+                    <img v-show="loader" src="/images/loader.svg" alt="Loader" width="40" />
                   </div>
                 </div>
               </form>
@@ -60,7 +61,8 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      loader: false
     };
   },
   components: {
@@ -69,9 +71,12 @@ export default {
   },
   methods: {
     login() {
+      this.loader = true;
       let email = this.email;
       let password = this.password;
-      this.$store.dispatch("users/userLogin", { email, password });
+      this.$store.dispatch("users/userLogin", { email, password }).then(() => {
+        this.loader = false;
+      });
     }
   }
 };

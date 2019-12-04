@@ -1999,6 +1999,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])("required", _objectSpread({}, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__["required"], {
@@ -2014,7 +2015,8 @@ Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])("min", _objectSpread
   data: function data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      loader: false
     };
   },
   components: {
@@ -2023,11 +2025,16 @@ Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])("min", _objectSpread
   },
   methods: {
     login: function login() {
+      var _this = this;
+
+      this.loader = true;
       var email = this.email;
       var password = this.password;
       this.$store.dispatch("users/userLogin", {
         email: email,
         password: password
+      }).then(function () {
+        _this.loader = false;
       });
     }
   }
@@ -30066,10 +30073,34 @@ var render = function() {
                               _vm._v(" "),
                               _c("div", { staticClass: "input-containe" }, [
                                 _c("input", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: !_vm.loader,
+                                      expression: "!loader"
+                                    }
+                                  ],
                                   attrs: {
                                     type: "submit",
                                     vlaue: "Login",
                                     disabled: invalid
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("img", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.loader,
+                                      expression: "loader"
+                                    }
+                                  ],
+                                  attrs: {
+                                    src: "/images/loader.svg",
+                                    alt: "Loader",
+                                    width: "40"
                                   }
                                 })
                               ])

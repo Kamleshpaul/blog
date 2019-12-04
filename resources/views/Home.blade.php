@@ -15,7 +15,7 @@
 <script
   src="{{ asset('js/jquery-3.4.1.min.js') }}" crossorigin="anonymous"></script>
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="service-worker.js"></script>
+<script src="{{ asset('service-worker.js') }}"></script>
 <script>
     window.baseUrl = "{!! url('/') !!}";
 </script>
