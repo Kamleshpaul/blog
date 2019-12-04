@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light shadow p-3 mb-5 bg-white rounded">
+  <nav class="navbar navbar-expand-lg navbar-light shadow p-3  bg-white rounded">
     <router-link class="navbar-brand" to="/">Blog Logo</router-link>
     <button
       class="navbar-toggler"
