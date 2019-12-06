@@ -1,4 +1,4 @@
-###  SINGLE PAGE BLOG APPLICATION
+#  SINGLE PAGE BLOG APPLICATION
 
 **Tools used :**
 
@@ -9,6 +9,6 @@
 
  
 
-**Admin Panel :**
+**Admin Panel Screen :**
 
 ![Image](https://ckeditor.com/apps/ckfinder/userfiles/files/admin_panel.png)​
