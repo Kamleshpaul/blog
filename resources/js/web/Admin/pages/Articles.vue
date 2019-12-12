@@ -6,64 +6,90 @@
         <div class="main-card mb-3 card">
           <div class="card-body">
             <h5 class="card-title">Add Article</h5>
+            <ValidationObserver v-slot="{ invalid }">
+              <form @submit.prevent="store">
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label>Title</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <input
+                          v-model="title"
+                          placeholder="Enter Title"
+                          type="text"
+                          class="form-control"
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
 
-            <div class="form-row">
-              <div class="col-md-6">
-                <div class="position-relative form-group">
-                  <label>Title</label>
-                  <input v-model="title" placeholder="Enter Title" type="text" class="form-control" />
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label>Category</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <select v-model="category" class="form-control">
+                          <option
+                            v-for="category in categories"
+                            :key="category.id"
+                            :value="category.id"
+                          >{{ category.name }}</option>
+                        </select>
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="col-md-6">
-                <div class="position-relative form-group">
-                  <label>Category</label>
-                  <select v-model="category" class="form-control">
-                    <option
-                      v-for="category in categories"
-                      :key="category.id"
-                      :value="category.id"
-                    >{{ category.name }}</option>
-                  </select>
+                <div class="form-row">
+                  <div class="col-md-12">
+                    <div class="position-relative form-group">
+                      <label>Content</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <ckeditor
+                          :editor="editor"
+                          v-model="content"
+                          :height="500"
+                          :config="editorConfig"
+                        ></ckeditor>
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="form-row">
-              <div class="col-md-12">
-                <div class="position-relative form-group">
-                  <label>Content</label>
-                  <ckeditor :editor="editor" v-model="content" :height="500" :config="editorConfig"></ckeditor>
-                </div>
-              </div>
-            </div>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label>Feature image</label>
+                      <input type="file" @change="processFile($event)" accept="image/*" />
+                    </div>
+                    <div class="position-relative form-group">
+                      <img :src="imageChange" width="100" />
+                    </div>
+                  </div>
 
-            <div class="form-row">
-              <div class="col-md-6">
-                <div class="position-relative form-group">
-                  <label>Feature image</label>
-                  <input type="file" @change="processFile($event)" accept="image/*" />
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label>Status</label>
+                      <select v-model="status" class="form-control">
+                        <option value="drafted">Drafted</option>
+                        <option value="publish">Publish</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-                <div class="position-relative form-group">
-                  <img :src="imageChange" width="100" />
-                </div>
-              </div>
 
-              <div class="col-md-6">
-                <div class="position-relative form-group">
-                  <label>Status</label>
-                  <select v-model="status" class="form-control">
-                    <option value="drafted">Drafted</option>
-                    <option value="publish">Publish</option>
-                  </select>
+                <div class="form-row pull-right">
+                  <button
+                    type="submit"
+                    class="btn btn-primary mr-2"
+                    :disabled="invalid"
+                  >Save changes</button>
+                  <button type="button" class="btn btn-secondary" @click="addModel = false">Close</button>
                 </div>
-              </div>
-            </div>
-
-            <div class="form-row pull-right">
-              <button type="button" class="btn btn-primary mr-2" @click="store">Save changes</button>
-              <button type="button" class="btn btn-secondary" @click="addModel = false">Close</button>
-            </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -129,68 +155,88 @@
         <div class="main-card mb-3 card">
           <div class="card-body">
             <h5 class="card-title">Edit Article</h5>
+            <ValidationObserver v-slot="{ invalid }">
+              <form @submit.prevent="update">
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label>Title</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <input
+                          v-model="from_edit.title"
+                          placeholder="Enter Title"
+                          type="text"
+                          class="form-control"
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
 
-            <div class="form-row">
-              <div class="col-md-6">
-                <div class="position-relative form-group">
-                  <label>Title</label>
-                  <input
-                    v-model="from_edit.title"
-                    placeholder="Enter Title"
-                    type="text"
-                    class="form-control"
-                  />
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label>Category</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <select v-model="from_edit.category" class="form-control">
+                          <option
+                            v-for="category in categories"
+                            :key="category.id"
+                            :value="category.id"
+                          >{{ category.name }}</option>
+                        </select>
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="col-md-6">
-                <div class="position-relative form-group">
-                  <label>Category</label>
-                  <select v-model="from_edit.category" class="form-control">
-                    <option
-                      v-for="category in categories"
-                      :key="category.id"
-                      :value="category.id"
-                    >{{ category.name }}</option>
-                  </select>
+                <div class="form-row">
+                  <div class="col-md-12">
+                    <div class="position-relative form-group">
+                      <label>Content</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <ckeditor
+                          :editor="editor"
+                          v-model="from_edit.content"
+                          :config="editorConfig"
+                        ></ckeditor>
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="form-row">
-              <div class="col-md-12">
-                <div class="position-relative form-group">
-                  <label>Content</label>
-                  <ckeditor :editor="editor" v-model="from_edit.content" :config="editorConfig"></ckeditor>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label>Feature image</label>
+                      <input type="file" @change="editProcessFile($event)" accept="image/*" />
+                    </div>
+                    <div class="position-relative form-group">
+                      <img :src="from_edit.feature_image" width="100" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label>Status</label>
+                      <select v-model="from_edit.status" class="form-control">
+                        <option value="drafted">Drafted</option>
+                        <option value="publish">Publish</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="form-row">
-              <div class="col-md-6">
-                <div class="position-relative form-group">
-                  <label>Feature image</label>
-                  <input type="file" @change="editProcessFile($event)" accept="image/*" />
+                <div class="form-row pull-right">
+                  <button
+                    type="button"
+                    class="btn btn-secondary mr-2"
+                    @click="editModel = false"
+                  >Close</button>
+                  <button type="submit" class="btn btn-primary" :disabled="invalid">Update changes</button>
                 </div>
-                <div class="position-relative form-group">
-                  <img :src="from_edit.feature_image" width="100" />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="position-relative form-group">
-                  <label>Status</label>
-                  <select v-model="from_edit.status" class="form-control">
-                    <option value="drafted">Drafted</option>
-                    <option value="publish">Publish</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row pull-right">
-              <button type="button" class="btn btn-secondary mr-2" @click="editModel = false">Close</button>
-              <button type="button" class="btn btn-primary" @click="update">Update changes</button>
-            </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -204,6 +250,9 @@
 import { mapState, mapGetters } from "vuex";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import pagination from "laravel-vue-pagination";
+
+import { required } from "vee-validate/dist/rules";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 
 export default {
   data() {
@@ -234,13 +283,14 @@ export default {
       imageChange: ""
     };
   },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
   computed: {
     ...mapState("article", ["articles"])
   },
   methods: {
-    seo() {
-      document.title = "Articles";
-    },
     store() {
       this.addModel = false;
       this.$store.dispatch("article/store", {
@@ -322,7 +372,6 @@ export default {
   },
   mounted() {
     this.loading = true;
-    this.seo();
     this.getAllCategory();
     this.$store.dispatch("article/set").then(e => {
       this.loading = false;

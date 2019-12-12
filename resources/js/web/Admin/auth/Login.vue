@@ -4,21 +4,34 @@
       <div class="row">
         <div class="col-md-12">
           <div class="form container">
-            <form @submit.prevent="login">
-              <div class="inner-container">
-                <div class="input-containe">
-                  <input type="email" required class="input-place" v-model="email" />
-                  <label class="label">Email</label>
+            <ValidationObserver v-slot="{ invalid }">
+              <form @submit.prevent="login">
+                <div class="inner-container">
+                  <div class="input-containe">
+                    <ValidationProvider rules="required|email" v-slot="{ errors }">
+                      <input type="email" class="input-place" v-model="email" />
+                      <br />
+                      <span class="text-white">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                    <label class="label">Email</label>
+                  </div>
+
+                  <div class="input-containe">
+                    <ValidationProvider rules="required|min:6" v-slot="{ errors }">
+                      <input type="password" class="input-place" v-model="password" />
+                      <br />
+                      <span class="text-white">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                    <label class="label">Password</label>
+                  </div>
+
+                  <div class="input-containe">
+                    <input type="submit" v-show="!loader" vlaue="Login" :disabled="invalid" />
+                    <img v-show="loader" src="/images/loader.svg" alt="Loader" width="40" />
+                  </div>
                 </div>
-                <div class="input-containe">
-                  <input type="password" required class="input-place" v-model="password" />
-                  <label class="label">Password</label>
-                </div>
-                <div class="input-containe">
-                  <input type="submit" vlaue="Login" />
-                </div>
-              </div>
-            </form>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -27,25 +40,44 @@
 </template>
 
 <script>
+import { required, email, min } from "vee-validate/dist/rules";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+
+extend("required", {
+  ...required,
+  message: "This field is required"
+});
+
+extend("email", {
+  ...email,
+  message: "This field is must an email"
+});
+
+extend("min", {
+  ...min,
+  message: "This field is must  have min 6 "
+});
 export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      loader: false
     };
   },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
   methods: {
-    seo() {
-      document.title = "Login";
-    },
     login() {
+      this.loader = true;
       let email = this.email;
       let password = this.password;
-      this.$store.dispatch("users/userLogin", { email, password });
+      this.$store.dispatch("users/userLogin", { email, password }).then(() => {
+        this.loader = false;
+      });
     }
-  },
-  mounted() {
-    this.seo();
   }
 };
 </script>
@@ -133,6 +165,15 @@ input[type="submit"] {
   border: 2px solid #112967;
   border-radius: 5px;
   color: #112967;
+  margin-top: 20px;
+  padding: 7px;
+  width: 160px;
+}
+input[type="submit"]:disabled {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px solid #112967;
+  border-radius: 5px;
+  color: #fff;
   margin-top: 20px;
   padding: 7px;
   width: 160px;

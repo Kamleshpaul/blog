@@ -21,7 +21,7 @@ var urlsToCache = [
   'img/logo.png',
 ];
 
-self.addEventListener('install', function (event) {
+addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function (cache) {
@@ -33,7 +33,7 @@ self.addEventListener('install', function (event) {
   );
 });
 
-self.addEventListener('fetch', function (event) {
+addEventListener('fetch', function (event) {
   event.respondWith(
     caches.match(event.request)
       .then(function (response) {

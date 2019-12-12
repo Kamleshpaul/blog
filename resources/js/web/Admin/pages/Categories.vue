@@ -6,25 +6,35 @@
         <div class="main-card mb-3 card">
           <div class="card-body">
             <h5 class="card-title">Add Category</h5>
-
-            <div class="form-row">
-              <div class="col-md-12">
-                <div class="position-relative form-group">
-                  <label>Name</label>
-                  <input
-                    v-model="name"
-                    placeholder="Enter Category Name"
-                    type="email"
-                    class="form-control"
-                  />
+            <ValidationObserver v-slot="{ invalid }">
+              <form @submit.prevent="store">
+                <div class="form-row">
+                  <div class="col-md-12">
+                    <div class="position-relative form-group">
+                      <label>Name</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <input
+                          v-model="name"
+                          placeholder="Enter Category Name"
+                          type="text"
+                          class="form-control"
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="form-row pull-right">
-              <button type="button" class="btn btn-secondary mr-2" @click="addForm = false">Close</button>
-              <button type="button" class="btn btn-primary" @click="store">Save changes</button>
-            </div>
+                <div class="form-row pull-right">
+                  <button
+                    type="button"
+                    class="btn btn-secondary mr-2"
+                    @click="addForm = false"
+                  >Close</button>
+                  <button type="submit" class="btn btn-primary" :disabled="invalid">Save changes</button>
+                </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -87,25 +97,35 @@
         <div class="main-card mb-3 card">
           <div class="card-body">
             <h5 class="card-title">Edit Category</h5>
-
-            <div class="form-row">
-              <div class="col-md-12">
-                <div class="position-relative form-group">
-                  <label>Name</label>
-                  <input
-                    v-model="edit_name"
-                    placeholder="Enter Category Name"
-                    type="email"
-                    class="form-control"
-                  />
+            <ValidationObserver v-slot="{ invalid }">
+              <form @submit.prevent="update">
+                <div class="form-row">
+                  <div class="col-md-12">
+                    <div class="position-relative form-group">
+                      <label>Name</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <input
+                          v-model="edit_name"
+                          placeholder="Enter Category Name"
+                          type="text"
+                          class="form-control"
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="form-row pull-right">
-              <button type="button" class="btn btn-secondary mr-2" @click="editForm = false">Close</button>
-              <button type="button" class="btn btn-primary" @click="update">Update changes</button>
-            </div>
+                <div class="form-row pull-right">
+                  <button
+                    type="button"
+                    class="btn btn-secondary mr-2"
+                    @click="editForm = false"
+                  >Close</button>
+                  <button type="submit" class="btn btn-primary" :disabled="invalid">Update changes</button>
+                </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -116,8 +136,16 @@
 </template>
 
 <script>
+import { required } from "vee-validate/dist/rules";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+
 import { mapState } from "vuex";
 import pagination from "laravel-vue-pagination";
+
+extend("required", {
+  ...required,
+  message: "This field is required"
+});
 
 export default {
   data() {
@@ -130,13 +158,14 @@ export default {
       editForm: false
     };
   },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
   computed: {
     ...mapState("category", ["categories"])
   },
   methods: {
-    seo() {
-      document.title = "Category";
-    },
     getResults(page = 1) {
       this.loading = true;
       this.$store
@@ -182,7 +211,6 @@ export default {
     }
   },
   mounted() {
-    this.seo();
     this.loading = true;
     this.$store
       .dispatch("category/setCategory")
