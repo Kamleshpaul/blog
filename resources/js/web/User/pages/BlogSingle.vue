@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row mt-5">
       <div v-show="loading">
         <h2>Loading ...</h2>
       </div>
       <div class="col-md-8 offset-md-2" v-show="!loading">
-        <img :src="blog.feature_image" class="img-fluid" >
+        <img :src="blog.feature_image" class="img-fluid" />
         <h2>{{ blog.title }}</h2>
         <hr />
         <div v-html="blog.content"></div>

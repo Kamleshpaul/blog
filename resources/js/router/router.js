@@ -5,7 +5,6 @@ import Master from "../web/User/Master";
 import Error404 from "../web/User/Error404";
 import Home from "../web/User/pages/Home";
 import BlogSingle from "../web/User/pages/BlogSingle";
-import Category from "../web/User/pages/Category";
 import Contact from "../web/User/pages/Contact";
 import About from "../web/User/pages/About";
 
@@ -40,11 +39,6 @@ export const routes = [
                 path: "/blog/:slug",
                 component: BlogSingle,
                 name: "blogSingle"
-            },
-            {
-                path: "/category",
-                component: Category,
-                name: "category"
             },
             {
                 path: "/contact",
@@ -90,7 +84,7 @@ export const routes = [
                 component: Articles
             },
             {
-                path: "web_settings",
+                path: "web-settings",
                 name: "web_settings",
                 component: WebSettings
             }
