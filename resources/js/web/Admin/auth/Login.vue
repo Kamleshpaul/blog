@@ -1,38 +1,36 @@
 <template>
-  <div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form container">
-            <ValidationObserver v-slot="{ invalid }">
-              <form @submit.prevent="login">
-                <div class="inner-container">
-                  <div class="input-containe">
-                    <ValidationProvider rules="required|email" v-slot="{ errors }">
-                      <input type="email" class="input-place" v-model="email" />
-                      <br />
-                      <span class="text-white">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                    <label class="label">Email</label>
-                  </div>
-
-                  <div class="input-containe">
-                    <ValidationProvider rules="required|min:6" v-slot="{ errors }">
-                      <input type="password" class="input-place" v-model="password" />
-                      <br />
-                      <span class="text-white">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                    <label class="label">Password</label>
-                  </div>
-
-                  <div class="input-containe">
-                    <input type="submit" v-show="!loader" vlaue="Login" :disabled="invalid" />
-                    <img v-show="loader" src="/images/loader.svg" alt="Loader" width="40" />
-                  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form container">
+          <ValidationObserver v-slot="{ invalid }">
+            <form @submit.prevent="login">
+              <div class="inner-container">
+                <div class="input-containe">
+                  <ValidationProvider rules="required|email" v-slot="{ errors }">
+                    <input type="email" class="input-place" v-model="email" />
+                    <br />
+                    <span class="text-white">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                  <label class="label">Email</label>
                 </div>
-              </form>
-            </ValidationObserver>
-          </div>
+
+                <div class="input-containe">
+                  <ValidationProvider rules="required|min:6" v-slot="{ errors }">
+                    <input type="password" class="input-place" v-model="password" />
+                    <br />
+                    <span class="text-white">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                  <label class="label">Password</label>
+                </div>
+
+                <div class="input-containe">
+                  <input type="submit" v-show="!loader" vlaue="Login" :disabled="invalid" />
+                  <img v-show="loader" src="/images/loader.svg" alt="Loader" width="40" />
+                </div>
+              </div>
+            </form>
+          </ValidationObserver>
         </div>
       </div>
     </div>
