@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public $client_id, $client_secret;
-
+    private $client_id, $client_secret;
 
     public function __construct()
     {
@@ -17,7 +16,6 @@ class LoginController extends Controller
         $this->client_secret = $client->secret;
     }
     //-------------------------------------------------------------------------
-
 
     /**
      * Login via passport
@@ -33,38 +31,46 @@ class LoginController extends Controller
 
         $credentials = [
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
         ];
 
         if (auth()->attempt($credentials)) {
 
-            $http = new \GuzzleHttp\Client;
-            $response = $http->post(url('/') . '/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => $this->client_id,
-                    'client_secret' => $this->client_secret,
-                    'username' => $request->email,
-                    'password' => $request->password,
-                    'scope' => '*',
-                ],
-            ]);
+            $url = url('/') . '/oauth/token';
+            $post_data = [
+                'grant_type' => 'password',
+                'client_id' => $this->client_id,
+                'client_secret' => $this->client_secret,
+                'username' => $request->email,
+                'password' => $request->password,
+                'scope' => '*',
+            ];
 
-            $responseData = json_decode((string) $response->getBody(), true);
+    
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            dd($response);
+            $responseArry =  json_decode(json_encode($response));
+            $responseData = $responseArry;
+            // dd($responseData);
             $responseData['user'] = auth()->user();
 
             return response([
                 'data' => $responseData,
-                'message' => 'success'
+                'message' => 'success',
             ]);
         } else {
             return response([
-                'message' => 'User Not Found.'
+                'message' => 'User Not Found.',
             ]);
         }
     }
     //-------------------------------------------------------------------------
-
 
     /**
      * Login via passport
@@ -76,14 +82,13 @@ class LoginController extends Controller
         $user = auth()->user()->token();
         $user->revoke();
         return response([
-            'message' => 'success'
+            'message' => 'success',
         ]);
     }
     //-------------------------------------------------------------------------
 
-
     /**
-     * Auth user 
+     * Auth user
      *
      * @return \Auth\User
      */
