@@ -46,7 +46,6 @@ class LoginController extends Controller
                 'scope' => '*',
             ];
 
-    
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -54,14 +53,11 @@ class LoginController extends Controller
             $response = curl_exec($ch);
             curl_close($ch);
 
-            dd($response);
-            $responseArry =  json_decode(json_encode($response));
-            $responseData = $responseArry;
-            // dd($responseData);
-            $responseData['user'] = auth()->user();
+            $responseObj = json_decode($response);
+            $responseObj->user = auth()->user();
 
             return response([
-                'data' => $responseData,
+                'data' => $responseObj,
                 'message' => 'success',
             ]);
         } else {
