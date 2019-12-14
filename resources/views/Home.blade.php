@@ -16,7 +16,9 @@
   src="{{ asset('js/jquery-3.4.1.min.js') }}" crossorigin="anonymous"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('service-worker.js') }}"></script>
+<script id="dsq-count-scr" src="{{ config('constants.disqus_url') }}/count.js" async></script>
 <script>
     window.baseUrl = "{!! url('/') !!}";
+    window.disqus_url = "{{ config('constants.disqus_url') }}";
 </script>
 </html>

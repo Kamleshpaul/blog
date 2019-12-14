@@ -3260,14 +3260,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "footer"
-});
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 
@@ -3457,6 +3450,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3473,13 +3468,36 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         _this.blog = data;
         _this.loading = false;
+
+        _this.loadComments();
       })["catch"](function (err) {
         return console.log(err);
       });
+    },
+    loadComments: function loadComments() {
+      self = this;
+
+      var disqus_config = function disqus_config() {
+        this.page.url = window.location.href;
+        this.page.identifier = self.blog.slug;
+        this.page.title = self.blog.title;
+      };
+
+      (function () {
+        // DON'T EDIT BELOW THIS LINE
+        var d = document,
+            s = d.createElement("script");
+        s.src = "".concat(window.disqus_url, "/embed.js");
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
     }
   },
   created: function created() {
     this.getBlog();
+  },
+  destroyed: function destroyed() {
+    DISQUS.reset();
   }
 });
 
@@ -3768,7 +3786,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.router-link-active {\n  color: #343a40;\n  background: #e0f3ff;\n  font-weight: bold;\n}\na.router-link-exact-active.router-link-active {\n  display: block;\n  line-height: 2.4rem;\n  height: 2.4rem;\n  padding: 0 1.5rem 0 45px;\n  position: relative;\n  border-radius: 0.25rem;\n  color: #343a40;\n  white-space: nowrap;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n  margin: 0.1rem 0;\n}\n", ""]);
+exports.push([module.i, "\nli .router-link-active {\n  color: #343a40;\n  background: #e0f3ff;\n  font-weight: bold;\n}\nli a.router-link-exact-active.router-link-active {\n  display: block;\n  line-height: 2.4rem;\n  height: 2.4rem;\n  padding: 0 1.5rem 0 45px;\n  position: relative;\n  border-radius: 0.25rem;\n  color: #343a40;\n  white-space: nowrap;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n  margin: 0.1rem 0;\n}\n", ""]);
 
 // exports
 
@@ -3863,7 +3881,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.mini-footer[data-v-0972bb6e] {\n  position: fixed;\n  bottom: 0;\n  width: 100vw;\n  background: #192027;\n  text-align: center;\n  padding: 5px 0;\n  color:#fff;\n}\n", ""]);
+exports.push([module.i, "\n.mini-footer[data-v-0972bb6e] {\n  background: #192027;\n  text-align: center;\n  padding: 5px 0;\n  color: #fff;\n  margin-bottom: -10px;\n}\n", ""]);
 
 // exports
 
@@ -30048,6 +30066,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/vue-disqus/dist/vue-disqus.js":
+/*!****************************************************!*\
+  !*** ./node_modules/vue-disqus/dist/vue-disqus.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(a,b){ true?module.exports=b():undefined}(this,(function(){'use strict';var a={render:function(){var a=this,b=a.$createElement,c=a._self._c||b;return c('div',{attrs:{"id":"disqus_thread"}})},staticRenderFns:[],name:'vue-disqus',props:{shortname:{type:String,required:!0},identifier:{type:String,required:!1},url:{type:String,required:!1},title:{type:String,required:!1},remote_auth_s3:{type:String,required:!1},api_key:{type:String,required:!1},sso_config:{type:Object,required:!1},language:{type:String,required:!1}},mounted(){if(window.DISQUS){this.reset(window.DISQUS);return}this.init()},methods:{reset(a){let b=this;a.reset({reload:!0,config:function(){b.setBaseConfig(this)}})},init(){let a=this;window.disqus_config=function(){a.setBaseConfig(this)};setTimeout(()=>{let a=document,b=a.createElement('script');b.setAttribute('id','embed-disqus');b.setAttribute('data-timestamp',+new Date());b.type='text/javascript';b.async=!0;b.src=`//${this.shortname}.disqus.com/embed.js`
+          ;(a.head||a.body).appendChild(b)},0)},setBaseConfig(a){a.page.identifier=this.identifier||this.$route.path||window.location.pathname;a.page.url=this.url||this.$el.baseURI;this.title&&(a.page.title=this.title);this.remote_auth_s3&&(a.page.remote_auth_s3=this.remote_auth_s3);this.api_key&&(a.page.api_key=this.api_key);this.sso_config&&(a.sso=this.sso_config);this.language&&(a.language=this.language);a.callbacks.onReady=[()=>{this.$emit('ready')}];a.callbacks.onNewComment=[a=>{this.$emit('new-comment',a)}]}}};function b(b){b.component('VueDisqus',a)}typeof window!=='undefined'&&typeof window.Vue!=='undefined'&&window.Vue.use(b);return b}))
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&":
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App.vue?vue&type=template&id=f348271a& ***!
@@ -32772,46 +32803,35 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "mini-footer" }, [
-        _c("div", { staticClass: "container" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c("div", { staticClass: "copyright-text" }, [
-                _c("p", [
-                  _vm._v("\n              © 2019\n              "),
-                  _c("a", { attrs: { href: "/" } }, [_vm._v("Blog")]),
-                  _vm._v(". All rights reserved. Created by\n              "),
-                  _c(
-                    "a",
-                    {
-                      attrs: {
-                        target: "_blank",
-                        href: "https://kamleshpaul.com"
-                      }
-                    },
-                    [_vm._v("Kamlesh Paul")]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "go_top" }, [
-                _c("span", { staticClass: "icon-arrow-up" })
-              ])
-            ])
+  return _c("div", [
+    _c("div", { staticClass: "mini-footer" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c(
+              "p",
+              { staticClass: "pt-2" },
+              [
+                _vm._v("\n            © 2019\n            "),
+                _c("router-link", { attrs: { to: "/" } }, [_vm._v("Blog")]),
+                _vm._v(". All rights reserved. Created by\n            "),
+                _c(
+                  "a",
+                  {
+                    attrs: { target: "_blank", href: "https://kamleshpaul.com" }
+                  },
+                  [_vm._v("Kamlesh Paul")]
+                )
+              ],
+              1
+            )
           ])
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -33166,7 +33186,11 @@ var render = function() {
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
-          _c("div", { domProps: { innerHTML: _vm._s(_vm.blog.content) } })
+          _c("div", { domProps: { innerHTML: _vm._s(_vm.blog.content) } }),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "disqus_thread" } })
         ]
       )
     ])
@@ -33203,7 +33227,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-8 offset-md-3 mt-2 " }, [
+        _c("div", { staticClass: "col-md-8 offset-md-3 mt-2 mb-4" }, [
           _c("section", [
             _c("div", [
               _c("div", { staticClass: "row" }, [
@@ -49647,9 +49671,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ckeditor/ckeditor5-vue */ "./node_modules/@ckeditor/ckeditor5-vue/dist/ckeditor.js");
 /* harmony import */ var _ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vue_content_placeholders__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-content-placeholders */ "./node_modules/vue-content-placeholders/index.js");
-/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var vue_disqus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-disqus */ "./node_modules/vue-disqus/dist/vue-disqus.js");
+/* harmony import */ var vue_disqus__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_disqus__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); //css import
@@ -49660,9 +49686,12 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
  //https://github.com/michalsnik/vue-content-placeholders
 
+ //https://www.npmjs.com/package/vue-disqus
+
 Vue.use(vue_content_placeholders__WEBPACK_IMPORTED_MODULE_4__["default"]);
 Vue.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_2__["default"]);
 Vue.use(_ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_3___default.a);
+Vue.use(vue_disqus__WEBPACK_IMPORTED_MODULE_5___default.a);
 
 
  // toast set to global
@@ -49681,10 +49710,10 @@ var app = new Vue({
   el: "#app",
   template: "<app></app>",
   components: {
-    App: _App_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    App: _App_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
-  router: _router__WEBPACK_IMPORTED_MODULE_6__["default"],
-  store: _store__WEBPACK_IMPORTED_MODULE_7__["store"]
+  router: _router__WEBPACK_IMPORTED_MODULE_7__["default"],
+  store: _store__WEBPACK_IMPORTED_MODULE_8__["store"]
 });
 
 /***/ }),

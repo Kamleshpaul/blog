@@ -83,12 +83,12 @@ export default {};
 </script>
 
 <style>
-.router-link-active {
+li .router-link-active {
   color: #343a40;
   background: #e0f3ff;
   font-weight: bold;
 }
-a.router-link-exact-active.router-link-active {
+li a.router-link-exact-active.router-link-active {
   display: block;
   line-height: 2.4rem;
   height: 2.4rem;
