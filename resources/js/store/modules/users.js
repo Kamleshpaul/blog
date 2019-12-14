@@ -45,29 +45,40 @@ let state = {
                     email,
                     password
                 })
-                .then(res => {
-                    const response = res.data;
-                    if (response.data != "" && response.data != null) {
-                        state.message = response.message;
-                        const token = response.data.access_token;
-                        const user = response.data.user;
-                        const payload = {
-                            token: token,
-                            user: user
-                        };
-                        localStorage.setItem("passport", token);
-                        Toast.fire({
-                            type: "success",
-                            title: `${user.name} Logged In`
+                .then(({ data }) => {
+                    axios
+                        .post("/oauth/token", {
+                            grant_type: "password",
+                            client_id: data.client_id,
+                            client_secret: data.client_secret,
+                            username: data.email,
+                            password: data.password,
+                            scope: "*"
+                        })
+                        .then(response => {
+                            console.log(data.user);
+                            if (response.data != "" && response.data != null) {
+                                state.message = response.message;
+                                const token = response.data.access_token;
+                                const user = data.user;
+                                const payload = {
+                                    token: token,
+                                    user: user
+                                };
+                                localStorage.setItem("passport", token);
+                                Toast.fire({
+                                    type: "success",
+                                    title: `${user.name} Logged In`
+                                });
+                                commit("AUTH_USER", payload);
+                                router.push({ name: "dashboard" });
+                            } else {
+                                Toast.fire({
+                                    type: "error",
+                                    title: "User Not Found."
+                                });
+                            }
                         });
-                        commit("AUTH_USER", payload);
-                        router.push({ name: "dashboard" });
-                    } else {
-                        Toast.fire({
-                            type: "error",
-                            title: "User Not Found."
-                        });
-                    }
                 })
                 .catch(e => {
                     Toast.fire({

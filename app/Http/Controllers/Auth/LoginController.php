@@ -37,25 +37,12 @@ class LoginController extends Controller
         ];
 
         if (auth()->attempt($credentials)) {
-
-            $http = new \GuzzleHttp\Client;
-            $response = $http->post(url('/') . '/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => $this->client_id,
-                    'client_secret' => $this->client_secret,
-                    'username' => $request->email,
-                    'password' => $request->password,
-                    'scope' => '*',
-                ],
-            ]);
-
-            $responseData = json_decode((string) $response->getBody(), true);
-            $responseData['user'] = auth()->user();
-
             return response([
-                'data' => $responseData,
-                'message' => 'success'
+                'client_id' => $this->client_id,
+                'client_secret' => $this->client_secret,
+                'email' => $request->email,
+                'password' => $request->password,
+                'user' => auth()->user()
             ]);
         } else {
             return response([

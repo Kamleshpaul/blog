@@ -50942,32 +50942,42 @@ var state = {
               return axios.post("/api/login", {
                 email: email,
                 password: password
-              }).then(function (res) {
-                var response = res.data;
+              }).then(function (_ref7) {
+                var data = _ref7.data;
+                axios.post("/oauth/token", {
+                  grant_type: "password",
+                  client_id: data.client_id,
+                  client_secret: data.client_secret,
+                  username: data.email,
+                  password: data.password,
+                  scope: "*"
+                }).then(function (response) {
+                  console.log(data.user);
 
-                if (response.data != "" && response.data != null) {
-                  state.message = response.message;
-                  var token = response.data.access_token;
-                  var user = response.data.user;
-                  var payload = {
-                    token: token,
-                    user: user
-                  };
-                  localStorage.setItem("passport", token);
-                  Toast.fire({
-                    type: "success",
-                    title: "".concat(user.name, " Logged In")
-                  });
-                  commit("AUTH_USER", payload);
-                  _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
-                    name: "dashboard"
-                  });
-                } else {
-                  Toast.fire({
-                    type: "error",
-                    title: "User Not Found."
-                  });
-                }
+                  if (response.data != "" && response.data != null) {
+                    state.message = response.message;
+                    var token = response.data.access_token;
+                    var user = data.user;
+                    var payload = {
+                      token: token,
+                      user: user
+                    };
+                    localStorage.setItem("passport", token);
+                    Toast.fire({
+                      type: "success",
+                      title: "".concat(user.name, " Logged In")
+                    });
+                    commit("AUTH_USER", payload);
+                    _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+                      name: "dashboard"
+                    });
+                  } else {
+                    Toast.fire({
+                      type: "error",
+                      title: "User Not Found."
+                    });
+                  }
+                });
               })["catch"](function (e) {
                 Toast.fire({
                   type: "error",
@@ -50992,13 +51002,13 @@ var state = {
   userLogout: function () {
     var _userLogout = _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref7) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref8) {
       var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              commit = _ref7.commit;
+              commit = _ref8.commit;
               axios.get("/api/logout").then(function (res) {
                 localStorage.removeItem("passport");
 
