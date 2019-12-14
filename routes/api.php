@@ -32,4 +32,5 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:api'], function () {
 Route::group(['namespace' => 'User'], function () {
     Route::get('all-blogs', 'BlogController@index');
     Route::get('blog/{slug}', 'BlogController@show');
+    Route::post('send-mail', 'ContactUsController@sendMail');
 });

@@ -3512,6 +3512,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3580,9 +3588,71 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])("required", _objectSpread({}, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__["required"], {
+  message: "This field is required"
+}));
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])("email", _objectSpread({}, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__["email"], {
+  message: "Please enter valid email"
+}));
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])("numeric", _objectSpread({}, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__["numeric"], {
+  message: "Please enter valid phone no"
+}));
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      form: {
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+      },
+      loader: false
+    };
+  },
+  components: {
+    ValidationProvider: vee_validate__WEBPACK_IMPORTED_MODULE_1__["ValidationProvider"],
+    ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_1__["ValidationObserver"]
+  },
+  methods: {
+    sendMail: function sendMail() {
+      var _this = this;
+
+      this.loader = true;
+      axios.post("/api/send-mail", this.form).then(function (_ref) {
+        var data = _ref.data;
+
+        if (data.message !== "") {
+          Toast.fire({
+            type: "success",
+            title: data.message
+          });
+          _this.form = Object.assign({}, "");
+          _this.loader = false;
+        } else {
+          _this.loader = false;
+        }
+      });
+    }
   }
 });
 
@@ -30066,19 +30136,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-disqus/dist/vue-disqus.js":
-/*!****************************************************!*\
-  !*** ./node_modules/vue-disqus/dist/vue-disqus.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-!function(a,b){ true?module.exports=b():undefined}(this,(function(){'use strict';var a={render:function(){var a=this,b=a.$createElement,c=a._self._c||b;return c('div',{attrs:{"id":"disqus_thread"}})},staticRenderFns:[],name:'vue-disqus',props:{shortname:{type:String,required:!0},identifier:{type:String,required:!1},url:{type:String,required:!1},title:{type:String,required:!1},remote_auth_s3:{type:String,required:!1},api_key:{type:String,required:!1},sso_config:{type:Object,required:!1},language:{type:String,required:!1}},mounted(){if(window.DISQUS){this.reset(window.DISQUS);return}this.init()},methods:{reset(a){let b=this;a.reset({reload:!0,config:function(){b.setBaseConfig(this)}})},init(){let a=this;window.disqus_config=function(){a.setBaseConfig(this)};setTimeout(()=>{let a=document,b=a.createElement('script');b.setAttribute('id','embed-disqus');b.setAttribute('data-timestamp',+new Date());b.type='text/javascript';b.async=!0;b.src=`//${this.shortname}.disqus.com/embed.js`
-          ;(a.head||a.body).appendChild(b)},0)},setBaseConfig(a){a.page.identifier=this.identifier||this.$route.path||window.location.pathname;a.page.url=this.url||this.$el.baseURI;this.title&&(a.page.title=this.title);this.remote_auth_s3&&(a.page.remote_auth_s3=this.remote_auth_s3);this.api_key&&(a.page.api_key=this.api_key);this.sso_config&&(a.sso=this.sso_config);this.language&&(a.language=this.language);a.callbacks.onReady=[()=>{this.$emit('ready')}];a.callbacks.onNewComment=[a=>{this.$emit('new-comment',a)}]}}};function b(b){b.component('VueDisqus',a)}typeof window!=='undefined'&&typeof window.Vue!=='undefined'&&window.Vue.use(b);return b}))
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&":
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App.vue?vue&type=template&id=f348271a& ***!
@@ -33218,101 +33275,386 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-8 offset-md-3 mt-2 mb-4" }, [
-          _c("section", [
-            _c("div", [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-sm-12" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-sm-8 col-sm-offset-2" }, [
-                      _c("div", [_c("h2", [_vm._v("CONTACT US")])]),
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-8 offset-md-3 mt-2 mb-4" }, [
+        _c("section", [
+          _c("div", [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-sm-12" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-8 col-sm-offset-2" },
+                    [
+                      _vm._m(0),
                       _vm._v(" "),
-                      _c(
-                        "form",
-                        {
-                          attrs: {
-                            method: "post",
-                            "data-form-title": "CONTACT US"
+                      _c("ValidationObserver", {
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var invalid = ref.invalid
+                              return [
+                                _c(
+                                  "form",
+                                  {
+                                    on: {
+                                      submit: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.sendMail($event)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "form-group" },
+                                      [
+                                        _c("ValidationProvider", {
+                                          attrs: { rules: "required" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "default",
+                                                fn: function(ref) {
+                                                  var errors = ref.errors
+                                                  return [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: _vm.form.name,
+                                                          expression:
+                                                            "form.name"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control",
+                                                      attrs: {
+                                                        type: "text",
+                                                        placeholder: "Name*"
+                                                      },
+                                                      domProps: {
+                                                        value: _vm.form.name
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.form,
+                                                            "name",
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "text-danger"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(errors[0])
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "form-group" },
+                                      [
+                                        _c("ValidationProvider", {
+                                          attrs: { rules: "required|email" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "default",
+                                                fn: function(ref) {
+                                                  var errors = ref.errors
+                                                  return [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: _vm.form.email,
+                                                          expression:
+                                                            "form.email"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control",
+                                                      attrs: {
+                                                        type: "email",
+                                                        placeholder: "Email*"
+                                                      },
+                                                      domProps: {
+                                                        value: _vm.form.email
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.form,
+                                                            "email",
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "text-danger"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(errors[0])
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "form-group" },
+                                      [
+                                        _c("ValidationProvider", {
+                                          attrs: { rules: "numeric" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "default",
+                                                fn: function(ref) {
+                                                  var errors = ref.errors
+                                                  return [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: _vm.form.phone,
+                                                          expression:
+                                                            "form.phone"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control",
+                                                      attrs: {
+                                                        type: "text",
+                                                        placeholder: "Phone"
+                                                      },
+                                                      domProps: {
+                                                        value: _vm.form.phone
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.form,
+                                                            "phone",
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "text-danger"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(errors[0])
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "form-group" },
+                                      [
+                                        _c("ValidationProvider", {
+                                          attrs: { rules: "required" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "default",
+                                                fn: function(ref) {
+                                                  var errors = ref.errors
+                                                  return [
+                                                    _c("textarea", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            _vm.form.message,
+                                                          expression:
+                                                            "form.message"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control",
+                                                      attrs: {
+                                                        placeholder: "Message",
+                                                        rows: "7"
+                                                      },
+                                                      domProps: {
+                                                        value: _vm.form.message
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.form,
+                                                            "message",
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "text-danger"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(errors[0])
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", [
+                                      _c(
+                                        "button",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: !_vm.loader,
+                                              expression: "!loader"
+                                            }
+                                          ],
+                                          staticClass: "btn btn-lg btn-primary",
+                                          attrs: {
+                                            type: "submit",
+                                            disabled: invalid
+                                          }
+                                        },
+                                        [_vm._v("CONTACT US")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("img", {
+                                        directives: [
+                                          {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value: _vm.loader,
+                                            expression: "loader"
+                                          }
+                                        ],
+                                        attrs: {
+                                          src: "/images/loader-primary.svg",
+                                          alt: "Loader",
+                                          width: "40"
+                                        }
+                                      })
+                                    ])
+                                  ]
+                                )
+                              ]
+                            }
                           }
-                        },
-                        [
-                          _c("input", {
-                            attrs: { type: "hidden", "data-form-email": "true" }
-                          }),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "text",
-                                name: "name",
-                                required: "",
-                                placeholder: "Name*",
-                                "data-form-field": "Name"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "email",
-                                name: "email",
-                                required: "",
-                                placeholder: "Email*",
-                                "data-form-field": "Email"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "tel",
-                                name: "phone",
-                                placeholder: "Phone",
-                                "data-form-field": "Phone"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("textarea", {
-                              staticClass: "form-control",
-                              attrs: {
-                                name: "message",
-                                placeholder: "Message",
-                                rows: "7",
-                                "data-form-field": "Message"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-lg btn-primary",
-                                attrs: { type: "submit" }
-                              },
-                              [_vm._v("CONTACT US")]
-                            )
-                          ])
-                        ]
-                      )
-                    ])
-                  ])
+                        ])
+                      })
+                    ],
+                    1
+                  )
                 ])
               ])
             ])
@@ -33320,6 +33662,14 @@ var staticRenderFns = [
         ])
       ])
     ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("h2", [_vm._v("CONTACT US")])])
   }
 ]
 render._withStripped = true
@@ -49671,11 +50021,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ckeditor/ckeditor5-vue */ "./node_modules/@ckeditor/ckeditor5-vue/dist/ckeditor.js");
 /* harmony import */ var _ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vue_content_placeholders__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-content-placeholders */ "./node_modules/vue-content-placeholders/index.js");
-/* harmony import */ var vue_disqus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-disqus */ "./node_modules/vue-disqus/dist/vue-disqus.js");
-/* harmony import */ var vue_disqus__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_disqus__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); //css import
@@ -49686,12 +50034,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
  //https://github.com/michalsnik/vue-content-placeholders
 
- //https://www.npmjs.com/package/vue-disqus
-
 Vue.use(vue_content_placeholders__WEBPACK_IMPORTED_MODULE_4__["default"]);
 Vue.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_2__["default"]);
 Vue.use(_ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_3___default.a);
-Vue.use(vue_disqus__WEBPACK_IMPORTED_MODULE_5___default.a);
 
 
  // toast set to global
@@ -49710,10 +50055,10 @@ var app = new Vue({
   el: "#app",
   template: "<app></app>",
   components: {
-    App: _App_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    App: _App_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
-  router: _router__WEBPACK_IMPORTED_MODULE_7__["default"],
-  store: _store__WEBPACK_IMPORTED_MODULE_8__["store"]
+  router: _router__WEBPACK_IMPORTED_MODULE_6__["default"],
+  store: _store__WEBPACK_IMPORTED_MODULE_7__["store"]
 });
 
 /***/ }),

@@ -11,50 +11,68 @@
                     <div>
                       <h2>CONTACT US</h2>
                     </div>
-                    <form method="post" data-form-title="CONTACT US">
-                      <input type="hidden" data-form-email="true" />
-                      <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="name"
-                          required
-                          placeholder="Name*"
-                          data-form-field="Name"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <input
-                          type="email"
-                          class="form-control"
-                          name="email"
-                          required
-                          placeholder="Email*"
-                          data-form-field="Email"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <input
-                          type="tel"
-                          class="form-control"
-                          name="phone"
-                          placeholder="Phone"
-                          data-form-field="Phone"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <textarea
-                          class="form-control"
-                          name="message"
-                          placeholder="Message"
-                          rows="7"
-                          data-form-field="Message"
-                        ></textarea>
-                      </div>
-                      <div>
-                        <button type="submit" class="btn btn-lg btn-primary">CONTACT US</button>
-                      </div>
-                    </form>
+                    <ValidationObserver v-slot="{ invalid }">
+                      <form @submit.prevent="sendMail">
+                        <div class="form-group">
+                          <ValidationProvider rules="required" v-slot="{ errors }">
+                            <input
+                              type="text"
+                              v-model="form.name"
+                              class="form-control"
+                              placeholder="Name*"
+                            />
+                            <span class="text-danger">{{ errors[0] }}</span>
+                          </ValidationProvider>
+                        </div>
+                        <div class="form-group">
+                          <ValidationProvider rules="required|email" v-slot="{ errors }">
+                            <input
+                              type="email"
+                              v-model="form.email"
+                              class="form-control"
+                              placeholder="Email*"
+                            />
+                            <span class="text-danger">{{ errors[0] }}</span>
+                          </ValidationProvider>
+                        </div>
+                        <div class="form-group">
+                          <ValidationProvider rules="numeric" v-slot="{ errors }">
+                            <input
+                              type="text"
+                              v-model="form.phone"
+                              class="form-control"
+                              placeholder="Phone"
+                            />
+                            <span class="text-danger">{{ errors[0] }}</span>
+                          </ValidationProvider>
+                        </div>
+                        <div class="form-group">
+                          <ValidationProvider rules="required" v-slot="{ errors }">
+                            <textarea
+                              class="form-control"
+                              v-model="form.message"
+                              placeholder="Message"
+                              rows="7"
+                            ></textarea>
+                            <span class="text-danger">{{ errors[0] }}</span>
+                          </ValidationProvider>
+                        </div>
+                        <div>
+                          <button
+                            v-show="!loader"
+                            type="submit"
+                            class="btn btn-lg btn-primary"
+                            :disabled="invalid"
+                          >CONTACT US</button>
+                          <img
+                            v-show="loader"
+                            src="/images/loader-primary.svg"
+                            alt="Loader"
+                            width="40"
+                          />
+                        </div>
+                      </form>
+                    </ValidationObserver>
                   </div>
                 </div>
               </div>
@@ -67,9 +85,53 @@
 </template>
 
 <script>
+import { required, email, numeric } from "vee-validate/dist/rules";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+
+extend("required", {
+  ...required,
+  message: "This field is required"
+});
+extend("email", {
+  ...email,
+  message: "Please enter valid email"
+});
+extend("numeric", {
+  ...numeric,
+  message: "Please enter valid phone no"
+});
 export default {
   data() {
-    return {};
+    return {
+      form: {
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+      },
+      loader: false
+    };
+  },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
+  methods: {
+    sendMail() {
+      this.loader = true;
+      axios.post("/api/send-mail", this.form).then(({ data }) => {
+        if (data.message !== "") {
+          Toast.fire({
+            type: "success",
+            title: data.message
+          });
+          this.form = Object.assign({}, "");
+          this.loader = false;
+        } else {
+          this.loader = false;
+        }
+      });
+    }
   }
 };
 </script>
