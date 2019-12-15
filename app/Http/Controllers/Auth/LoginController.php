@@ -62,6 +62,7 @@ class LoginController extends Controller
     {
         $user = auth()->user()->token();
         $user->revoke();
+        \DB::table('oauth_access_tokens')->where('user_id',auth()->user()->id)->delete();
         return response([
             'message' => 'success'
         ]);

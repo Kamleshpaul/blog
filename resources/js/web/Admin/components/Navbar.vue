@@ -1,7 +1,7 @@
 <template>
   <div class="app-header header-shadow">
     <div class="app-header__logo">
-      <div class="logo-src"></div>
+      <img class="logo-src" :src="settings ? settings.logo : ''" />
       <div class="header__pane ml-auto">
         <div>
           <button
@@ -90,9 +90,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {};
+  },
+  computed: {
+    ...mapState("websetting", ["settings"])
   },
   methods: {
     adminLogout() {

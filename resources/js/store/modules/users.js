@@ -46,6 +46,13 @@ let state = {
                     password
                 })
                 .then(({ data }) => {
+                    console.log(data);
+                    if (data.message) {
+                        Toast.fire({
+                            type: "error",
+                            title: data.message
+                        });
+                    }
                     axios
                         .post("/oauth/token", {
                             grant_type: "password",
@@ -56,7 +63,6 @@ let state = {
                             scope: "*"
                         })
                         .then(response => {
-                            console.log(data.user);
                             if (response.data != "" && response.data != null) {
                                 state.message = response.message;
                                 const token = response.data.access_token;

@@ -30,6 +30,7 @@ export default {
     self = this;
     if (self.token != "") {
       this.$store.dispatch("users/setAuth_user");
+      this.$store.dispatch("websetting/setWebsetting");
     }
   },
   beforeMount() {

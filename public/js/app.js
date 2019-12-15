@@ -1933,6 +1933,7 @@ __webpack_require__(/*! ../../plugins/main.js */ "./resources/js/plugins/main.js
 
     if (self.token != "") {
       this.$store.dispatch("users/setAuth_user");
+      this.$store.dispatch("websetting/setWebsetting");
     }
   },
   beforeMount: function beforeMount() {
@@ -2049,6 +2050,13 @@ Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])("min", _objectSpread
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2140,10 +2148,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("websetting", ["settings"])),
   methods: {
     adminLogout: function adminLogout() {
       this.$store.dispatch("users/userLogout");
@@ -3074,6 +3084,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3122,52 +3141,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      form: {
+        websiteName: "",
+        logo: ""
+      }
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("websetting", ["settings"])),
+  components: {
+    ValidationProvider: vee_validate__WEBPACK_IMPORTED_MODULE_1__["ValidationProvider"],
+    ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_1__["ValidationObserver"]
+  },
   methods: {
-    seo: function seo() {
-      document.title = "Web setting";
+    update: function update() {
+      this.form.websiteName = this.settings.web_name;
+      this.form.logo = this.settings.logo;
+      this.$store.dispatch("websetting/store", this.form);
+    },
+    processFile: function processFile(event) {
+      var _this = this;
+
+      var file = event.target.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function (_ref) {
+        var target = _ref.target;
+        _this.settings.logo = target.result;
+      };
+
+      reader.readAsDataURL(file);
     }
   },
-  mounted: function mounted() {
-    this.seo();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -3273,6 +3284,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3306,7 +3324,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("websetting", ["settings"])),
+  mounted: function mounted() {
+    this.$store.dispatch("websetting/setWebsetting");
+  }
+});
 
 /***/ }),
 
@@ -30416,7 +30442,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "app-header header-shadow" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "app-header__logo" }, [
+      _c("img", {
+        staticClass: "logo-src",
+        attrs: { src: _vm.settings ? _vm.settings.logo : "" }
+      }),
+      _vm._v(" "),
+      _vm._m(0)
+    ]),
     _vm._v(" "),
     _vm._m(1),
     _vm._v(" "),
@@ -30492,24 +30525,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "app-header__logo" }, [
-      _c("div", { staticClass: "logo-src" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "header__pane ml-auto" }, [
-        _c("div", [
-          _c(
-            "button",
-            {
-              staticClass: "hamburger close-sidebar-btn hamburger--elastic",
-              attrs: { type: "button", "data-class": "closed-sidebar" }
-            },
-            [
-              _c("span", { staticClass: "hamburger-box" }, [
-                _c("span", { staticClass: "hamburger-inner" })
-              ])
-            ]
-          )
-        ])
+    return _c("div", { staticClass: "header__pane ml-auto" }, [
+      _c("div", [
+        _c(
+          "button",
+          {
+            staticClass: "hamburger close-sidebar-btn hamburger--elastic",
+            attrs: { type: "button", "data-class": "closed-sidebar" }
+          },
+          [
+            _c("span", { staticClass: "hamburger-box" }, [
+              _c("span", { staticClass: "hamburger-inner" })
+            ])
+          ]
+        )
       ])
     ])
   },
@@ -32635,149 +32664,180 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container mt-5" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("div", { staticClass: "main-card mb-3 card" }, [
-            _c("div", { staticClass: "card-body" }, [
+  return _c("div", { staticClass: "container mt-5" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "main-card mb-3 card" }, [
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
               _c("h5", { staticClass: "card-title" }, [_vm._v("Web Setting")]),
               _vm._v(" "),
-              _c("form", {}, [
-                _c("div", { staticClass: "form-row" }, [
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _c("div", { staticClass: "position-relative form-group" }, [
-                      _c("label", { attrs: { for: "exampleEmail11" } }, [
-                        _vm._v("Email")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          name: "email",
-                          id: "exampleEmail11",
-                          placeholder: "with a placeholder",
-                          type: "email"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _c("div", { staticClass: "position-relative form-group" }, [
-                      _c("label", { attrs: { for: "examplePassword11" } }, [
-                        _vm._v("Password")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          name: "password",
-                          id: "examplePassword11",
-                          placeholder: "password placeholder",
-                          type: "password"
-                        }
-                      })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "position-relative form-group" }, [
-                  _c("label", { attrs: { for: "exampleAddress" } }, [
-                    _vm._v("Address")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      name: "address",
-                      id: "exampleAddress",
-                      placeholder: "1234 Main St",
-                      type: "text"
+              _c("ValidationObserver", {
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(ref) {
+                      var invalid = ref.invalid
+                      return [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.update($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-row" }, [
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "position-relative form-group"
+                                  },
+                                  [
+                                    _c("label", { attrs: { for: "logo" } }, [
+                                      _vm._v("Website Name")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("ValidationProvider", {
+                                      attrs: { rules: "required" },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "default",
+                                            fn: function(ref) {
+                                              var errors = ref.errors
+                                              return [
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value:
+                                                        _vm.settings.web_name,
+                                                      expression:
+                                                        "settings.web_name"
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  attrs: {
+                                                    placeholder: "Website Name",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.settings.web_name
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.$set(
+                                                        _vm.settings,
+                                                        "web_name",
+                                                        $event.target.value
+                                                      )
+                                                    }
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticClass: "text-danger"
+                                                  },
+                                                  [_vm._v(_vm._s(errors[0]))]
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        true
+                                      )
+                                    })
+                                  ],
+                                  1
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-6" }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "position-relative form-group"
+                                  },
+                                  [
+                                    _c("label", { attrs: { for: "logo" } }, [
+                                      _vm._v("Logo")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        accept: "image/*",
+                                        type: "file"
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.processFile($event)
+                                        }
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "position-relative form-group"
+                                  },
+                                  [
+                                    _c("img", {
+                                      attrs: {
+                                        src: _vm.settings.logo,
+                                        width: "100"
+                                      }
+                                    })
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "text-right" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "mt-2 btn btn-primary",
+                                  attrs: { disabled: invalid }
+                                },
+                                [_vm._v("Update")]
+                              )
+                            ])
+                          ]
+                        )
+                      ]
                     }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "position-relative form-group" }, [
-                  _c("label", { attrs: { for: "exampleAddress2" } }, [
-                    _vm._v("Address 2")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      name: "address2",
-                      id: "exampleAddress2",
-                      placeholder: "Apartment, studio, or floor",
-                      type: "text"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-row" }, [
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _c("div", { staticClass: "position-relative form-group" }, [
-                      _c("label", { attrs: { for: "exampleCity" } }, [
-                        _vm._v("City")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: { name: "city", id: "exampleCity", type: "text" }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "position-relative form-group" }, [
-                      _c("label", { attrs: { for: "exampleState" } }, [
-                        _vm._v("State")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          name: "state",
-                          id: "exampleState",
-                          type: "text"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-2" }, [
-                    _c("div", { staticClass: "position-relative form-group" }, [
-                      _c("label", { attrs: { for: "exampleZip" } }, [
-                        _vm._v("Zip")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: { name: "zip", id: "exampleZip", type: "text" }
-                      })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "text-right" }, [
-                  _c("button", { staticClass: "mt-2 btn btn-primary" }, [
-                    _vm._v("Sign in")
-                  ])
+                  }
                 ])
-              ])
-            ])
-          ])
+              })
+            ],
+            1
+          )
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -32914,11 +32974,17 @@ var render = function() {
     "nav",
     {
       staticClass:
-        "navbar navbar-expand-lg navbar-light shadow p-3  bg-white rounded"
+        "navbar navbar-expand-lg navbar-light shadow p-3 bg-white rounded"
     },
     [
       _c("router-link", { staticClass: "navbar-brand", attrs: { to: "/" } }, [
-        _vm._v("Blog Logo")
+        _c("img", {
+          attrs: {
+            src: _vm.settings ? _vm.settings.logo : "",
+            alt: "Logo",
+            width: "100"
+          }
+        })
       ]),
       _vm._v(" "),
       _vm._m(0),
@@ -50506,9 +50572,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_users__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/users */ "./resources/js/store/modules/users.js");
 /* harmony import */ var _modules_category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/category */ "./resources/js/store/modules/category.js");
 /* harmony import */ var _modules_article__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/article */ "./resources/js/store/modules/article.js");
+/* harmony import */ var _modules_websetting__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/websetting */ "./resources/js/store/modules/websetting.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
 
 
 
@@ -50516,7 +50584,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     users: _modules_users__WEBPACK_IMPORTED_MODULE_2__["default"],
     category: _modules_category__WEBPACK_IMPORTED_MODULE_3__["default"],
-    article: _modules_article__WEBPACK_IMPORTED_MODULE_4__["default"]
+    article: _modules_article__WEBPACK_IMPORTED_MODULE_4__["default"],
+    websetting: _modules_websetting__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 });
 
@@ -50944,6 +51013,15 @@ var state = {
                 password: password
               }).then(function (_ref7) {
                 var data = _ref7.data;
+                console.log(data);
+
+                if (data.message) {
+                  Toast.fire({
+                    type: "error",
+                    title: data.message
+                  });
+                }
+
                 axios.post("/oauth/token", {
                   grant_type: "password",
                   client_id: data.client_id,
@@ -50952,8 +51030,6 @@ var state = {
                   password: data.password,
                   scope: "*"
                 }).then(function (response) {
-                  console.log(data.user);
-
                   if (response.data != "" && response.data != null) {
                     state.message = response.message;
                     var token = response.data.access_token;
@@ -51034,6 +51110,61 @@ var state = {
 
     return userLogout;
   }()
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state,
+  getters: getters,
+  mutations: mutations,
+  actions: actions,
+  namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/websetting.js":
+/*!**************************************************!*\
+  !*** ./resources/js/store/modules/websetting.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  settings: null
+},
+    getters = {},
+    mutations = {
+  SET_WEBSETTING: function SET_WEBSETTING(state, payload) {
+    state.settings = payload;
+  },
+  STORE: function STORE(state, payload) {
+    state.settings = payload;
+  }
+},
+    actions = {
+  setWebsetting: function setWebsetting(_ref) {
+    var commit = _ref.commit;
+    axios.get("/api/websetting").then(function (_ref2) {
+      var data = _ref2.data;
+      commit("SET_WEBSETTING", data);
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  },
+  store: function store(_ref3, data) {
+    var commit = _ref3.commit;
+    axios.post("/api/websetting", data).then(function (_ref4) {
+      var data = _ref4.data;
+      Toast.fire({
+        type: "success",
+        title: "Settings Updated."
+      });
+      commit("STORE", data);
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state,

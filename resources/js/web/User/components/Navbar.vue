@@ -1,6 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light shadow p-3  bg-white rounded">
-    <router-link class="navbar-brand" to="/">Blog Logo</router-link>
+  <nav class="navbar navbar-expand-lg navbar-light shadow p-3 bg-white rounded">
+    <router-link class="navbar-brand" to="/">
+      <img :src="settings? settings.logo : ''" alt="Logo" width="100" />
+    </router-link>
     <button
       class="navbar-toggler"
       type="button"
@@ -18,7 +20,7 @@
         <li class="nav-item">
           <router-link to="/" class="nav-link" exact>Home</router-link>
         </li>
-        
+
         <li class="nav-item">
           <router-link to="/contact" class="nav-link" exact>Contact</router-link>
         </li>
@@ -32,7 +34,15 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState("websetting", ["settings"])
+  },
+  mounted() {
+    this.$store.dispatch("websetting/setWebsetting");
+  }
+};
 </script>
 
 <style  scoped>

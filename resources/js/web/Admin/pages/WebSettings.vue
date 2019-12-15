@@ -5,77 +5,40 @@
         <div class="main-card mb-3 card">
           <div class="card-body">
             <h5 class="card-title">Web Setting</h5>
-            <form class>
-              <div class="form-row">
-                <div class="col-md-6">
-                  <div class="position-relative form-group">
-                    <label for="exampleEmail11" class>Email</label>
-                    <input
-                      name="email"
-                      id="exampleEmail11"
-                      placeholder="with a placeholder"
-                      type="email"
-                      class="form-control"
-                    />
+            <ValidationObserver v-slot="{ invalid }">
+              <form @submit.prevent="update">
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label for="logo" class>Website Name</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <input
+                          v-model="settings.web_name"
+                          placeholder="Website Name"
+                          type="text"
+                          class="form-control"
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <label for="logo" class>Logo</label>
+                      <input @change="processFile($event)" accept="image/*" type="file" />
+                    </div>
+                    <div class="position-relative form-group">
+                      <img :src="settings.logo" width="100" />
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="position-relative form-group">
-                    <label for="examplePassword11" class>Password</label>
-                    <input
-                      name="password"
-                      id="examplePassword11"
-                      placeholder="password placeholder"
-                      type="password"
-                      class="form-control"
-                    />
-                  </div>
+
+                <div class="text-right">
+                  <button class="mt-2 btn btn-primary" :disabled="invalid">Update</button>
                 </div>
-              </div>
-              <div class="position-relative form-group">
-                <label for="exampleAddress" class>Address</label>
-                <input
-                  name="address"
-                  id="exampleAddress"
-                  placeholder="1234 Main St"
-                  type="text"
-                  class="form-control"
-                />
-              </div>
-              <div class="position-relative form-group">
-                <label for="exampleAddress2" class>Address 2</label>
-                <input
-                  name="address2"
-                  id="exampleAddress2"
-                  placeholder="Apartment, studio, or floor"
-                  type="text"
-                  class="form-control"
-                />
-              </div>
-              <div class="form-row">
-                <div class="col-md-6">
-                  <div class="position-relative form-group">
-                    <label for="exampleCity" class>City</label>
-                    <input name="city" id="exampleCity" type="text" class="form-control" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="position-relative form-group">
-                    <label for="exampleState" class>State</label>
-                    <input name="state" id="exampleState" type="text" class="form-control" />
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="position-relative form-group">
-                    <label for="exampleZip" class>Zip</label>
-                    <input name="zip" id="exampleZip" type="text" class="form-control" />
-                  </div>
-                </div>
-              </div>
-              <div class="text-right">
-                <button class="mt-2 btn btn-primary">Sign in</button>
-              </div>
-            </form>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -84,15 +47,44 @@
 </template>
 
 <script>
+import { required } from "vee-validate/dist/rules";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+
+import { mapState } from "vuex";
+
 export default {
+  data() {
+    return {
+      form: {
+        websiteName: "",
+        logo: ""
+      }
+    };
+  },
+  computed: {
+    ...mapState("websetting", ["settings"])
+  },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
   methods: {
-    seo() {
-      document.title = "Web setting";
+    update() {
+      this.form.websiteName = this.settings.web_name;
+      this.form.logo = this.settings.logo;
+      this.$store.dispatch("websetting/store", this.form);
+    },
+    processFile(event) {
+      const file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = ({ target }) => {
+        this.settings.logo = target.result;
+      };
+
+      reader.readAsDataURL(file);
     }
   },
-  mounted() {
-    this.seo();
-  }
+  mounted() {}
 };
 </script>
 
