@@ -2,6 +2,6 @@
 
 return [
 
-    'disqus_url' => env('DISQUS_URL', 'https://blog-3leordrmmk.disqus.com') 
+    'disqus_short_name' => env('DISQUS_SHORT_NAME', 'blog-3leordrmmk') 
 
 ];

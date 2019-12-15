@@ -8,10 +8,12 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import VueSweetalert2 from "vue-sweetalert2";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import VueContentPlaceholders from "vue-content-placeholders"; //https://github.com/michalsnik/vue-content-placeholders
+import VueDisqus from 'vue-disqus'; //https://github.com/ktquez/vue-disqus
 
 Vue.use(VueContentPlaceholders);
 Vue.use(VueSweetalert2);
 Vue.use(CKEditor);
+Vue.use(VueDisqus)
 
 import App from "./App.vue";
 import router from "./router";

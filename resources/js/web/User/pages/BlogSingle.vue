@@ -10,7 +10,7 @@
         <hr />
         <div v-html="blog.content"></div>
         <hr />
-        <div id="disqus_thread"></div>
+        <vue-disqus :shortname="disqusShortName" :identifier="pageId" :url="blogUrl"></vue-disqus>
       </div>
     </div>
   </div>
@@ -21,7 +21,10 @@ export default {
   data() {
     return {
       blog: {},
-      loading: true
+      loading: true,
+      pageId: "",
+      blogUrl: "",
+      disqusShortName: ""
     };
   },
   methods: {
@@ -32,33 +35,16 @@ export default {
         .then(({ data }) => {
           this.blog = data;
           this.loading = false;
-          this.loadComments();
+
+          this.pageId = this.blog.slug;
+          this.blogUrl = window.location.href;
+          this.disqusShortName = window.disqusName;
         })
         .catch(err => console.log(err));
-    },
-    loadComments() {
-      self = this;
-      var disqus_config = function() {
-        this.page.url = window.location.href;
-        this.page.identifier = self.blog.slug;
-        this.page.title = self.blog.title;
-      };
-
-      (function() {
-        // DON'T EDIT BELOW THIS LINE
-        var d = document,
-          s = d.createElement("script");
-        s.src = `${window.disqus_url}/embed.js`;
-        s.setAttribute("data-timestamp", +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
     }
   },
   created() {
     this.getBlog();
-  },
-  destroyed() {
-    DISQUS.reset();
   }
 };
 </script>
