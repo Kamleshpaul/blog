@@ -9,6 +9,7 @@
         <h2>{{ blog.title }}</h2>
         <hr />
         <div v-html="blog.content"></div>
+        <vue-goodshare></vue-goodshare>
         <hr />
         <vue-disqus :shortname="disqusShortName" :identifier="pageId" :url="blogUrl"></vue-disqus>
       </div>
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import VueGoodshare from "vue-goodshare";
 export default {
   data() {
     return {
@@ -26,6 +28,9 @@ export default {
       blogUrl: "",
       disqusShortName: ""
     };
+  },
+  components:{
+    VueGoodshare
   },
   methods: {
     getBlog() {
@@ -50,4 +55,7 @@ export default {
 </script>
 
 <style>
+a:not([href]):not([tabindex]){
+  color:#fff !important;
+}
 </style>

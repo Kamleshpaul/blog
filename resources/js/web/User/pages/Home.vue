@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h3>Latest Blog : -</h3>
     <div class="row">
       <div class="col-md-3 mt-5 mb-2" v-for="blog in blogs" :key="blog.id">
         <div class="card-deck" @click="singlePgae(blog.slug)">
