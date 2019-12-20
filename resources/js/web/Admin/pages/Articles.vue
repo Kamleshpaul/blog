@@ -65,7 +65,7 @@
                       <input type="file" @change="processFile($event)" accept="image/*" />
                     </div>
                     <div class="position-relative form-group">
-                      <img :src="imageChange" width="100" />
+                      <img :src="feature_image" width="100" />
                     </div>
                   </div>
 
@@ -354,6 +354,7 @@ export default {
       const file = event.target.files[0];
       var reader = new FileReader();
       reader.onload = ({ target }) => {
+        console.log(target);
         this.feature_image = target.result;
       };
 
