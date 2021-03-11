@@ -13,15 +13,6 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
 
-            - name: Cache yarn dependencies
-              uses: actions/cache@v2
-              with:
-                  path: node_modules
-                  key: yarn-${{ hashFiles('yarn.lock') }}
-
-            - name: Yarn format
-              run: yarn && yarn format
-
             - name: Run php-cs-fixer
               uses: docker://oskarstark/php-cs-fixer-ga
               with:
@@ -36,6 +27,4 @@ jobs:
               uses: stefanzweifel/git-auto-commit-action@v2.3.0
               with:
                   commit_message: PHP CS changes
-                  branch: ${{ steps.extract_branch.outputs.branch }}
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  branch: master
