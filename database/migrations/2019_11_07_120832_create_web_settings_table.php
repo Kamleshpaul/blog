@@ -15,8 +15,8 @@ class CreateWebSettingsTable extends Migration
     {
         Schema::create('web_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('key',16);
-            $table->string('value',128);
+            $table->string('key', 16);
+            $table->string('value', 128);
             $table->timestamps();
         });
     }

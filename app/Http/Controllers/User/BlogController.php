@@ -7,7 +7,6 @@ use App\Models\Blog;
 
 class BlogController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +17,6 @@ class BlogController extends Controller
         $blogs = Blog::where('status', 'publish')->latest()->paginate(10);
 
         $blogs->map(function ($item) {
-
             $item['content'] = \Str::limit($item->content, 25);
             $item['feature_image'] = $item->feature_image
                                         ? \Storage::url($item->feature_image)
@@ -45,6 +43,7 @@ class BlogController extends Controller
         $blog['feature_image'] = $blog->feature_image
                                     ? \Storage::url($blog->feature_image)
                                     : '/images/blog-placeholder.png';
+
         return $blog;
     }
 }

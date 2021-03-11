@@ -17,11 +17,13 @@ class BlogCategoryController extends Controller
     {
         if (isset($_GET['ALL'])) {
             $blogCategory = BlogCategory::all();
+
             return response([
                 'data' => $blogCategory,
             ]);
         }
         $blogCategory = BlogCategory::latest()->paginate(10);
+
         return response([
             'data' => $blogCategory,
         ]);
@@ -35,6 +37,7 @@ class BlogCategoryController extends Controller
     public function show($id)
     {
         $blogCategory = BlogCategory::find($id);
+
         return response([
             'data' => $blogCategory,
             'message' => 'success',
@@ -54,6 +57,7 @@ class BlogCategoryController extends Controller
         $data['slug'] = BlogCategory::getSlug($data['name']);
 
         $blogCategory = BlogCategory::create($data);
+
         return response([
             'message' => "success",
             'data' => $blogCategory,
@@ -75,6 +79,7 @@ class BlogCategoryController extends Controller
         $data['slug'] = BlogCategory::getSlug($data['name']);
 
         $blogCategory->update($data);
+
         return response([
             'data' => $blogCategory,
             'message' => 'success',
@@ -91,6 +96,7 @@ class BlogCategoryController extends Controller
     {
         $blogCategory = BlogCategory::find($id);
         $blogCategory->delete();
+
         return response([
             'message' => 'success',
         ]);
@@ -104,6 +110,7 @@ class BlogCategoryController extends Controller
     public function count()
     {
         $count = BlogCategory::count();
+
         return response($count);
     }
 }

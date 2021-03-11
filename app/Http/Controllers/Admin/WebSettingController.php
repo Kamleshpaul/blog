@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\WebSetting;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class WebSettingController extends Controller
 {
@@ -18,12 +18,12 @@ class WebSettingController extends Controller
         $resWebName = WebSetting::find(1);
         $resLogo = WebSetting::find(2);
         $logo = \Storage::url($resLogo->value);
+
         return response([
             'logo' => $logo,
-            'web_name' => $resWebName->value
+            'web_name' => $resWebName->value,
         ]);
     }
-
     
     /**
      * Update the specified resource in storage.
@@ -38,12 +38,12 @@ class WebSettingController extends Controller
         if (WebSetting::find(1)) {
             WebSetting::where('id', 1)->update([
                 'key' => 'web_name',
-                'value'=> $data['websiteName']
+                'value' => $data['websiteName'],
               ]);
         } else {
             WebSetting::create([
                 'key' => 'web_name',
-                'value'=> $data['websiteName']
+                'value' => $data['websiteName'],
               ]);
         }
 
@@ -54,12 +54,12 @@ class WebSettingController extends Controller
             if (WebSetting::find(2)) {
                 WebSetting::where('id', 2)->update([
                     'key' => 'logo',
-                    'value'=> $logo
+                    'value' => $logo,
                   ]);
             } else {
                 WebSetting::create([
                     'key' => 'logo',
-                    'value'=> $logo
+                    'value' => $logo,
                   ]);
             }
         }
@@ -71,7 +71,7 @@ class WebSettingController extends Controller
 
         return response([
             'logo' => $logo,
-            'web_name' => $resWebName->value
+            'web_name' => $resWebName->value,
         ]);
     }
 }

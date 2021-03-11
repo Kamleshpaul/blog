@@ -17,7 +17,7 @@ class DefaultAdminSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@kamleshpaul.com',
             'email_verified_at' => Carbon::now(),
-            'password' => bcrypt('asdfghjkl002')
+            'password' => bcrypt('asdfghjkl002'),
         ]);
     }
 }

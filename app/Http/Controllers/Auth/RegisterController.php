@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-
     /**
      * Register User via passport
      *
@@ -22,6 +21,7 @@ class RegisterController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8',
         ]);
+
         try {
             $user = User::create([
                 'name' => $request->name,
@@ -33,14 +33,16 @@ class RegisterController extends Controller
             if ($errorCode == 1062) {
                 //duplication record catch
                 return response([
-                    'User already exist'
+                    'User already exist',
                 ]);
             }
         }
+
         return response([
             'data' => $user,
-            'message' => 'success'
+            'message' => 'success',
         ]);
     }
+
     //-------------------------------------------------------------------------
 }

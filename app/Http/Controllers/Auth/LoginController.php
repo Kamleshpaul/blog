@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public $client_id, $client_secret;
-
+    public $client_id;
+    public $client_secret;
 
     public function __construct()
     {
@@ -16,8 +16,8 @@ class LoginController extends Controller
         $this->client_id = $client->id;
         $this->client_secret = $client->secret;
     }
-    //-------------------------------------------------------------------------
 
+    //-------------------------------------------------------------------------
 
     /**
      * Login via passport
@@ -33,7 +33,7 @@ class LoginController extends Controller
 
         $credentials = [
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
         ];
 
         if (auth()->attempt($credentials)) {
@@ -42,16 +42,16 @@ class LoginController extends Controller
                 'client_secret' => $this->client_secret,
                 'email' => $request->email,
                 'password' => $request->password,
-                'user' => auth()->user()
+                'user' => auth()->user(),
             ]);
         } else {
             return response([
-                'message' => 'User Not Found.'
+                'message' => 'User Not Found.',
             ]);
         }
     }
-    //-------------------------------------------------------------------------
 
+    //-------------------------------------------------------------------------
 
     /**
      * Login via passport
@@ -62,16 +62,17 @@ class LoginController extends Controller
     {
         $user = auth()->user()->token();
         $user->revoke();
-        \DB::table('oauth_access_tokens')->where('user_id',auth()->user()->id)->delete();
+        \DB::table('oauth_access_tokens')->where('user_id', auth()->user()->id)->delete();
+
         return response([
-            'message' => 'success'
+            'message' => 'success',
         ]);
     }
+
     //-------------------------------------------------------------------------
 
-
     /**
-     * Auth user 
+     * Auth user
      *
      * @return \Auth\User
      */
@@ -81,5 +82,6 @@ class LoginController extends Controller
             'data' => auth()->user(),
         ]);
     }
+
     //-------------------------------------------------------------------------
 }

@@ -12,7 +12,6 @@ trait GetSlug
      */
     public function scopeGetSlug($query, $name, $colName = 'slug')
     {
-
         $slug = \Str::slug($name);
         // check all slug with 0-9 number
         $canvasSlugCheck = $query->whereRaw($colName . " RLIKE '^{$slug}(-[0-9]+)?$'");
@@ -30,6 +29,7 @@ trait GetSlug
             return $slug;
         }
     }
+
     //-------------------------------------------------------------------------
 }
 //end of the trait GetSlug

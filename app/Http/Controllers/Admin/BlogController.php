@@ -17,6 +17,7 @@ class BlogController extends Controller
     public function index()
     {
         $blog = Blog::latest()->paginate(10);
+
         return response([
             'data' => $blog,
         ]);
@@ -31,6 +32,7 @@ class BlogController extends Controller
     {
         $blog = Blog::find($id);
         $blog['feature_image'] = \Storage::url($blog->feature_image);
+
         return response([
             'data' => $blog,
             'message' => 'success',
@@ -45,7 +47,6 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-
         $data = $request->all();
         unset($data['category']);
         $data['slug'] = Blog::getSlug($data['title']);
@@ -57,6 +58,7 @@ class BlogController extends Controller
             $data['feature_image'] = base64ImageUpload('feature-image', $file);
         }
         $blog = Blog::create($data);
+
         return response([
             'message' => "success",
             'data' => $blog,
@@ -72,7 +74,6 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $blog = Blog::find($id);
 
         $data = $request->all();
@@ -85,11 +86,12 @@ class BlogController extends Controller
         if (preg_match('/base64/', $file)) {
             $data['feature_image'] = base64ImageUpload('feature-image', $file);
             \Storage::delete($blog->feature_image);
-        }else{
+        } else {
             unset($data['feature_image']);
         }
         
         $blog->update($data);
+
         return response([
             'message' => "success",
             'data' => $blog,
@@ -107,6 +109,7 @@ class BlogController extends Controller
         $blog = Blog::find($id);
         \Storage::delete($blog->feature_image);
         $blog->delete();
+
         return response([
             'message' => 'success',
         ]);
@@ -120,6 +123,7 @@ class BlogController extends Controller
     public function count()
     {
         $count = Blog::count();
+
         return response($count);
     }
 
@@ -131,6 +135,7 @@ class BlogController extends Controller
     public function todayPost()
     {
         $count = Blog::whereDate('created_at', Carbon::today())->count();
+
         return response($count);
     }
 }
